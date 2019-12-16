@@ -103,7 +103,7 @@ extension SignUpVC{
             Indicator.sharedInstance.hideIndicator()
             if error == nil{
                 if success{
-                    let VC = self.storyboard?.instantiateViewController(withIdentifier: "PageVC") as! PageVC
+                    let VC = self.storyboard?.instantiateViewController(withIdentifier: "HomeVC") as! HomeVC
                     self.navigationController?.pushViewController(VC, animated: true)
                 }else{
                     self.showAlert(message: message)

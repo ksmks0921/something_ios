@@ -107,19 +107,19 @@ class PinLocationInfo: BaseVC {
         
         CreatePinVM.shared.searchForFav(pinId: pinDetail.key) { (success) in
             if success{
-                self.wishListButton.setImage(#imageLiteral(resourceName: "Smallwishlist"), for: .normal)
+//                self.wishListButton.setImage(#imageLiteral(resourceName: "Smallwishlist"), for: .normal)
             }else{
-                self.wishListButton.setImage(#imageLiteral(resourceName: "Smallwishlist (1)"), for: .normal)
+//                self.wishListButton.setImage(#imageLiteral(resourceName: "Smallwishlist (1)"), for: .normal)
             }
         }
         
         
         if pinDetail.user.uid == DataManager.userId!{
             editButton.isHidden = false
-            wishListButton.isHidden = true
+//            wishListButton.isHidden = true
         }else{
             editButton.isHidden = true
-            wishListButton.isHidden = false
+//            wishListButton.isHidden = false
 //            UpdatePinVM.shared.isMissedPin(pinId: pinDetail.key) { (success) in
 //                self.isMissedPin = success
 //                if success{
@@ -134,9 +134,9 @@ class PinLocationInfo: BaseVC {
         UpdatePinVM.shared.isPinVisited(pinId: pinDetail.key) { (success) in
             self.isVisitedPin = success
             if success{
-                self.checkInButton.setImage(#imageLiteral(resourceName: "location_Green"), for: .normal)
+//                self.checkInButton.setImage(#imageLiteral(resourceName: "location_Green"), for: .normal)
             }else{
-                self.checkInButton.setImage(#imageLiteral(resourceName: "location_right_icon-1"), for: .normal)
+//                self.checkInButton.setImage(#imageLiteral(resourceName: "location_right_icon-1"), for: .normal)
             }
         }
 

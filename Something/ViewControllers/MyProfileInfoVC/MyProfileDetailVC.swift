@@ -18,9 +18,10 @@ class MyProfileDetailVC: BaseVC {
     @IBOutlet weak var workingView: UIView!
     
     //MARK:- Variables
-    let VCs = ["CreatedVC","PassedVC","CheckedInVC","WishlistVC","FeedVC"]
-    let VCName = ["CREADED","PASSED","CHECKED IN","WISHLIST", "FEED"]
-    
+//    let VCs = ["CreatedVC","PassedVC","CheckedInVC","WishlistVC","FeedVC"]
+//    let VCName = ["CREADED","PASSED","CHECKED IN","WISHLIST", "FEED"]
+    let VCs = ["CreatedVC","FeedVC"]
+    let VCName = ["CREADED", "FEED"]
     //MARK:- VC Methods
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -79,22 +80,22 @@ extension MyProfileDetailVC: PagingViewControllerDataSource {
             VC.userId = DataManager.userId!
             return VC
         }
-        if viewControler == "PassedVC"{
-            let VC = self.storyboard?.instantiateViewController(withIdentifier: "PassedVC") as! PassedVC
-            VC.userId = DataManager.userId!
-            return VC
-        }
-        
-        if viewControler == "CheckedInVC"{
-            let VC = self.storyboard?.instantiateViewController(withIdentifier: "CheckedInVC") as! CheckedInVC
-            VC.userId = DataManager.userId!
-            return VC
-        }
-        if viewControler == "WishlistVC"{
-            let VC = self.storyboard?.instantiateViewController(withIdentifier: "WishlistVC") as! WishlistVC
-            VC.userId = DataManager.userId!
-            return VC
-        }
+//        if viewControler == "PassedVC"{
+//            let VC = self.storyboard?.instantiateViewController(withIdentifier: "PassedVC") as! PassedVC
+//            VC.userId = DataManager.userId!
+//            return VC
+//        }
+//
+//        if viewControler == "CheckedInVC"{
+//            let VC = self.storyboard?.instantiateViewController(withIdentifier: "CheckedInVC") as! CheckedInVC
+//            VC.userId = DataManager.userId!
+//            return VC
+//        }
+//        if viewControler == "WishlistVC"{
+//            let VC = self.storyboard?.instantiateViewController(withIdentifier: "WishlistVC") as! WishlistVC
+//            VC.userId = DataManager.userId!
+//            return VC
+//        }
        else{
             let VC = self.storyboard?.instantiateViewController(withIdentifier: "FeedVC") as! FeedVC
             VC.userId = DataManager.userId!

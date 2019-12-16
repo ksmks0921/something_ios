@@ -216,7 +216,7 @@ extension AppDelegate {
     
     func setRootVC(){
         let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        if DataManager.isLogin!{
+//        if DataManager.isLogin!{
             let NAVC = mainStoryboard.instantiateViewController(withIdentifier: "loginNAVC") as! UINavigationController
             let VC = mainStoryboard.instantiateViewController(withIdentifier: "PannelVC") as! FAPanelController
             let leftMenuVC = mainStoryboard.instantiateViewController(withIdentifier: "SideMenuVC") as! SideMenuVC
@@ -230,10 +230,10 @@ extension AppDelegate {
             _ = VC.center(centerNavVC).left(leftMenuVC)
             NAVC.setViewControllers([VC], animated: false)
             window?.rootViewController = NAVC
-        }else{
-            let leftMenuVC = mainStoryboard.instantiateViewController(withIdentifier: "NAVC")
-            self.window?.rootViewController = leftMenuVC
-        }
+//        }else{
+//            let leftMenuVC = mainStoryboard.instantiateViewController(withIdentifier: "NAVC")
+//            self.window?.rootViewController = leftMenuVC
+//        }
     }
     
 }

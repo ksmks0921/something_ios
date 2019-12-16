@@ -20,8 +20,8 @@ class SideMenuVC: BaseVC {
     
     //MARK:- Variables
     var ref: DatabaseReference!
-    let itemsArr = ["Your Places", "Users", "Messages","Block List", "Logout"]
-    let ImagesArr = [#imageLiteral(resourceName: "sideMarker"),#imageLiteral(resourceName: "SideUser"),#imageLiteral(resourceName: "sideMessage"),#imageLiteral(resourceName: "sideMessage"),#imageLiteral(resourceName: "sideLogouit")]
+    let itemsArr = ["Your Profile", "Your Places", "Users", "Messages","Block List", "Logout"]
+    let ImagesArr = [#imageLiteral(resourceName: "person_black.png"),#imageLiteral(resourceName: "sideMarker"),#imageLiteral(resourceName: "SideUser"),#imageLiteral(resourceName: "sideMessage"),#imageLiteral(resourceName: "sideMessage"),#imageLiteral(resourceName: "sideLogouit")]
     
     //MARK:- VC Methods
     override func viewDidLoad() {
@@ -64,23 +64,33 @@ extension SideMenuVC : UITableViewDelegate, UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.row == 0{
-            let VC = self.storyboard?.instantiateViewController(withIdentifier: "HomeVC") as! HomeVC
-            _ = panel?.center(VC)
+            
+            let VC = self.storyboard?.instantiateViewController(withIdentifier: "MyProfileVC") as! MyProfileVC
+            self.navigationController?.pushViewController(VC, animated: true)
+            
+//            let VC = self.storyboard?.instantiateViewController(withIdentifier: "MyProfileVC") as! MyProfileVC
+//            _ = panel?.center(VC)
         }
         if indexPath.row == 1{
+            let VC = self.storyboard?.instantiateViewController(withIdentifier: "MyProfileDetailVC") as! MyProfileDetailVC
+            self.navigationController?.pushViewController(VC, animated: true)
+//            let VC = self.storyboard?.instantiateViewController(withIdentifier: "MyProfileDetailVC") as! MyProfileDetailVC
+//            _ = panel?.center(VC)
+        }
+        if indexPath.row == 2{
             let VC = self.storyboard?.instantiateViewController(withIdentifier: "UsersVC") as! UsersVC
             _ = panel?.center(VC)
         }
         
-        if indexPath.row == 2{
+        if indexPath.row == 3{
             let VC = self.storyboard?.instantiateViewController(withIdentifier: "MessagesVC") as! MessagesVC
             _ = panel?.center(VC)
         }
-        if indexPath.row == 3{
+        if indexPath.row == 4{
             let VC = self.storyboard?.instantiateViewController(withIdentifier: "BlockListVC") as! BlockListVC
             _ = panel?.center(VC)
         }
-        if indexPath.row == 4{
+        if indexPath.row == 5{
             DataManager.isLogin = false
             DataManager.name = nil
             DataManager.userId = nil
@@ -96,6 +106,7 @@ extension SideMenuVC : UITableViewDelegate, UITableViewDataSource{
 //MARK:- Firebase methods
 extension SideMenuVC{
     func getUserDetail(){
+        if DataManager.isLogin!{
         ref.child(UserNode + "/\(DataManager.userId!)").observe(.value) { (userSanpShot) in
             if let userData = userSanpShot.value as? NSDictionary{
                 DataManager.email = userData[FireBaseConstant.kEmail] as? String
@@ -112,6 +123,6 @@ extension SideMenuVC{
                 }
             }
         }
-        
+      }
     }
 }

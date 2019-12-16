@@ -19,6 +19,7 @@ class HomeVC: BaseVC {
     @IBOutlet weak var pinsView: UIView!
     @IBOutlet weak var mapView: GMSMapView!
     @IBOutlet weak var colectionView: UICollectionView!
+//    @IBOutlet weak var showHideButton: MSBButton!
     @IBOutlet weak var showHideButton: MSBButton!
     
     //MARK:- Variables
@@ -36,6 +37,7 @@ class HomeVC: BaseVC {
         super.viewDidLoad()
         NotificationCenter.default.addObserver(self, selector: #selector(self.updateDetail(_ :)), name: NSNotification.Name.init("FirstUpdate"), object: nil)
         ref = Database.database().reference()
+        mapView.delegate = self
         mapView.isMyLocationEnabled = true
         if (DataManager.selectedMap ?? "0") == "0"{
             mapView.mapType = .satellite
@@ -59,7 +61,7 @@ class HomeVC: BaseVC {
             if self.filteredArray.count > 0{
                 self.setMArkers(selectedPin: self.filteredArray[0])
             }
-            self.showHideButton.isHidden = false
+//            self.showHideButton.isHidden = false
             self.colectionView.reloadData()
         })
     }
@@ -105,6 +107,7 @@ class HomeVC: BaseVC {
     }
     
     @IBAction func menuButton(_ sender: Any) {
+        
         panel?.openLeft(animated: true)
     }
     
@@ -118,22 +121,48 @@ class HomeVC: BaseVC {
         self.showColectionView()
     }
     @IBAction func addmarkerButton(_ sender: Any) {
-        let VC = self.storyboard?.instantiateViewController(withIdentifier: "AddPinVC") as! AddPinVC
-        VC.currentLocation = globleCurrentLocation
-        self.present(VC, animated: true, completion: nil)
+        
+        if DataManager.isLogin!{
+            let VC = self.storyboard?.instantiateViewController(withIdentifier: "AddPinVC") as! AddPinVC
+            VC.currentLocation = globleCurrentLocation
+            self.present(VC, animated: true, completion: nil)
+            
+        
+        }
+        else {
+            let alert = UIAlertController(title: "Alert", message: "You have to create an account to do this action!", preferredStyle: UIAlertController.Style.alert)
+            
+            // add the actions (buttons)
+            
+            alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.cancel, handler: {action in
+                
+                let VC = self.storyboard?.instantiateViewController(withIdentifier: "EmailVC") as! EmailVC
+                self.navigationController?.pushViewController(VC, animated: true)
+//                self.present(VC, animated: true, completion: nil)
+                
+            }))
+            
+            alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertAction.Style.default, handler: nil))
+            // show the alert
+            self.present(alert, animated: true, completion: nil)
+        }
+        
     }
     //MARK:- Custom Methods
     
+    @IBAction func showQ(_ sender: Any) {
+        showColectionView()
+    }
     func showColectionView(){
         self.pinsView.isHidden = false
-        self.showHideButton.isHidden = true
+//        self.showHideButton.isHidden = true
         UIView.animate(withDuration: 0.4, delay: 0, options: UIViewAnimationOptions.curveEaseIn, animations: {
             self.pinsView.transform = CGAffineTransform(translationX: 0, y: 0)
         }, completion: nil)
     }
 
     func hideColectionView(){
-        self.showHideButton.isHidden = false
+//        self.showHideButton.isHidden = false
         UIView.animate(withDuration: 0.4, delay: 0, options: UIViewAnimationOptions.curveEaseIn, animations: {
             self.pinsView.transform = CGAffineTransform(translationX: 0, y: 250)
         }, completion: nil)
@@ -207,61 +236,64 @@ extension HomeVC: UICollectionViewDataSource, UICollectionViewDelegate, UICollec
         
         CreatePinVM.shared.searchForFav(pinId: pinDetail.key) { (success) in
             if success{
-                cell.wishListImageView.image = #imageLiteral(resourceName: "wishlist")
+//                cell.wishListImageView.image = #imageLiteral(resourceName: "wishlist")
             }else{
-                cell.wishListImageView.image = #imageLiteral(resourceName: "wishlist (1)")
+//                cell.wishListImageView.image = #imageLiteral(resourceName: "wishlist (1)")
             }
         }
-        
-        if pinDetail.user.uid == DataManager.userId!{
-            cell.editView.isHidden = false
-            cell.wishListView.isHidden = true
-            cell.checkInView.isHidden = true
-        }else{
-            cell.editView.isHidden = true
-            cell.wishListView.isHidden = false
-            UpdatePinVM.shared.isMissedPin(pinId: pinDetail.key) { (success) in
-                self.isMissedPin = success
-                if success{
-                    cell.checkInView.isHidden = false
-                }else{
-                    cell.checkInView.isHidden = true
-                }
-                if !self.isMissedPin{
-                    if yard > 109 {
-                        cell.checkInView.isHidden = true
+        if DataManager.isLogin!{
+            if pinDetail.user.uid == DataManager.userId!{
+                cell.editView.isHidden = false
+//                cell.wishListView.isHidden = true
+//                cell.checkInView.isHidden = true
+            }else{
+                cell.editView.isHidden = true
+//                cell.wishListView.isHidden = false
+                UpdatePinVM.shared.isMissedPin(pinId: pinDetail.key) { (success) in
+                    self.isMissedPin = success
+                    if success{
+//                        cell.checkInView.isHidden = false
                     }else{
-                        cell.checkInView.isHidden = false
+//                        cell.checkInView.isHidden = true
+                    }
+                    if !self.isMissedPin{
+                        if yard > 109 {
+//                            cell.checkInView.isHidden = true
+                        }else{
+//                            cell.checkInView.isHidden = false
+                        }
                     }
                 }
             }
         }
         
+        
+        
         UpdatePinVM.shared.isPinVisited(pinId: pinDetail.key) { (success) in
             self.isVisitedPin = success
             if success{
-                cell.checkInView.isHidden = false
-                cell.checkInImageView.image = #imageLiteral(resourceName: "location_Green")
+//                cell.checkInView.isHidden = false
+//                cell.checkInImageView.image = #imageLiteral(resourceName: "location_Green")
             }else{
-                cell.checkInImageView.image = #imageLiteral(resourceName: "location_right_icon-1")
+//                cell.checkInImageView.image = #imageLiteral(resourceName: "location_right_icon-1")
             }
         }
         
         
-        cell.markerButton.tag = (indexPath.section * 1000) + indexPath.item
-        cell.markerButton.addTarget(self, action: #selector(self.checkInButtonAction(_:)), for: .touchUpInside)
+//        cell.markerButton.tag = (indexPath.section * 1000) + indexPath.item
+//        cell.markerButton.addTarget(self, action: #selector(self.checkInButtonAction(_:)), for: .touchUpInside)
         
         cell.infoButton.addTarget(self, action: #selector(self.infoButtonAction(_:)), for: .touchUpInside)
         cell.infoButton.tag = (indexPath.section * 1000) + indexPath.item
         
-        cell.favouriteButton.addTarget(self, action: #selector(self.favButtonAtion(_:)), for: .touchUpInside)
-        cell.favouriteButton.tag = (indexPath.section * 1000) + indexPath.item
+//        cell.favouriteButton.addTarget(self, action: #selector(self.favButtonAtion(_:)), for: .touchUpInside)
+//        cell.favouriteButton.tag = (indexPath.section * 1000) + indexPath.item
         
         cell.navigationButton.addTarget(self, action: #selector(self.navigationButtonAtion(_:)), for: .touchUpInside)
         cell.navigationButton.tag = (indexPath.section * 1000) + indexPath.item
         
-        cell.shareButton.tag =  (indexPath.section * 1000) + indexPath.item
-        cell.shareButton.addTarget(self, action: #selector(self.shareButtonAction(_:)), for: .touchUpInside)
+//        cell.shareButton.tag =  (indexPath.section * 1000) + indexPath.item
+//        cell.shareButton.addTarget(self, action: #selector(self.shareButtonAction(_:)), for: .touchUpInside)
         
         cell.editButton.tag = (indexPath.section * 1000) + indexPath.item
         cell.editButton.addTarget(self, action: #selector(self.editButtonAction(_:)), for: .touchUpInside)
@@ -346,13 +378,13 @@ extension HomeVC{
         let row = sender.tag % 1000
         let section = sender.tag / 1000
         let cell = colectionView.cellForItem(at: IndexPath(item: row, section: section)) as! HomePageCell
-        if cell.wishListImageView.image == #imageLiteral(resourceName: "wishlist (1)"){
-            CreatePinVM.shared.AddwishList(pinId: pinId)
-            cell.wishListImageView.image = #imageLiteral(resourceName: "wishlist")
-        }else{
-            CreatePinVM.shared.removeFromWishList(pinId: pinId)
-            cell.wishListImageView.image = #imageLiteral(resourceName: "wishlist (1)")
-        }
+//        if cell.wishListImageView.image == #imageLiteral(resourceName: "wishlist (1)"){
+//            CreatePinVM.shared.AddwishList(pinId: pinId)
+//            cell.wishListImageView.image = #imageLiteral(resourceName: "wishlist")
+//        }else{
+//            CreatePinVM.shared.removeFromWishList(pinId: pinId)
+//            cell.wishListImageView.image = #imageLiteral(resourceName: "wishlist (1)")
+//        }
         
     }
     
@@ -406,10 +438,17 @@ extension HomeVC{
 
 //MARK:- MapView Delagate
 extension HomeVC: GMSMapViewDelegate{
+    
     func mapView(_ mapView: GMSMapView, didTapAt coordinate: CLLocationCoordinate2D) {
         self.hideColectionView()
     }
     
+   
+    
+    func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
+        self.showColectionView()
+        return true
+    }
 }
 
 

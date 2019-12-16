@@ -140,13 +140,16 @@ class UpdatePinVM {
     }
     
     func isPinVisited(pinId : String ,completion: @escaping (Bool) -> Void){
-        ref.child(VisitedPin).child(DataManager.userId!).queryOrderedByKey().queryEqual(toValue: pinId).observeSingleEvent(of: .value) { (snapshot) in
-            if snapshot.exists(){
-                completion(true)
-            }else{
-                completion(false)
+        if DataManager.isLogin!{
+            ref.child(VisitedPin).child(DataManager.userId!).queryOrderedByKey().queryEqual(toValue: pinId).observeSingleEvent(of: .value) { (snapshot) in
+                if snapshot.exists(){
+                    completion(true)
+                }else{
+                    completion(false)
+                }
             }
         }
+       
     }
     
     func isMissedPin(pinId : String ,completion: @escaping (Bool) -> Void){

@@ -144,13 +144,14 @@ class CreatePinVM{
     }
     
     func searchForFav(pinId : String,ValueExists : @escaping (Bool) -> Void){
-        ref.child(UserWishList).child(DataManager.userId!).queryOrderedByKey().queryEqual(toValue: pinId).observe(.value) { (snapshot) in
-            if snapshot.exists(){
-                ValueExists(true)
-            }else{
-                ValueExists(false)
-            }
-        }
+        
+//        ref.child(UserWishList).child(DataManager.userId!).queryOrderedByKey().queryEqual(toValue: pinId).observe(.value) { (snapshot) in
+//            if snapshot.exists(){
+//                ValueExists(true)
+//            }else{
+//                ValueExists(false)
+//            }
+//        }
     }
     
     func AddwishList(pinId : String){

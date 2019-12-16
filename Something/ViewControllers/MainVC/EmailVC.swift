@@ -137,6 +137,7 @@ class EmailVC: BaseVC {
 extension EmailVC{
     
     func checkEmail(){
+        
         Indicator.sharedInstance.showIndicator()
         Auth.auth().fetchProviders(forEmail: emailTF.text!) { (emails, error) in
             Indicator.sharedInstance.hideIndicator()
@@ -145,11 +146,13 @@ extension EmailVC{
                     // signup
                     let VC = self.storyboard?.instantiateViewController(withIdentifier: "SignUpVC") as! SignUpVC
                     VC.email = self.emailTF.text
+//                    self.present(VC, animated: true, completion: nil)
                     self.navigationController?.pushViewController(VC, animated: true)
                 }else{
                     // login
                     let VC = self.storyboard?.instantiateViewController(withIdentifier: "PasswordVC") as! PasswordVC
                     VC.email = self.emailTF.text
+//                    self.present(VC, animated: true, completion: nil)
                     self.navigationController?.pushViewController(VC, animated: true)
                 }
             }else{

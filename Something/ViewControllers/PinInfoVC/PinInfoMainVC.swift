@@ -51,8 +51,10 @@ class PinInfoMainVC: BaseVC {
     var pinDetail : PinsSnapShot!
     var isMissedPin = false
     var isVisitedPin = false
-    let icons1 = ["information","location_right_icon-1","chat","users-2"]
-    let icons = ["PinLocationInfo","PinCheckedInInfo","PinsComment","PinFeeds"]
+//    let icons1 = ["information","location_right_icon-1","chat","users-2"]
+//    let icons = ["PinLocationInfo","PinCheckedInInfo","PinsComment","PinFeeds"]
+    let icons1 = ["information","chat"]
+    let icons = ["PinLocationInfo","PinsComment"]
     var currentLocation = CLLocationCoordinate2D(latitude: 0.0, longitude: 0.0)
     
     
@@ -149,24 +151,24 @@ extension PinInfoMainVC: PagingViewControllerDataSource {
             VC.currentLocation = currentLocation
             return VC
         }
-        if viewControler == "PinCheckedInInfo"{
-            let VC = self.storyboard?.instantiateViewController(withIdentifier: "PinCheckedInInfo") as! PinCheckedInInfo
-            VC.pinDetail = pinDetail
-            VC.isMissedPin = self.isMissedPin
-            VC.isVisitedPin = self.isVisitedPin
-            return VC
-        }
-        if viewControler == "PinsComment"{
+//        if viewControler == "PinCheckedInInfo"{
+//            let VC = self.storyboard?.instantiateViewController(withIdentifier: "PinCheckedInInfo") as! PinCheckedInInfo
+//            VC.pinDetail = pinDetail
+//            VC.isMissedPin = self.isMissedPin
+//            VC.isVisitedPin = self.isVisitedPin
+//            return VC
+//        }
+        else {
             let VC = self.storyboard?.instantiateViewController(withIdentifier: "PinsComment") as! PinsComment
             VC.isMissedPin = self.isMissedPin
             VC.isVisitedPin = self.isVisitedPin
             VC.pinDetail = pinDetail
             return VC
         }
-        else{
-            let VC = self.storyboard?.instantiateViewController(withIdentifier: "PinFeeds") as! PinFeeds
-            VC.pinDetail = pinDetail
-            return VC
-        }
+//        else{
+//            let VC = self.storyboard?.instantiateViewController(withIdentifier: "PinFeeds") as! PinFeeds
+//            VC.pinDetail = pinDetail
+//            return VC
+//        }
     }
 }

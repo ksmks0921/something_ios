@@ -107,7 +107,7 @@ extension PasswordVC{
             if error == nil{
                 if success{
                     DataManager.isLogin = true
-                    let VC = self.storyboard?.instantiateViewController(withIdentifier: "PageVC") as! PageVC
+                    let VC = self.storyboard?.instantiateViewController(withIdentifier: "HomeVC") as! HomeVC
                     self.navigationController?.pushViewController(VC, animated: true)
                 }else{
                     self.showAlert(message: message)

@@ -24,7 +24,7 @@ let kWebAddress = "webAddress"
 let kDiscription = "discription"
 let kPuchasdedStatus = "purchased"
 
-let defaultColor = UIColor.init(red: 105.0/255.0, green: 0, blue: 128.0/255, alpha: 1)
+let defaultColor = UIColor.init(red: 0/255.0, green: 0, blue: 0/255, alpha: 0.8)
 let GreenColor = UIColor(red: 77.0/255.0, green: 183.0/255.0, blue: 177.0/255.0, alpha: 1)
 
 //****************************   MARK: Firebase Constants    ***********************
