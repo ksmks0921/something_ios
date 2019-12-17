@@ -20,6 +20,9 @@ class EditPinVC: BaseVC {
     @IBOutlet weak var mapView: GMSMapView!
     @IBOutlet weak var descriptionTF: UITextField!
     @IBOutlet weak var noteTF: UITextField!
+    @IBOutlet weak var videoLink: UITextField!
+    //    @IBOutlet weak var noteTF: UITextField!
+//    @IBOutlet weak var videoLink: UITextField!
     @IBOutlet weak var attactionButton: UIImageView!
     @IBOutlet weak var eventButton: UIImageView!
     @IBOutlet weak var HisticalButton: UIImageView!
@@ -90,38 +93,38 @@ class EditPinVC: BaseVC {
     
     @IBAction func attractionButton(_ sender: Any) {
         attactionButton.image = #imageLiteral(resourceName: "s_orangemarker")
-        eventButton.image = #imageLiteral(resourceName: "bluemarker")
-        experianceButton.image = #imageLiteral(resourceName: "purplemarker")
-        HisticalButton.image = #imageLiteral(resourceName: "placeholder (3)")
-        viewPointButton.image = #imageLiteral(resourceName: "greenmaker")
+        eventButton.image = #imageLiteral(resourceName: "maps-and-flags")
+//        experianceButton.image = #imageLiteral(resourceName: "purplemarker")
+        HisticalButton.image = #imageLiteral(resourceName: "maps-and-flags")
+//        viewPointButton.image = #imageLiteral(resourceName: "greenmaker")
         selectedMark = FireBaseConstant.MarkerType.ATTRACTION.rawValue
         
     }
     
     @IBAction func eventButton(_ sender: Any) {
-        attactionButton.image = #imageLiteral(resourceName: "orangemarker")
+        attactionButton.image = #imageLiteral(resourceName: "maps-and-flags")
         eventButton.image = #imageLiteral(resourceName: "s_bluemarker")
-        experianceButton.image = #imageLiteral(resourceName: "purplemarker")
-        HisticalButton.image = #imageLiteral(resourceName: "placeholder (3)")
-        viewPointButton.image = #imageLiteral(resourceName: "greenmaker")
+//        experianceButton.image = #imageLiteral(resourceName: "purplemarker")
+        HisticalButton.image = #imageLiteral(resourceName: "maps-and-flags")
+//        viewPointButton.image = #imageLiteral(resourceName: "greenmaker")
         selectedMark = FireBaseConstant.MarkerType.EVENT.rawValue
     }
     
-    @IBAction func experianceButton(_ sender: Any) {
-        attactionButton.image = #imageLiteral(resourceName: "orangemarker")
-        eventButton.image = #imageLiteral(resourceName: "bluemarker")
-        experianceButton.image = #imageLiteral(resourceName: "s_purplemarker")
-        HisticalButton.image = #imageLiteral(resourceName: "placeholder (3)")
-        viewPointButton.image = #imageLiteral(resourceName: "greenmaker")
-        selectedMark = FireBaseConstant.MarkerType.EXPERIENCE.rawValue
-    }
+//    @IBAction func experianceButton(_ sender: Any) {
+//        attactionButton.image = #imageLiteral(resourceName: "orangemarker")
+//        eventButton.image = #imageLiteral(resourceName: "bluemarker")
+////        experianceButton.image = #imageLiteral(resourceName: "s_purplemarker")
+//        HisticalButton.image = #imageLiteral(resourceName: "placeholder (3)")
+////        viewPointButton.image = #imageLiteral(resourceName: "greenmaker")
+//        selectedMark = FireBaseConstant.MarkerType.EXPERIENCE.rawValue
+//    }
     
     @IBAction func histoicalButton(_ sender: Any) {
-        attactionButton.image = #imageLiteral(resourceName: "orangemarker")
-        eventButton.image = #imageLiteral(resourceName: "bluemarker")
-        experianceButton.image = #imageLiteral(resourceName: "purplemarker")
-        HisticalButton.image = #imageLiteral(resourceName: "s_placeholder (3)")
-        viewPointButton.image = #imageLiteral(resourceName: "greenmaker")
+        attactionButton.image = #imageLiteral(resourceName: "maps-and-flags")
+        eventButton.image = #imageLiteral(resourceName: "maps-and-flags")
+//        experianceButton.image = #imageLiteral(resourceName: "purplemarker")
+        HisticalButton.image = #imageLiteral(resourceName: "s_bluemarker")
+//        viewPointButton.image = #imageLiteral(resourceName: "greenmaker")
         selectedMark = FireBaseConstant.MarkerType.HISTORICAL.rawValue
     }
     
@@ -160,6 +163,7 @@ class EditPinVC: BaseVC {
         }
         descriptionTF.text = pinDetail.description
         noteTF.text = pinDetail.notes
+        videoLink.text = pinDetail.videoLink
     }
     
     func setMarkerColor(markerType : FireBaseConstant.MarkerType) -> UIImage{
@@ -213,7 +217,7 @@ class EditPinVC: BaseVC {
 //MARK:- Firebase Methods
 extension EditPinVC{
     func CreatePin(){
-        UpdatePinVM.shared.updateUserPinNote(key : pinDetail.key ,title: self.pinTitle.text! , pinType: selectedMark, description: descriptionTF.text ?? "", notes: noteTF.text ?? "", pinLocation: currentLocation, urls: imagesUrls)
+        UpdatePinVM.shared.updateUserPinNote(key : pinDetail.key ,title: self.pinTitle.text! , pinType: selectedMark, description: descriptionTF.text ?? "", notes: noteTF.text ?? "", videoLink: videoLink.text ?? "", pinLocation: currentLocation, urls: imagesUrls)
         self.dismiss(animated: true, completion: nil)
     }
     

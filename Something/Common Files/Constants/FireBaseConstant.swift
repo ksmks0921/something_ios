@@ -56,6 +56,7 @@ class FireBaseConstant{
     static let kCreationTime = "creationTime"
     static let kDescription = "description"
     static let kNotes = "notes"
+    static let kVideoLink = "videoLink"
     static let kRatedTimes = "ratedTimes"
     static let kRating = "rating"
     static let kVisitedCount = "visitedCount"

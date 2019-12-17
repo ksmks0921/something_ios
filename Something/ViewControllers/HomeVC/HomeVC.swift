@@ -46,6 +46,7 @@ class HomeVC: BaseVC {
         }else{
             mapView.mapType = .hybrid
         }
+        self.showColectionView()
        
         
     }
@@ -231,7 +232,7 @@ extension HomeVC: UICollectionViewDataSource, UICollectionViewDelegate, UICollec
         let distance = locationLatLong.distance(from: CLLocation(latitude: globleCurrentLocation.latitude, longitude: globleCurrentLocation.longitude))
         let yard = Int(distance / 1.09361)
         cell.distanceLabel.text = "\(yard) yd"
-        cell .checkInCountLabel.text = "\(pinDetail.visitedCount) check-ins"
+//        cell .checkInCountLabel.text = "\(pinDetail.visitedCount) check-ins"
         cell.markerType.text = pinDetail.type.capitalized
         
         CreatePinVM.shared.searchForFav(pinId: pinDetail.key) { (success) in

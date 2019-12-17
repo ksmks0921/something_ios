@@ -17,6 +17,7 @@ struct PinsSnapShot {
     var key : String
     var media : [PinMedia]!
     var notes : String
+    var videoLink: String
     var ratedTimes : Int
     var rating : Int
     var title : String

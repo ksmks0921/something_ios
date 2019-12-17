@@ -205,7 +205,7 @@ class UpdatePinVM {
         ref1.removeValue()
     }
     
-    func updateUserPinNote(key : String, title : String, pinType: String, description: String , notes: String , pinLocation: CLLocationCoordinate2D , urls : [URL]){
+    func updateUserPinNote(key : String, title : String, pinType: String, description: String , notes: String , videoLink: String, pinLocation: CLLocationCoordinate2D , urls : [URL]){
         // Update user-pin
         let refLink = ref.child(UserPin).child(DataManager.userId!).child(key)
         
@@ -243,6 +243,7 @@ class UpdatePinVM {
                        FireBaseConstant.kDescription : description,
                        FireBaseConstant.kKey: refLink.key,
                        FireBaseConstant.kNotes : notes,
+                       FireBaseConstant.kVideoLink : videoLink,
                        //FireBaseConstant.kRatedTimes : 0,
                       // FireBaseConstant.kRating : 0,
                        FireBaseConstant.kTitle: title,

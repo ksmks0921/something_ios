@@ -27,7 +27,7 @@ class CreatePinVM{
     var pinComments = [PinComment]()
     var userFeeds = [UserFeed]()
     
-    func setUpUserPinNote(title : String, pinType: String, activityType : Int, description: String , notes: String , pinLocation: CLLocationCoordinate2D , urls : [URL]){
+    func setUpUserPinNote(title : String, pinType: String, activityType : Int, description: String , notes: String, videoLink : String , pinLocation: CLLocationCoordinate2D , urls : [URL]){
         // Update user-pin
         let refLink = ref.child(UserPin).child(DataManager.userId!).childByAutoId()
         refLink.setValue(refLink.key)
@@ -72,6 +72,7 @@ class CreatePinVM{
                        FireBaseConstant.kDescription : description,
                        FireBaseConstant.kKey: refLink.key,
                        FireBaseConstant.kNotes : notes,
+                       FireBaseConstant.kVideoLink : videoLink,
                        FireBaseConstant.kRatedTimes : 0,
                        FireBaseConstant.kRating : 0,
                        FireBaseConstant.kTitle: title,
@@ -96,6 +97,7 @@ class CreatePinVM{
                     let description = restDict[FireBaseConstant.kDescription] as? String ?? ""
                     let key = restDict[FireBaseConstant.kKey] as? String ?? ""
                     let notes = restDict[FireBaseConstant.kNotes] as? String ?? ""
+                    let videoLink = restDict[FireBaseConstant.kVideoLink] as? String ?? ""
                     let ratedTimes = restDict[FireBaseConstant.kRatedTimes] as? Int ?? 0
                     let rating = restDict[FireBaseConstant.kRating] as? Int ?? 0
                     let title = restDict[FireBaseConstant.kTitle] as? String ?? ""
@@ -130,7 +132,7 @@ class CreatePinVM{
                     let locationLatLong = CLLocation(latitude: coordinate.lat, longitude: coordinate.lon)
                     let distance = locationLatLong.distance(from: CLLocation(latitude: globleCurrentLocation.latitude, longitude: globleCurrentLocation.longitude))
                     let yard = Int(distance / 1.09361)
-                    self.pinsData.append(PinsSnapShot(coordinates: coordinate, description: description, key: key, media: mediaA, notes: notes, ratedTimes: ratedTimes, rating: rating, title: title, type: type, user: myUserdict, visitedCount: visitedCount, ditance: yard, creationTime: creationTime))
+                    self.pinsData.append(PinsSnapShot(coordinates: coordinate, description: description, key: key, media: mediaA, notes: notes, videoLink: videoLink, ratedTimes: ratedTimes, rating: rating, title: title, type: type, user: myUserdict, visitedCount: visitedCount, ditance: yard, creationTime: creationTime))
                 }
             }
             let filertedPin = self.pinsData.filter({ (pinData) -> Bool in
@@ -274,6 +276,7 @@ class CreatePinVM{
                     let description = restDict[FireBaseConstant.kDescription] as? String ?? ""
                     let key = restDict[FireBaseConstant.kKey] as? String ?? ""
                     let notes = restDict[FireBaseConstant.kNotes] as? String ?? ""
+                    let videoLink = restDict[FireBaseConstant.kVideoLink] as? String ?? ""
                     let ratedTimes = restDict[FireBaseConstant.kRatedTimes] as? Int ?? 0
                     let rating = restDict[FireBaseConstant.kRating] as? Int ?? 0
                     let title = restDict[FireBaseConstant.kTitle] as? String ?? ""
@@ -309,16 +312,16 @@ class CreatePinVM{
                     let distance = locationLatLong.distance(from: CLLocation(latitude: globleCurrentLocation.latitude, longitude: globleCurrentLocation.longitude))
                     let yard = Int(distance / 1.09361)
                     if TypeOfWS == "visited"{
-                        self.visitedPins.append(UserPinsDetail(pin: PinsSnapShot(coordinates: coordinate, description: description, key: key, media: mediaA, notes: notes, ratedTimes: ratedTimes, rating: rating, title: title, type: type, user: myUserdict, visitedCount: visitedCount, ditance: yard, creationTime: creationTime)))
+                        self.visitedPins.append(UserPinsDetail(pin: PinsSnapShot(coordinates: coordinate, description: description, key: key, media: mediaA, notes: notes, videoLink: videoLink, ratedTimes: ratedTimes, rating: rating, title: title, type: type, user: myUserdict, visitedCount: visitedCount, ditance: yard, creationTime: creationTime)))
                     }
                     if TypeOfWS == "created"{
-                        self.userPins.append(UserPinsDetail(pin: PinsSnapShot(coordinates: coordinate, description: description, key: key, media: mediaA, notes: notes, ratedTimes: ratedTimes, rating: rating, title: title, type: type, user: myUserdict, visitedCount: visitedCount, ditance: yard, creationTime: creationTime)))
+                        self.userPins.append(UserPinsDetail(pin: PinsSnapShot(coordinates: coordinate, description: description, key: key, media: mediaA, notes: notes, videoLink: videoLink, ratedTimes: ratedTimes, rating: rating, title: title, type: type, user: myUserdict, visitedCount: visitedCount, ditance: yard, creationTime: creationTime)))
                     }
                     if TypeOfWS == "wishList"{
-                        self.wishList.append(UserPinsDetail(pin: PinsSnapShot(coordinates: coordinate, description: description, key: key, media: mediaA, notes: notes, ratedTimes: ratedTimes, rating: rating, title: title, type: type, user: myUserdict, visitedCount: visitedCount, ditance: yard, creationTime: creationTime)))
+                        self.wishList.append(UserPinsDetail(pin: PinsSnapShot(coordinates: coordinate, description: description, key: key, media: mediaA, notes: notes,videoLink: videoLink, ratedTimes: ratedTimes, rating: rating, title: title, type: type, user: myUserdict, visitedCount: visitedCount, ditance: yard, creationTime: creationTime)))
                     }
                     if TypeOfWS == "missed"{
-                        self.missedPins.append(UserPinsDetail(pin: PinsSnapShot(coordinates: coordinate, description: description, key: key, media: mediaA, notes: notes, ratedTimes: ratedTimes, rating: rating, title: title, type: type, user: myUserdict, visitedCount: visitedCount, ditance: yard, creationTime: creationTime)))
+                        self.missedPins.append(UserPinsDetail(pin: PinsSnapShot(coordinates: coordinate, description: description, key: key, media: mediaA, notes: notes,videoLink: videoLink, ratedTimes: ratedTimes, rating: rating, title: title, type: type, user: myUserdict, visitedCount: visitedCount, ditance: yard, creationTime: creationTime)))
                     }
                     
                 }

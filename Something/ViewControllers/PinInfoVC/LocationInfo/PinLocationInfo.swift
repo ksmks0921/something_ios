@@ -23,12 +23,14 @@ class PinLocationInfo: BaseVC {
     @IBOutlet weak var pinTypeAndCheckInCount: UILabel!
     @IBOutlet weak var pinDescription: UILabel!
     @IBOutlet weak var noteForPin: UILabel!
+    @IBOutlet weak var videoLink: UILabel!
     @IBOutlet weak var createdByImageView: MSBImageView!
     @IBOutlet weak var createdByName: UILabel!
     @IBOutlet weak var createdDate: UILabel!
     @IBOutlet weak var descriptionContentView: UIView!
     @IBOutlet weak var noteContentView: UIView!
     @IBOutlet weak var ratingContentView: UIView!
+    @IBOutlet weak var videoLinkContentView: UILabel!
     
     //MARK:- Variables
     var pinDetail : PinsSnapShot!
@@ -154,6 +156,12 @@ class PinLocationInfo: BaseVC {
         }else{
              self.noteContentView.isHidden = false
             noteForPin.text = pinDetail.notes
+        }
+        if pinDetail.videoLink == ""{
+            self.videoLinkContentView.isHidden = true
+        }else{
+            self.videoLinkContentView.isHidden = false
+            videoLink.text = pinDetail.videoLink
         }
         
         let createdUser = pinDetail.user.photoUrl

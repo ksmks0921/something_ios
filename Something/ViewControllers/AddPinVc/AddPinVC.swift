@@ -19,7 +19,10 @@ class AddPinVC: BaseVC {
     @IBOutlet weak var pinTitle: UITextField!
     @IBOutlet weak var mapView: GMSMapView!
     @IBOutlet weak var descriptionTF: UITextField!
+//    @IBOutlet weak var noteTF: UITextField!
     @IBOutlet weak var noteTF: UITextField!
+//    @IBOutlet weak var videoLink: UITextField!
+    @IBOutlet weak var videoLink: UITextField!
     @IBOutlet weak var attactionButton: UIImageView!
     @IBOutlet weak var eventButton: UIImageView!
     @IBOutlet weak var HisticalButton: UIImageView!
@@ -90,7 +93,7 @@ class AddPinVC: BaseVC {
     }
     
     @IBAction func attractionButton(_ sender: Any) {
-        attactionButton.image = #imageLiteral(resourceName: "s_orangemarker")
+        attactionButton.image = #imageLiteral(resourceName: "s_greenmaker")
         eventButton.image = #imageLiteral(resourceName: "maps-and-flags")
 //        experianceButton.image = #imageLiteral(resourceName: "maps-and-flags")
         HisticalButton.image = #imageLiteral(resourceName: "maps-and-flags")
@@ -101,7 +104,7 @@ class AddPinVC: BaseVC {
     
     @IBAction func eventButton(_ sender: Any) {
         attactionButton.image = #imageLiteral(resourceName: "maps-and-flags")
-        eventButton.image = #imageLiteral(resourceName: "s_bluemarker")
+        eventButton.image = #imageLiteral(resourceName: "s_orangemarker")
 //        experianceButton.image = #imageLiteral(resourceName: "maps-and-flags")
         HisticalButton.image = #imageLiteral(resourceName: "maps-and-flags")
 //        viewPointButton.image = #imageLiteral(resourceName: "maps-and-flags")
@@ -121,7 +124,7 @@ class AddPinVC: BaseVC {
         attactionButton.image = #imageLiteral(resourceName: "maps-and-flags")
         eventButton.image = #imageLiteral(resourceName: "maps-and-flags")
 //        experianceButton.image = #imageLiteral(resourceName: "maps-and-flags")
-        HisticalButton.image = #imageLiteral(resourceName: "s_placeholder (3)")
+        HisticalButton.image = #imageLiteral(resourceName: "s_bluemarker")
 //        viewPointButton.image = #imageLiteral(resourceName: "maps-and-flags")
         selectedMark = FireBaseConstant.MarkerType.HISTORICAL.rawValue
     }
@@ -190,7 +193,7 @@ class AddPinVC: BaseVC {
 //MARK:- Firebase Methods
 extension AddPinVC{
     func CreatePin(){
-        CreatePinVM.shared.setUpUserPinNote(title: self.pinTitle.text! , pinType: selectedMark, activityType: FireBaseConstant.ActivityType.PIN_CREATED.hashValue, description: descriptionTF.text ?? "", notes: noteTF.text ?? "", pinLocation: currentLocation, urls: imagesUrls)
+        CreatePinVM.shared.setUpUserPinNote(title: self.pinTitle.text! , pinType: selectedMark, activityType: FireBaseConstant.ActivityType.PIN_CREATED.hashValue, description: descriptionTF.text ?? "", notes: noteTF.text ?? "", videoLink: videoLink.text ?? "", pinLocation: currentLocation, urls: imagesUrls)
         self.dismiss(animated: true, completion: nil)
     }
     
