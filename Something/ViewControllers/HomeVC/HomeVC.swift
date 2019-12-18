@@ -21,6 +21,7 @@ class HomeVC: BaseVC {
     @IBOutlet weak var colectionView: UICollectionView!
 //    @IBOutlet weak var showHideButton: MSBButton!
     @IBOutlet weak var showHideButton: MSBButton!
+    @IBOutlet weak var notificationBtn: UIButton!
     
     //MARK:- Variables
     var isLocationUpdated = false
@@ -64,6 +65,12 @@ class HomeVC: BaseVC {
             }
 //            self.showHideButton.isHidden = false
             self.colectionView.reloadData()
+            if DataManager.isLogin! {
+                            let image = UIImage(named:"notification_red.png")
+                
+                            self.notificationBtn.setImage(image, for: .normal)
+            }
+
         })
     }
     
@@ -73,8 +80,28 @@ class HomeVC: BaseVC {
     
     //MARK:- IBActions
     @IBAction func notificatinButton(_ sender: Any) {
-        let VC = self.storyboard?.instantiateViewController(withIdentifier: "NotificationVC") as! NotificationVC
-        self.present(VC, animated: true, completion: nil)
+        if DataManager.isLogin! {
+            let VC = self.storyboard?.instantiateViewController(withIdentifier: "NotificationVC") as! NotificationVC
+            self.present(VC, animated: true, completion: nil)
+        }
+        else {
+            let alert = UIAlertController(title: "Alert", message: "You have to create an account to do this action!", preferredStyle: UIAlertController.Style.alert)
+            
+            // add the actions (buttons)
+            
+            alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.cancel, handler: {action in
+                
+                let VC = self.storyboard?.instantiateViewController(withIdentifier: "EmailVC") as! EmailVC
+                self.navigationController?.pushViewController(VC, animated: true)
+                //                self.present(VC, animated: true, completion: nil)
+                
+            }))
+            
+            alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertAction.Style.default, handler: nil))
+            // show the alert
+            self.present(alert, animated: true, completion: nil)
+        }
+        
     }
     @IBAction func zoomOutButton(_ sender: Any) {
         zoom = zoom - 1
@@ -266,6 +293,9 @@ extension HomeVC: UICollectionViewDataSource, UICollectionViewDelegate, UICollec
                     }
                 }
             }
+        }
+        else {
+            cell.editView.isHidden = true
         }
         
         

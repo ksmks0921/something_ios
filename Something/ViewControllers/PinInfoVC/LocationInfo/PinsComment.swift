@@ -32,18 +32,22 @@ class PinsComment: BaseVC {
                 self.noCommentsLabel.isHidden = true
                 
             }
-            if self.pinDetail.user.uid == DataManager.userId!{
-                self.commentContentView.isHidden = false
-                self.noCommentsLabel.isHidden = true
-            }else{
-                if self.isVisitedPin{
+            if DataManager.isLogin! {
+                if self.pinDetail.user.uid == DataManager.userId!{
                     self.commentContentView.isHidden = false
                     self.noCommentsLabel.isHidden = true
                 }else{
-                    self.commentContentView.isHidden = true
-                    self.noCommentsLabel.isHidden = false
+                    if self.isVisitedPin{
+                        self.commentContentView.isHidden = false
+                        self.noCommentsLabel.isHidden = true
+                    }else{
+                        self.commentContentView.isHidden = true
+                        self.noCommentsLabel.isHidden = false
+                    }
                 }
             }
+          
+            
             
             self.commentTableView.reloadData()
         }

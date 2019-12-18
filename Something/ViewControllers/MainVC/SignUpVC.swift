@@ -80,7 +80,7 @@ class SignUpVC: BaseVC {
     
     @IBAction func checkBoxButton(_ sender: Any) {
         if checkbutton.currentImage == #imageLiteral(resourceName: "square"){
-            checkbutton.setImage(#imageLiteral(resourceName: "black-check-box-with-white-check"), for: .normal)
+            checkbutton.setImage(#imageLiteral(resourceName: "checked"), for: .normal)
         }else{
             checkbutton.setImage(#imageLiteral(resourceName: "square"), for: .normal)
         }

@@ -50,15 +50,15 @@ class FiltersVC: BaseVC {
    
     
     
-    @IBAction func viewButton(_ sender: Any) {
-        if greenImageView.image == #imageLiteral(resourceName: "greenmaker"){
-            greenImageView.image = #imageLiteral(resourceName: "s_greenmaker")
-            addToArry(pinType: FireBaseConstant.MarkerType.VIEWPOINT.rawValue)
-        }else{
-            greenImageView.image = #imageLiteral(resourceName: "greenmaker")
-            removeFromArry(pinType: FireBaseConstant.MarkerType.VIEWPOINT.rawValue)
-        }
-    }
+//    @IBAction func viewButton(_ sender: Any) {
+//        if greenImageView.image == #imageLiteral(resourceName: "greenmaker"){
+//            greenImageView.image = #imageLiteral(resourceName: "s_greenmaker")
+//            addToArry(pinType: FireBaseConstant.MarkerType.VIEWPOINT.rawValue)
+//        }else{
+//            greenImageView.image = #imageLiteral(resourceName: "greenmaker")
+//            removeFromArry(pinType: FireBaseConstant.MarkerType.VIEWPOINT.rawValue)
+//        }
+//    }
     
     @IBAction func attractionButton(_ sender: Any) {
         if ornageImageView.image == #imageLiteral(resourceName: "orangemarker"){
@@ -71,31 +71,31 @@ class FiltersVC: BaseVC {
     }
     
     @IBAction func eventButton(_ sender: Any) {
-        if blurImageView.image == #imageLiteral(resourceName: "bluemarker"){
-            blurImageView.image = #imageLiteral(resourceName: "s_bluemarker")
+        if blurImageView.image == #imageLiteral(resourceName: "greenmaker"){
+            blurImageView.image = #imageLiteral(resourceName: "s_greenmaker")
             addToArry(pinType: FireBaseConstant.MarkerType.EVENT.rawValue)
         }else{
-            blurImageView.image = #imageLiteral(resourceName: "bluemarker")
+            blurImageView.image = #imageLiteral(resourceName: "greenmaker")
             removeFromArry(pinType: FireBaseConstant.MarkerType.EVENT.rawValue)
         }
     }
     
-    @IBAction func experienceButton(_ sender: Any) {
-        if purpleImagView.image == #imageLiteral(resourceName: "purplemarker"){
-            purpleImagView.image = #imageLiteral(resourceName: "s_purplemarker")
-            addToArry(pinType: FireBaseConstant.MarkerType.EXPERIENCE.rawValue)
-        }else{
-            purpleImagView.image = #imageLiteral(resourceName: "purplemarker")
-            removeFromArry(pinType: FireBaseConstant.MarkerType.EXPERIENCE.rawValue)
-        }
-    }
+//    @IBAction func experienceButton(_ sender: Any) {
+//        if purpleImagView.image == #imageLiteral(resourceName: "purplemarker"){
+//            purpleImagView.image = #imageLiteral(resourceName: "s_purplemarker")
+//            addToArry(pinType: FireBaseConstant.MarkerType.EXPERIENCE.rawValue)
+//        }else{
+//            purpleImagView.image = #imageLiteral(resourceName: "purplemarker")
+//            removeFromArry(pinType: FireBaseConstant.MarkerType.EXPERIENCE.rawValue)
+//        }
+//    }
     
     @IBAction func historyButton(_ sender: Any) {
-        if yellowImageView.image == #imageLiteral(resourceName: "placeholder (3)"){
-            yellowImageView.image = #imageLiteral(resourceName: "s_placeholder (3)")
+        if yellowImageView.image == #imageLiteral(resourceName: "bluemarker"){
+            yellowImageView.image = #imageLiteral(resourceName: "s_bluemarker")
             addToArry(pinType: FireBaseConstant.MarkerType.HISTORICAL.rawValue)
         }else{
-            yellowImageView.image = #imageLiteral(resourceName: "placeholder (3)")
+            yellowImageView.image = #imageLiteral(resourceName: "bluemarker")
             removeFromArry(pinType: FireBaseConstant.MarkerType.HISTORICAL.rawValue)
         }
     }

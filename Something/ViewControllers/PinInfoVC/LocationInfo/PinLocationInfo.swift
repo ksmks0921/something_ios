@@ -115,23 +115,29 @@ class PinLocationInfo: BaseVC {
             }
         }
         
-        
-        if pinDetail.user.uid == DataManager.userId!{
-            editButton.isHidden = false
-//            wishListButton.isHidden = true
-        }else{
-            editButton.isHidden = true
-//            wishListButton.isHidden = false
-//            UpdatePinVM.shared.isMissedPin(pinId: pinDetail.key) { (success) in
-//                self.isMissedPin = success
-//                if success{
-//                    self.checkInButton.isHidden = false
-//                }else{
-//                    self.checkInButton.isHidden = true
-//                }
-//            }
-            
+        if DataManager.isLogin! {
+            if pinDetail.user.uid == DataManager.userId!{
+                editButton.isHidden = false
+                //            wishListButton.isHidden = true
+            }else{
+                editButton.isHidden = true
+                //            wishListButton.isHidden = false
+                //            UpdatePinVM.shared.isMissedPin(pinId: pinDetail.key) { (success) in
+                //                self.isMissedPin = success
+                //                if success{
+                //                    self.checkInButton.isHidden = false
+                //                }else{
+                //                    self.checkInButton.isHidden = true
+                //                }
+                //            }
+                
+            }
         }
+        else {
+             editButton.isHidden = true
+        }
+        
+        
         
         UpdatePinVM.shared.isPinVisited(pinId: pinDetail.key) { (success) in
             self.isVisitedPin = success
@@ -144,7 +150,9 @@ class PinLocationInfo: BaseVC {
 
         titleLabel.text = pinDetail.title
         pinratingCount.text = "(" + "\(pinDetail.ratedTimes)" + ")"
-        pinTypeAndCheckInCount.text = pinDetail.type.capitalized + " • " + "\(pinDetail.visitedCount)" + " check-ins"
+//        pinTypeAndCheckInCount.text = pinDetail.type.capitalized + " • " + "\(pinDetail.visitedCount)" + " check-ins"
+         pinTypeAndCheckInCount.text = pinDetail.type.capitalized
+        
         if pinDetail.description == ""{
             self.descriptionContentView.isHidden = true
         }else{
@@ -174,16 +182,21 @@ class PinLocationInfo: BaseVC {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "dd/MM/yyyy"
         createdDate.text = dateFormatter.string(from: date)
-        
-        if pinDetail.user.uid == DataManager.userId!{
-            self.ratingContentView.isHidden = true
-        }else{
-            if isVisitedPin{
-                ratingContentView.isHidden = false
+        if DataManager.isLogin! {
+            if pinDetail.user.uid == DataManager.userId!{
+                self.ratingContentView.isHidden = true
             }else{
-                ratingContentView.isHidden = true
+                if isVisitedPin{
+                    ratingContentView.isHidden = false
+                }else{
+                    ratingContentView.isHidden = true
+                }
             }
         }
+        else {
+            
+        }
+       
     }
 
 }
