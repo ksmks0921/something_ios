@@ -5,6 +5,17 @@
       "scale" : "1x"
     },
     {
+      "resizing" : {
+        "mode" : "3-part-vertical",
+        "center" : {
+          "mode" : "tile",
+          "height" : 1
+        },
+        "cap-insets" : {
+          "top" : 15,
+          "bottom" : 16
+        }
+      },
       "idiom" : "universal",
       "filename" : "location.png",
       "scale" : "2x"
