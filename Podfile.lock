@@ -113,6 +113,7 @@ DEPENDENCIES:
   - Fabric
   - FAPanels
   - FBSDKLoginKit
+  - Firebase/Auth
   - Firebase/Database
   - Firebase/Messaging
   - Firebase/Storage
@@ -196,6 +197,6 @@ SPEC CHECKSUMS:
   TwitterCore: 8cbc9ad34d91c63a0035ea05bfbfc0d7ca72a28c
   TwitterKit: 5e4f41d70b9abdb41df5467f52d7aa2c0fd26ebb
 
-PODFILE CHECKSUM: cbfeefc4258754e878bc4f50879da6becf22f789
+PODFILE CHECKSUM: 208af484907c0cf0ddee00ed9318bc529eae9c42
 
 COCOAPODS: 1.8.4

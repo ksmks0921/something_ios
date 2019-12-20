@@ -30,7 +30,8 @@ class PinLocationInfo: BaseVC {
     @IBOutlet weak var descriptionContentView: UIView!
     @IBOutlet weak var noteContentView: UIView!
     @IBOutlet weak var ratingContentView: UIView!
-    @IBOutlet weak var videoLinkContentView: UILabel!
+//    @IBOutlet weak var videoLinkContentView: UILabel!
+    @IBOutlet weak var videoLinkContentView: UIView!
     
     //MARK:- Variables
     var pinDetail : PinsSnapShot!
@@ -165,6 +166,7 @@ class PinLocationInfo: BaseVC {
              self.noteContentView.isHidden = false
             noteForPin.text = pinDetail.notes
         }
+        print("videoLink is " + pinDetail.videoLink)
         if pinDetail.videoLink == ""{
             self.videoLinkContentView.isHidden = true
         }else{

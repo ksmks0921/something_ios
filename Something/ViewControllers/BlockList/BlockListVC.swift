@@ -38,7 +38,8 @@ class BlockListVC: BaseVC {
     
     //MARK:- IBActions
     @IBAction func menuButtonAction(_ sender: Any) {
-        panel?.openLeft(animated: true)
+//        panel?.openLeft(animated: true)
+         self.navigationController?.popViewController(animated: true)
     }
     
     

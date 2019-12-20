@@ -92,51 +92,77 @@ class AddPinVC: BaseVC {
         self.present(VC, animated: true, completion: nil)
     }
     
-    @IBAction func attractionButton(_ sender: Any) {
+    @IBAction func ATVButton(_ sender: Any) {
         attactionButton.image = #imageLiteral(resourceName: "s_greenmaker")
         eventButton.image = #imageLiteral(resourceName: "maps-and-flags")
-//        experianceButton.image = #imageLiteral(resourceName: "maps-and-flags")
+        //        experianceButton.image = #imageLiteral(resourceName: "maps-and-flags")
         HisticalButton.image = #imageLiteral(resourceName: "maps-and-flags")
-//        viewPointButton.image = #imageLiteral(resourceName: "maps-and-flags")
-        selectedMark = FireBaseConstant.MarkerType.ATTRACTION.rawValue
-        
+        //        viewPointButton.image = #imageLiteral(resourceName: "maps-and-flags")
+        selectedMark = FireBaseConstant.MarkerType.ATV_TRAIL.rawValue
     }
-    
-    @IBAction func eventButton(_ sender: Any) {
+    @IBAction func ObstacleButton(_ sender: Any) {
         attactionButton.image = #imageLiteral(resourceName: "maps-and-flags")
         eventButton.image = #imageLiteral(resourceName: "s_orangemarker")
-//        experianceButton.image = #imageLiteral(resourceName: "maps-and-flags")
+        //        experianceButton.image = #imageLiteral(resourceName: "maps-and-flags")
         HisticalButton.image = #imageLiteral(resourceName: "maps-and-flags")
-//        viewPointButton.image = #imageLiteral(resourceName: "maps-and-flags")
-        selectedMark = FireBaseConstant.MarkerType.EVENT.rawValue
+        //        viewPointButton.image = #imageLiteral(resourceName: "maps-and-flags")
+        selectedMark = FireBaseConstant.MarkerType.OBSTACLE.rawValue
     }
-    
-    @IBAction func experianceButton(_ sender: Any) {
+    @IBAction func PointOfInterestButton(_ sender: Any) {
         attactionButton.image = #imageLiteral(resourceName: "maps-and-flags")
         eventButton.image = #imageLiteral(resourceName: "maps-and-flags")
-//        experianceButton.image = #imageLiteral(resourceName: "s_purplemarker")
-        HisticalButton.image = #imageLiteral(resourceName: "maps-and-flags")
-//        viewPointButton.image = #imageLiteral(resourceName: "maps-and-flags")
-        selectedMark = FireBaseConstant.MarkerType.EXPERIENCE.rawValue
-    }
-    
-    @IBAction func histoicalButton(_ sender: Any) {
-        attactionButton.image = #imageLiteral(resourceName: "maps-and-flags")
-        eventButton.image = #imageLiteral(resourceName: "maps-and-flags")
-//        experianceButton.image = #imageLiteral(resourceName: "maps-and-flags")
+        //        experianceButton.image = #imageLiteral(resourceName: "maps-and-flags")
         HisticalButton.image = #imageLiteral(resourceName: "s_bluemarker")
-//        viewPointButton.image = #imageLiteral(resourceName: "maps-and-flags")
-        selectedMark = FireBaseConstant.MarkerType.HISTORICAL.rawValue
+        //        viewPointButton.image = #imageLiteral(resourceName: "maps-and-flags")
+        selectedMark = FireBaseConstant.MarkerType.POINT_OF_INTEREST.rawValue
+        print(selectedMark)
     }
     
-    @IBAction func viewPointButton(_ sender: Any) {
-        attactionButton.image = #imageLiteral(resourceName: "maps-and-flags")
-        eventButton.image = #imageLiteral(resourceName: "maps-and-flags")
-//        experianceButton.image = #imageLiteral(resourceName: "maps-and-flags")
-        HisticalButton.image = #imageLiteral(resourceName: "maps-and-flags")
-//        viewPointButton.image = #imageLiteral(resourceName: "s_greenmaker")
-        selectedMark = FireBaseConstant.MarkerType.VIEWPOINT.rawValue
-    }
+//    @IBAction func attractionButton(_ sender: Any) {
+//        attactionButton.image = #imageLiteral(resourceName: "s_greenmaker")
+//        eventButton.image = #imageLiteral(resourceName: "maps-and-flags")
+////        experianceButton.image = #imageLiteral(resourceName: "maps-and-flags")
+//        HisticalButton.image = #imageLiteral(resourceName: "maps-and-flags")
+////        viewPointButton.image = #imageLiteral(resourceName: "maps-and-flags")
+//        selectedMark = FireBaseConstant.MarkerType.ATTRACTION.rawValue
+//
+//    }
+    
+//    @IBAction func eventButton(_ sender: Any) {
+//        attactionButton.image = #imageLiteral(resourceName: "maps-and-flags")
+//        eventButton.image = #imageLiteral(resourceName: "s_orangemarker")
+////        experianceButton.image = #imageLiteral(resourceName: "maps-and-flags")
+//        HisticalButton.image = #imageLiteral(resourceName: "maps-and-flags")
+////        viewPointButton.image = #imageLiteral(resourceName: "maps-and-flags")
+//        selectedMark = FireBaseConstant.MarkerType.EVENT.rawValue
+//    }
+    
+//    @IBAction func experianceButton(_ sender: Any) {
+//        attactionButton.image = #imageLiteral(resourceName: "maps-and-flags")
+//        eventButton.image = #imageLiteral(resourceName: "maps-and-flags")
+////        experianceButton.image = #imageLiteral(resourceName: "s_purplemarker")
+//        HisticalButton.image = #imageLiteral(resourceName: "maps-and-flags")
+////        viewPointButton.image = #imageLiteral(resourceName: "maps-and-flags")
+//        selectedMark = FireBaseConstant.MarkerType.EXPERIENCE.rawValue
+//    }
+    
+//    @IBAction func histoicalButton(_ sender: Any) {
+//        attactionButton.image = #imageLiteral(resourceName: "maps-and-flags")
+//        eventButton.image = #imageLiteral(resourceName: "maps-and-flags")
+////        experianceButton.image = #imageLiteral(resourceName: "maps-and-flags")
+//        HisticalButton.image = #imageLiteral(resourceName: "s_bluemarker")
+////        viewPointButton.image = #imageLiteral(resourceName: "maps-and-flags")
+//        selectedMark = FireBaseConstant.MarkerType.HISTORICAL.rawValue
+//    }
+//    
+//    @IBAction func viewPointButton(_ sender: Any) {
+//        attactionButton.image = #imageLiteral(resourceName: "maps-and-flags")
+//        eventButton.image = #imageLiteral(resourceName: "maps-and-flags")
+////        experianceButton.image = #imageLiteral(resourceName: "maps-and-flags")
+//        HisticalButton.image = #imageLiteral(resourceName: "maps-and-flags")
+////        viewPointButton.image = #imageLiteral(resourceName: "s_greenmaker")
+//        selectedMark = FireBaseConstant.MarkerType.VIEWPOINT.rawValue
+//    }
     
     //MARK:- Custom Methods
     
@@ -161,7 +187,13 @@ class AddPinVC: BaseVC {
             case .EXPERIENCE:
                 return #imageLiteral(resourceName: "purplemarker")
                 
-            }
+            case .ATV_TRAIL:
+                return #imageLiteral(resourceName: "greenmaker")
+            case .OBSTACLE:
+                 return #imageLiteral(resourceName: "orangemarker")
+            case .POINT_OF_INTEREST:
+                 return #imageLiteral(resourceName: "bluemarker")
+        }
     }
     
     @objc func addImage(_ sender : UIButton){

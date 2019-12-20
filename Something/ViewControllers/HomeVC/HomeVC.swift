@@ -31,13 +31,58 @@ class HomeVC: BaseVC {
     var ref : DatabaseReference!
     var filteredArray = [PinsSnapShot]()
     var zoom = 15.0
+    var count_pin : Int!
+    var authStateDidChangeListenerHandle: AuthStateDidChangeListenerHandle?
+    
     
     
     //MARK:- VC Methods
     override func viewDidLoad() {
+        
         super.viewDidLoad()
+        
+        if DataManager.isLogin! {
+            self.ref = Database.database().reference()
+            self.updatePins()
+        }
+        else {
+            Auth.auth().signInAnonymously() { (result, error) in
+                // ...
+                if let error = error {
+                    // ...
+                    print(error.localizedDescription)
+                    return
+                }
+                
+                self.ref = Database.database().reference()
+                self.updatePins()
+                
+            }
+        }
+        
+//        guard let authentication = user.authentication else { return }
+//        let credential = GoogleAuthProvider.credential(withIDToken: authentication.idToken,
+//                                                       accessToken: authentication.accessToken)
+//        user.link(with: credential) { (user, error) in
+//            if let error = error {
+//                // ...
+//                print(error.localizedDescription)
+//                return
+//            }
+//            // User is signed in with google
+//            if let user = user {
+//                // The user's ID, unique to the Firebase project.
+//                // Do NOT use this value to authenticate with your backend server,
+//                // if you have one. Use getTokenWithCompletion:completion: instead.
+//                let uid = user.uid
+//                let email = user.email
+//                let photoURL = user.photoURL
+//                // ...
+//            }
+//        }
+        
         NotificationCenter.default.addObserver(self, selector: #selector(self.updateDetail(_ :)), name: NSNotification.Name.init("FirstUpdate"), object: nil)
-        ref = Database.database().reference()
+        
         mapView.delegate = self
         mapView.isMyLocationEnabled = true
         if (DataManager.selectedMap ?? "0") == "0"{
@@ -47,9 +92,8 @@ class HomeVC: BaseVC {
         }else{
             mapView.mapType = .hybrid
         }
-        self.showColectionView()
-       
         
+        self.showColectionView()
     }
     
     @objc func updateDetail(_ sender: Notification){
@@ -57,25 +101,45 @@ class HomeVC: BaseVC {
     }
     
     func updatePins(){
+        
+    
         mapView.camera = GMSCameraPosition.camera(withTarget: globleCurrentLocation, zoom: 15)
         CreatePinVM.shared.getPins(completion: { success in
+            
             self.filteredArray = CreatePinVM.shared.pinsData
+            self.count_pin = self.filteredArray.count
+            print("The count of pins nearby is " + String(self.count_pin))
+            
             if self.filteredArray.count > 0{
                 self.setMArkers(selectedPin: self.filteredArray[0])
             }
 //            self.showHideButton.isHidden = false
             self.colectionView.reloadData()
+            
             if DataManager.isLogin! {
-                            let image = UIImage(named:"notification_red.png")
+                if self.filteredArray.count > self.count_pin {
+                    let image = UIImage(named:"notification_red.png")
+                    
+                    self.notificationBtn.setImage(image, for: .normal)
+                }
                 
-                            self.notificationBtn.setImage(image, for: .normal)
             }
 
         })
     }
     
+    
     override func viewWillAppear(_ animated: Bool) {
-        updatePins()
+        authStateDidChangeListenerHandle = Auth.auth().addStateDidChangeListener({(auth, user) in
+            if user == nil {
+                print("User is nil")
+            }
+            guard let user = user else {return}
+            let uid = user.uid
+            print("Found user with uid:\(uid)")
+            self.updatePins()
+        })
+        
     }
     
     //MARK:- IBActions
@@ -223,6 +287,15 @@ class HomeVC: BaseVC {
                 }
                 if pinType == FireBaseConstant.MarkerType.VIEWPOINT.rawValue{
                     marker.icon = #imageLiteral(resourceName: "greenmaker")
+                }
+                if pinType == FireBaseConstant.MarkerType.ATV_TRAIL.rawValue{
+                    marker.icon = #imageLiteral(resourceName: "greenmaker")
+                }
+                if pinType == FireBaseConstant.MarkerType.POINT_OF_INTEREST.rawValue{
+                    marker.icon = #imageLiteral(resourceName: "bluemarker")
+                }
+                if pinType == FireBaseConstant.MarkerType.OBSTACLE.rawValue{
+                    marker.icon = #imageLiteral(resourceName: "orangemarker")
                 }
             }else{
                 marker.icon = #imageLiteral(resourceName: "maps-and-flags")

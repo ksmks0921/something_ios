@@ -30,7 +30,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UNUserNotificationCenterDe
     var userStartLocation : CLLocationCoordinate2D?
     var isLocationUpdatedFirstTime = false
     var ref : DatabaseReference!
-
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         IQKeyboardManager.shared.enable = true
         Fabric.with([Crashlytics.self])
@@ -216,7 +216,7 @@ extension AppDelegate {
     
     func setRootVC(){
         let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-//        if DataManager.isLogin!{
+//            if DataManager.isLogin!{
             let NAVC = mainStoryboard.instantiateViewController(withIdentifier: "loginNAVC") as! UINavigationController
             let VC = mainStoryboard.instantiateViewController(withIdentifier: "PannelVC") as! FAPanelController
             let leftMenuVC = mainStoryboard.instantiateViewController(withIdentifier: "SideMenuVC") as! SideMenuVC

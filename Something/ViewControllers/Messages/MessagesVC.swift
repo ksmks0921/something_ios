@@ -36,7 +36,8 @@ class MessagesVC: BaseVC {
     
     //MARK:- IBActions
     @IBAction func menuButtonAction(_ sender: Any) {
-        panel?.openLeft(animated: true)
+//        panel?.openLeft(animated: true)
+         self.navigationController?.popViewController(animated: true)
     }
     
     @IBAction func newChatButton(_ sender: Any) {

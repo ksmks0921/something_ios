@@ -70,6 +70,16 @@ class FiltersVC: BaseVC {
         }
     }
     
+    @IBAction func ATVButton(_ sender: Any) {
+        
+    }
+    @IBAction func ObstacleButton(_ sender: Any) {
+        
+    }
+    @IBAction func PointOfInterestButton(_ sender: Any) {
+        
+    }
+    
     @IBAction func eventButton(_ sender: Any) {
         if blurImageView.image == #imageLiteral(resourceName: "greenmaker"){
             blurImageView.image = #imageLiteral(resourceName: "s_greenmaker")

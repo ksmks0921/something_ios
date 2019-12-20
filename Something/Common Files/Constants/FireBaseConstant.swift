@@ -16,6 +16,9 @@ class FireBaseConstant{
         case OFFER
         case ATTRACTION
         case EXPERIENCE
+        case ATV_TRAIL
+        case OBSTACLE
+        case POINT_OF_INTEREST
     }
     
     enum ActivityType : String{

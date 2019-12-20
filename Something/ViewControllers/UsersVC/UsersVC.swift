@@ -47,7 +47,8 @@ class UsersVC: BaseVC {
     //MARK:- IBActions
     
     @IBAction func menuButton(_ sender: Any) {
-         panel?.openLeft(animated: true)
+//         panel?.openLeft(animated: true)
+            self.navigationController?.popViewController(animated: true)
     }
     
     @IBAction func sreachbutton(_ sender: Any) {

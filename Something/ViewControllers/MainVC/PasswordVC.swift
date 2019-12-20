@@ -106,9 +106,31 @@ extension PasswordVC{
         UserVM.shared.login(email: emailTF.text!, password: passwordTF.text!) { (success, message, error) in
             if error == nil{
                 if success{
+                    
                     DataManager.isLogin = true
-                    let VC = self.storyboard?.instantiateViewController(withIdentifier: "HomeVC") as! HomeVC
-                    self.navigationController?.pushViewController(VC, animated: true)
+                    let VC_again = self.storyboard?.instantiateViewController(withIdentifier: "HomeVC") as! HomeVC
+                    self.navigationController?.pushViewController(VC_again, animated: true)
+                    
+                    
+                    let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                    let app = UIApplication.shared.delegate as! AppDelegate
+
+                    let NAVC = mainStoryboard.instantiateViewController(withIdentifier: "loginNAVC") as! UINavigationController
+                    let VC = mainStoryboard.instantiateViewController(withIdentifier: "PannelVC") as! FAPanelController
+                    let leftMenuVC_again = mainStoryboard.instantiateViewController(withIdentifier: "SideMenuVC") as! SideMenuVC
+                    let rightMenuVC = mainStoryboard.instantiateViewController(withIdentifier: "HomeVC") as! HomeVC
+                    let centerNavVC = UINavigationController(rootViewController: rightMenuVC)
+                    centerNavVC.isNavigationBarHidden = true
+                    VC.configs.shadowColor = UIColor.black.cgColor
+                    VC.configs.shadowOffset = CGSize(width: 10.0, height: 200.0)
+                    VC.configs.shadowOppacity = 0.5
+                    VC.configs.leftPanelGapPercentage = 0.75
+                    _ = VC.center(centerNavVC).left(leftMenuVC_again)
+                    NAVC.setViewControllers([VC], animated: false)
+                    app.window?.rootViewController = NAVC
+                    
+                    
+                    
                 }else{
                     self.showAlert(message: message)
                 }

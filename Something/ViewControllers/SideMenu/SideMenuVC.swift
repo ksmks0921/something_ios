@@ -9,6 +9,7 @@
 import UIKit
 import  FirebaseDatabase
 import SDWebImage
+import FAPanels
 
 class SideMenuVC: BaseVC {
 
@@ -108,7 +109,7 @@ extension SideMenuVC : UITableViewDelegate, UITableViewDataSource{
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if DataManager.isLogin!{
             if indexPath.row == 0{
-                
+            
                 let VC = self.storyboard?.instantiateViewController(withIdentifier: "MyProfileVC") as! MyProfileVC
                 self.navigationController?.pushViewController(VC, animated: true)
                 
@@ -127,34 +128,78 @@ extension SideMenuVC : UITableViewDelegate, UITableViewDataSource{
                 //            _ = panel?.center(VC)
             }
             if indexPath.row == 2{
-                
                 let VC = self.storyboard?.instantiateViewController(withIdentifier: "UsersVC") as! UsersVC
-                _ = panel?.center(VC)
+                self.navigationController?.pushViewController(VC, animated: true)
+                
+//                let VC = self.storyboard?.instantiateViewController(withIdentifier: "UsersVC") as! UsersVC
+//                _ = panel?.center(VC)
                 
             }
             
             if indexPath.row == 3{
-                
                 let VC = self.storyboard?.instantiateViewController(withIdentifier: "MessagesVC") as! MessagesVC
-                _ = panel?.center(VC)
+                self.navigationController?.pushViewController(VC, animated: true)
+                
+//                let VC = self.storyboard?.instantiateViewController(withIdentifier: "MessagesVC") as! MessagesVC
+//                _ = panel?.center(VC)
                 
             }
             if indexPath.row == 4{
-                
                 let VC = self.storyboard?.instantiateViewController(withIdentifier: "BlockListVC") as! BlockListVC
-                _ = panel?.center(VC)
+                self.navigationController?.pushViewController(VC, animated: true)
+                
+//                let VC = self.storyboard?.instantiateViewController(withIdentifier: "BlockListVC") as! BlockListVC
+//                _ = panel?.center(VC)
                 
             }
             if indexPath.row == 5{
                 
-                DataManager.isLogin = false
-                DataManager.name = nil
-                DataManager.userId = nil
-                DataManager.UserImageURL = nil
-                let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-                let leftMenuVC = mainStoryboard.instantiateViewController(withIdentifier: "NAVC")
-                let app = UIApplication.shared.delegate as! AppDelegate
-                app.window?.rootViewController = leftMenuVC
+                
+                
+                
+                let alert = UIAlertController(title: "Alert", message: "Are you sure to log out?", preferredStyle: UIAlertController.Style.alert)
+                
+                // add the actions (buttons)
+                
+                alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.cancel, handler: {action in
+                    
+                    
+                    DataManager.isLogin = false
+                    DataManager.name = nil
+                    DataManager.userId = nil
+                    DataManager.UserImageURL = nil
+                    let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                    //                let leftMenuVC = mainStoryboard.instantiateViewController(withIdentifier: "NAVC")
+                    let app = UIApplication.shared.delegate as! AppDelegate
+                    //                app.window?.rootViewController = leftMenuVC
+                    
+                    
+                    //                let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                    //            if DataManager.isLogin!{
+                    let NAVC = mainStoryboard.instantiateViewController(withIdentifier: "loginNAVC") as! UINavigationController
+                    let VC = mainStoryboard.instantiateViewController(withIdentifier: "PannelVC") as! FAPanelController
+                    let leftMenuVC_again = mainStoryboard.instantiateViewController(withIdentifier: "SideMenuVC") as! SideMenuVC
+                    let rightMenuVC = mainStoryboard.instantiateViewController(withIdentifier: "HomeVC") as! HomeVC
+                    let centerNavVC = UINavigationController(rootViewController: rightMenuVC)
+                    centerNavVC.isNavigationBarHidden = true
+                    VC.configs.shadowColor = UIColor.black.cgColor
+                    VC.configs.shadowOffset = CGSize(width: 10.0, height: 200.0)
+                    VC.configs.shadowOppacity = 0.5
+                    VC.configs.leftPanelGapPercentage = 0.75
+                    _ = VC.center(centerNavVC).left(leftMenuVC_again)
+                    NAVC.setViewControllers([VC], animated: false)
+                    app.window?.rootViewController = NAVC
+                    
+                }))
+                
+                alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertAction.Style.default, handler: nil))
+                // show the alert
+                self.present(alert, animated: true, completion: nil)
+                
+                
+                
+                
+             
                 
                 
                 
@@ -162,12 +207,12 @@ extension SideMenuVC : UITableViewDelegate, UITableViewDataSource{
         }
         else {
             if indexPath.row == 0{
-                
+
                 let VC = self.storyboard?.instantiateViewController(withIdentifier: "EmailVC") as! EmailVC
                 self.navigationController?.pushViewController(VC, animated: true)
-                
-                
-                
+
+
+
                 //            let VC = self.storyboard?.instantiateViewController(withIdentifier: "MyProfileVC") as! MyProfileVC
                 //            _ = panel?.center(VC)
             }
