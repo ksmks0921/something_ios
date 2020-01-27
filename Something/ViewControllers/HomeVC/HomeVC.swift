@@ -40,10 +40,12 @@ class HomeVC: BaseVC {
     override func viewDidLoad() {
         
         super.viewDidLoad()
-        
+        print("++++++++++++++FCM token: \(DataManager.deviceToken  ?? "")")
         if DataManager.isLogin! {
             self.ref = Database.database().reference()
             self.updatePins()
+            
+//            print(DataManager.deviceToken ?? "ccc")
         }
         else {
             Auth.auth().signInAnonymously() { (result, error) in
@@ -153,7 +155,7 @@ class HomeVC: BaseVC {
             
             // add the actions (buttons)
             
-            alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.cancel, handler: {action in
+            alert.addAction(UIAlertAction(title: "Create", style: UIAlertAction.Style.cancel, handler: {action in
                 
                 let VC = self.storyboard?.instantiateViewController(withIdentifier: "EmailVC") as! EmailVC
                 self.navigationController?.pushViewController(VC, animated: true)
@@ -226,7 +228,7 @@ class HomeVC: BaseVC {
             
             // add the actions (buttons)
             
-            alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.cancel, handler: {action in
+            alert.addAction(UIAlertAction(title: "Create", style: UIAlertAction.Style.cancel, handler: {action in
                 
                 let VC = self.storyboard?.instantiateViewController(withIdentifier: "EmailVC") as! EmailVC
                 self.navigationController?.pushViewController(VC, animated: true)

@@ -66,12 +66,28 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UNUserNotificationCenterDe
             application.registerUserNotificationSettings(settings)
         }
         
-        application.registerForRemoteNotifications()
-        
+//        application.registerForRemoteNotifications()
+        self.getNotificationSettings()
         setRootVC()
         return true
     }
-    
+    func getNotificationSettings() {
+        if #available(iOS 10.0, *) {
+            UNUserNotificationCenter.current().getNotificationSettings { settings in
+                print("Notification settings: \(settings)")
+                guard settings.authorizationStatus == .authorized else { return }
+                DispatchQueue.main.async {
+                  UIApplication.shared.registerForRemoteNotifications()
+                }
+            }
+            
+            
+            
+        } else {
+            // Fallback on earlier versions
+        }
+        
+    }
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
        // InstanceID.instanceID().setAPNSToken(deviceToken, type: InstanceIDAPNSTokenType.prod)
         
@@ -199,7 +215,7 @@ extension AppDelegate: MessagingDelegate{
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String) {
         let token = Messaging.messaging().fcmToken
         
-        print("FCM token: \(token ?? "")")
+        print("________FCM token: \(token ?? "")")
         DataManager.deviceToken = token
     }
     

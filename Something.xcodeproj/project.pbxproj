@@ -126,7 +126,6 @@
 		3707444920679FFA0081AE57 /* GFGeoHashQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GFGeoHashQuery.m; sourceTree = "<group>"; };
 		3707444A20679FFA0081AE57 /* GFQuery+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "GFQuery+Private.h"; sourceTree = "<group>"; };
 		3707444B20679FFA0081AE57 /* GFQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GFQuery.m; sourceTree = "<group>"; };
-		370744512067A0630081AE57 /* bridgingHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = bridgingHeader.h; sourceTree = "<group>"; };
 		370744532067AFAD0081AE57 /* EditPinVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditPinVC.swift; sourceTree = "<group>"; };
 		3715AB4A20450E65002D1E43 /* SetLocationVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetLocationVC.swift; sourceTree = "<group>"; };
 		371A101E206028A300F17521 /* CellWithButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellWithButton.swift; sourceTree = "<group>"; };
@@ -211,6 +210,7 @@
 		448DCA3EE83BDA28F40137E6 /* Pods-Something.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Something.release.xcconfig"; path = "Pods/Target Support Files/Pods-Something/Pods-Something.release.xcconfig"; sourceTree = "<group>"; };
 		47A393F6CB18F0475CE197B6 /* Pods-SomethingUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SomethingUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SomethingUITests/Pods-SomethingUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		50B842A238420D57E0731F13 /* Pods-SomethingUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SomethingUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-SomethingUITests/Pods-SomethingUITests.release.xcconfig"; sourceTree = "<group>"; };
+		675DD17823B684350009F6CC /* Something-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Something-Bridging-Header.h"; sourceTree = "<group>"; };
 		6B7C44873A77E40F583DC97D /* Pods-SomethingTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SomethingTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-SomethingTests/Pods-SomethingTests.release.xcconfig"; sourceTree = "<group>"; };
 		91F97FF992691E7538E4DE51 /* Pods-Something.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Something.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Something/Pods-Something.debug.xcconfig"; sourceTree = "<group>"; };
 		BF077944E3BE39D9358702B9 /* Pods_SomethingUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SomethingUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -367,6 +367,7 @@
 				37A08A0E20375D25000453A8 /* ViewControllers */,
 				37A08A1920376DD2000453A8 /* Common Files */,
 				37A08A0D20375D13000453A8 /* Supporting Files */,
+				675DD17823B684350009F6CC /* Something-Bridging-Header.h */,
 			);
 			path = Something;
 			sourceTree = "<group>";
@@ -398,7 +399,6 @@
 				37A089E620375BF2000453A8 /* Assets.xcassets */,
 				37A089E820375BF2000453A8 /* LaunchScreen.storyboard */,
 				37A089EB20375BF2000453A8 /* Info.plist */,
-				370744512067A0630081AE57 /* bridgingHeader.h */,
 			);
 			path = "Supporting Files";
 			sourceTree = "<group>";
@@ -1124,6 +1124,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
@@ -1173,6 +1174,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -1184,18 +1186,19 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Something/Something.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 7V4WMR5FKB;
+				DEVELOPMENT_TEAM = B53JQTWCE6;
 				INFOPLIST_FILE = "$(SRCROOT)/Something/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.initiatjive.ks.something;
+				MARKETING_VERSION = 1.9;
+				PRODUCT_BUNDLE_IDENTIFIER = com.initiatjive.something;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/Something/Supporting Files/bridgingHeader.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/$(PROJECT_NAME)/$(SWIFT_MODULE_NAME)-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -1207,18 +1210,19 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Something/Something.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 7V4WMR5FKB;
+				DEVELOPMENT_TEAM = B53JQTWCE6;
 				INFOPLIST_FILE = "$(SRCROOT)/Something/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.initiatjive.ks.something;
+				MARKETING_VERSION = 1.9;
+				PRODUCT_BUNDLE_IDENTIFIER = com.initiatjive.something;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/Supporting Files/bridgingHeader.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/$(PROJECT_NAME)/$(SWIFT_MODULE_NAME)-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -1231,10 +1235,12 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = B53JQTWCE6;
 				INFOPLIST_FILE = SomethingTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.initiatjive.something.SomethingTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/$(PROJECT_NAME)/$(SWIFT_MODULE_NAME)-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Something.app/Something";
@@ -1248,10 +1254,12 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = B53JQTWCE6;
 				INFOPLIST_FILE = SomethingTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.initiatjive.something.SomethingTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/$(PROJECT_NAME)/$(SWIFT_MODULE_NAME)-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Something.app/Something";
@@ -1264,10 +1272,12 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = B53JQTWCE6;
 				INFOPLIST_FILE = SomethingUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.initiatjive.something.SomethingUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/$(PROJECT_NAME)/$(SWIFT_MODULE_NAME)-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_TARGET_NAME = Something;
@@ -1280,10 +1290,12 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = B53JQTWCE6;
 				INFOPLIST_FILE = SomethingUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.initiatjive.something.SomethingUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/$(PROJECT_NAME)/$(SWIFT_MODULE_NAME)-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_TARGET_NAME = Something;

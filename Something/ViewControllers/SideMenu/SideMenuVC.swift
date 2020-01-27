@@ -31,12 +31,20 @@ class SideMenuVC: BaseVC {
     override func viewDidLoad() {
         super.viewDidLoad()
         ref = Database.database().reference()
-        if DataManager.name == nil{
-            getUserDetail()
-        }else{
-            self.userName.text = DataManager.name ?? "No Name"
-            self.userEmail.text = DataManager.email ?? ""
+        
+        if DataManager.isLogin!{
+            if DataManager.name == nil{
+                getUserDetail()
+            }else{
+                self.userName.text = DataManager.name ?? "No Name"
+                self.userEmail.text = DataManager.email ?? ""
+            }
         }
+         else {
+               self.userName.text = "No Name"
+                self.userEmail.text =  ""
+        }
+        
         
     }
     
@@ -52,7 +60,7 @@ class SideMenuVC: BaseVC {
         
         // add the actions (buttons)
         
-        alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.cancel, handler: {action in
+        alert.addAction(UIAlertAction(title: "Create", style: UIAlertAction.Style.cancel, handler: {action in
             
             let VC = self.storyboard?.instantiateViewController(withIdentifier: "EmailVC") as! EmailVC
             self.navigationController?.pushViewController(VC, animated: true)

@@ -20,8 +20,11 @@ class UserInfoVC: BaseVC {
     @IBOutlet weak var userImageView: MSBImageView!
     
     //MARK:- Variables
-    let VCs = ["CreatedVC","CheckedInVC","FeedVC","BioVC"]
-    let VCName = ["CREADED","CHECKED IN", "FEED","BIO"]
+//    let VCs = ["CreatedVC","CheckedInVC","FeedVC","BioVC"]
+//    let VCName = ["CREADED","CHECKED IN", "FEED","BIO"]
+    
+    let VCs = ["CreatedVC","FeedVC","BioVC"]
+    let VCName = ["CREADED", "FEED","BIO"]
     var userDetail : UserDetail?
     
     //MARK:- VC Methods

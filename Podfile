@@ -2,10 +2,11 @@
 # platform :ios, '9.0'
 
 target 'Something' do
-  # Comment the next line if you're not using Swift and don't want to use dynamic frameworks
+  # Comment the ne/Users/pandaStar/Desktop/something_ios/Podfilext line if you're not using Swift and don't want to use dynamic frameworks
   source 'https://github.com/CocoaPods/Specs.git'
   platform :ios, '9.0'
   use_frameworks!
+pod 'FBSDKCoreKit', '~> 4.44'
 pod 'FBSDKLoginKit'
 pod 'GoogleSignIn'
 pod 'TwitterKit'

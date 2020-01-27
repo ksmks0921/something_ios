@@ -45,7 +45,7 @@ class PinLocationInfo: BaseVC {
         setUI()
         
         pinRating.value = CGFloat(pinDetail.rating)
-        pinRating.isEnabled = false
+        pinRating.isEnabled = true
     }
     
     //MARK:- IBActions
@@ -76,8 +76,30 @@ class PinLocationInfo: BaseVC {
     }
     
     @IBAction func ratingAction(_ sender: Any) {
-        let rating = giveRatingView.value
-        UpdatePinVM.shared.giveRating(pin: pinDetail, rating: rating)
+        if DataManager.isLogin! {
+            let rating = giveRatingView.value
+            
+            UpdatePinVM.shared.giveRating(pin: pinDetail, rating: rating)
+        }
+        
+        else {
+            let alert = UIAlertController(title: "Alert", message: "You have to log in to do this action!", preferredStyle: UIAlertController.Style.alert)
+            
+            // add the actions (buttons)
+            
+            alert.addAction(UIAlertAction(title: "Create", style: UIAlertAction.Style.cancel, handler: {action in
+                
+                let VC = self.storyboard?.instantiateViewController(withIdentifier: "EmailVC") as! EmailVC
+                self.navigationController?.pushViewController(VC, animated: true)
+                //                self.present(VC, animated: true, completion: nil)
+                
+            }))
+            
+            alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertAction.Style.default, handler: nil))
+            // show the alert
+            self.present(alert, animated: true, completion: nil)
+        }
+        
     }
     @IBAction func wishList(_ sender: Any) {
         let pinId = pinDetail.key
@@ -188,11 +210,12 @@ class PinLocationInfo: BaseVC {
             if pinDetail.user.uid == DataManager.userId!{
                 self.ratingContentView.isHidden = true
             }else{
-                if isVisitedPin{
-                    ratingContentView.isHidden = false
-                }else{
-                    ratingContentView.isHidden = true
-                }
+                ratingContentView.isHidden = false
+//                if isVisitedPin{
+//                    ratingContentView.isHidden = false
+//                }else{
+//                    ratingContentView.isHidden = true
+//                }
             }
         }
         else {

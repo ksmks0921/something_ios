@@ -33,18 +33,25 @@ class PinsComment: BaseVC {
                 
             }
             if DataManager.isLogin! {
-                if self.pinDetail.user.uid == DataManager.userId!{
-                    self.commentContentView.isHidden = false
-                    self.noCommentsLabel.isHidden = true
-                }else{
-                    if self.isVisitedPin{
-                        self.commentContentView.isHidden = false
-                        self.noCommentsLabel.isHidden = true
-                    }else{
-                        self.commentContentView.isHidden = true
-                        self.noCommentsLabel.isHidden = false
-                    }
-                }
+                self.commentContentView.isHidden = false
+                self.noCommentsLabel.isHidden = true
+//                if self.pinDetail.user.uid == DataManager.userId!{
+//                    self.commentContentView.isHidden = false
+//                    self.noCommentsLabel.isHidden = true
+//                }else{
+                    
+//                    if self.isVisitedPin{
+//                        self.commentContentView.isHidden = false
+//                        self.noCommentsLabel.isHidden = true
+//                    }else{
+//                        self.commentContentView.isHidden = true
+//                        self.noCommentsLabel.isHidden = false
+//                    }
+//                }
+            }
+            else {
+                self.commentContentView.isHidden = true
+                self.noCommentsLabel.isHidden = false
             }
           
             

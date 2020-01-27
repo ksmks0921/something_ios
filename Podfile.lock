@@ -10,9 +10,9 @@ PODS:
     - Fabric (~> 1.9.0)
   - Fabric (1.9.0)
   - FAPanels (1.0.2)
-  - FBSDKCoreKit (4.40.0):
+  - FBSDKCoreKit (4.44.1):
     - Bolts (~> 1.9)
-  - FBSDKLoginKit (4.40.0):
+  - FBSDKLoginKit (4.44.1):
     - FBSDKCoreKit
   - Firebase/Auth (5.16.0):
     - Firebase/CoreOnly
@@ -112,6 +112,7 @@ DEPENDENCIES:
   - Crashlytics
   - Fabric
   - FAPanels
+  - FBSDKCoreKit (~> 4.44)
   - FBSDKLoginKit
   - Firebase/Auth
   - Firebase/Database
@@ -170,8 +171,8 @@ SPEC CHECKSUMS:
   Crashlytics: 07fb167b1694128c1c9a5a5cc319b0e9c3ca0933
   Fabric: f988e33c97f08930a413e08123064d2e5f68d655
   FAPanels: 520037c53f4ded152e8e6103d97f79b644473363
-  FBSDKCoreKit: ae214474b25033399c131dc81d258e412582a2ba
-  FBSDKLoginKit: 7a1e411d46acc8834588eca437daf34de42e1d52
+  FBSDKCoreKit: a823ae35bdb60ebb8d7a7e51abe7c5d87d2bfced
+  FBSDKLoginKit: 54ae59987f2a8703021557c90a9aebb9e5c2bef6
   Firebase: 749a8ff4962f9d8c79dda1966de20f6f77583d67
   FirebaseAnalyticsInterop: e5f21be9af6548372e2f0815834ff909bff395a2
   FirebaseAuth: c9b3ff063c223d2841d97240af547ce511bce19a
@@ -197,6 +198,6 @@ SPEC CHECKSUMS:
   TwitterCore: 8cbc9ad34d91c63a0035ea05bfbfc0d7ca72a28c
   TwitterKit: 5e4f41d70b9abdb41df5467f52d7aa2c0fd26ebb
 
-PODFILE CHECKSUM: 208af484907c0cf0ddee00ed9318bc529eae9c42
+PODFILE CHECKSUM: 5d5081829b1493b9d083109a3af0ffb10459ccd6
 
 COCOAPODS: 1.8.4

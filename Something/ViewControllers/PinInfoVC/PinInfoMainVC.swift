@@ -71,6 +71,7 @@ class PinInfoMainVC: BaseVC {
             pinImage.sd_setImage(with: imageUrl, completed: nil)
         }
         toplabel.text = pinDetail.title
+//        toplabel.textColor =
         
         
         let pagingViewController = PagingViewController<IconItem>()

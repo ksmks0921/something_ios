@@ -103,6 +103,7 @@ extension SignUpVC{
             Indicator.sharedInstance.hideIndicator()
             if error == nil{
                 if success{
+                    DataManager.isLogin = true
                     let VC = self.storyboard?.instantiateViewController(withIdentifier: "HomeVC") as! HomeVC
                     self.navigationController?.pushViewController(VC, animated: true)
                 }else{
