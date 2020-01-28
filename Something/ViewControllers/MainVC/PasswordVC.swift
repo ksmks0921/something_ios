@@ -108,10 +108,11 @@ extension PasswordVC{
                 if success{
                     
                     DataManager.isLogin = true
+//                    DataManager.email = self.emailTF.text!
                     let VC_again = self.storyboard?.instantiateViewController(withIdentifier: "HomeVC") as! HomeVC
                     self.navigationController?.pushViewController(VC_again, animated: true)
                     
-                    
+                   
                     let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
                     let app = UIApplication.shared.delegate as! AppDelegate
 

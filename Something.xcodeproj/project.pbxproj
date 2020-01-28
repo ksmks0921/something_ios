@@ -88,6 +88,8 @@
 		37D9D38820546AC900CE61F6 /* ChatVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37D9D38720546AC900CE61F6 /* ChatVC.swift */; };
 		37D9D38A20546B2000CE61F6 /* OtherChatCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37D9D38920546B2000CE61F6 /* OtherChatCell.swift */; };
 		37D9D38C20546B2F00CE61F6 /* MyChatCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37D9D38B20546B2F00CE61F6 /* MyChatCell.swift */; };
+		6774293723DFA600007A87A6 /* PushNotificationSender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6774293623DFA600007A87A6 /* PushNotificationSender.swift */; };
+		6774293923DFA994007A87A6 /* PushNotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6774293823DFA994007A87A6 /* PushNotificationManager.swift */; };
 		E8A5BAB7FFF353538F609B2D /* Pods_SomethingTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF50B21F724ACDCE78C03A88 /* Pods_SomethingTests.framework */; };
 /* End PBXBuildFile section */
 
@@ -211,6 +213,8 @@
 		47A393F6CB18F0475CE197B6 /* Pods-SomethingUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SomethingUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SomethingUITests/Pods-SomethingUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		50B842A238420D57E0731F13 /* Pods-SomethingUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SomethingUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-SomethingUITests/Pods-SomethingUITests.release.xcconfig"; sourceTree = "<group>"; };
 		675DD17823B684350009F6CC /* Something-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Something-Bridging-Header.h"; sourceTree = "<group>"; };
+		6774293623DFA600007A87A6 /* PushNotificationSender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationSender.swift; sourceTree = "<group>"; };
+		6774293823DFA994007A87A6 /* PushNotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationManager.swift; sourceTree = "<group>"; };
 		6B7C44873A77E40F583DC97D /* Pods-SomethingTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SomethingTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-SomethingTests/Pods-SomethingTests.release.xcconfig"; sourceTree = "<group>"; };
 		91F97FF992691E7538E4DE51 /* Pods-Something.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Something.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Something/Pods-Something.debug.xcconfig"; sourceTree = "<group>"; };
 		BF077944E3BE39D9358702B9 /* Pods_SomethingUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SomethingUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -304,6 +308,8 @@
 			children = (
 				3707443A20679FF90081AE57 /* GeoFire */,
 				373B0C622042905A000C3A1A /* Signleton.swift */,
+				6774293623DFA600007A87A6 /* PushNotificationSender.swift */,
+				6774293823DFA994007A87A6 /* PushNotificationManager.swift */,
 			);
 			path = "Custom Class";
 			sourceTree = "<group>";
@@ -898,6 +904,7 @@
 				"${PODS_ROOT}/Target Support Files/Pods-Something/Pods-Something-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/Bolts/Bolts.framework",
+				"${BUILT_PRODUCTS_DIR}/BoringSSL-GRPC/openssl_grpc.framework",
 				"${BUILT_PRODUCTS_DIR}/FAPanels/FAPanels.framework",
 				"${BUILT_PRODUCTS_DIR}/FBSDKCoreKit/FBSDKCoreKit.framework",
 				"${BUILT_PRODUCTS_DIR}/FBSDKLoginKit/FBSDKLoginKit.framework",
@@ -911,12 +918,16 @@
 				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
 				"${PODS_ROOT}/TwitterCore/iOS/TwitterCore.framework",
 				"${PODS_ROOT}/TwitterKit/iOS/TwitterKit.framework",
+				"${BUILT_PRODUCTS_DIR}/gRPC-C++/grpcpp.framework",
+				"${BUILT_PRODUCTS_DIR}/gRPC-Core/grpc.framework",
 				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
+				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Bolts.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/openssl_grpc.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FAPanels.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKCoreKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKLoginKit.framework",
@@ -930,7 +941,10 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TwitterCore.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TwitterKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/grpcpp.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/grpc.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -971,6 +985,7 @@
 				371A1021206028B700F17521 /* CellWithImage.swift in Sources */,
 				3707444F20679FFA0081AE57 /* GFGeoHashQuery.m in Sources */,
 				37A08A2220376E6E000453A8 /* String.swift in Sources */,
+				6774293923DFA994007A87A6 /* PushNotificationManager.swift in Sources */,
 				37A08A1220375E83000453A8 /* EmailVC.swift in Sources */,
 				3707444E20679FFA0081AE57 /* GFGeoHash.m in Sources */,
 				37A08A1820376865000453A8 /* SignUpVC.swift in Sources */,
@@ -1003,6 +1018,7 @@
 				37C4761A205547B1006A0CB5 /* CheckedInVC.swift in Sources */,
 				37456621205AF04B003A455C /* IconViewController.swift in Sources */,
 				373B0C632042905A000C3A1A /* Signleton.swift in Sources */,
+				6774293723DFA600007A87A6 /* PushNotificationSender.swift in Sources */,
 				37C4761E205547CD006A0CB5 /* BioVC.swift in Sources */,
 				37C4761820554798006A0CB5 /* CreatedVC.swift in Sources */,
 				3707444C20679FFA0081AE57 /* GeoFire.m in Sources */,

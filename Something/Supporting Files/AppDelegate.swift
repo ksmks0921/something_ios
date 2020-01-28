@@ -19,6 +19,7 @@ import FBSDKLoginKit
 import GoogleSignIn
 import FirebaseMessaging
 import UserNotifications
+import FirebaseFirestore
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate,UNUserNotificationCenterDelegate {
@@ -30,6 +31,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UNUserNotificationCenterDe
     var userStartLocation : CLLocationCoordinate2D?
     var isLocationUpdatedFirstTime = false
     var ref : DatabaseReference!
+    var email: String?
+    
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         IQKeyboardManager.shared.enable = true
@@ -51,26 +54,38 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UNUserNotificationCenterDe
         if #available(iOS 10.0, *) {
             // For iOS 10 display notification (sent via APNS)
             UNUserNotificationCenter.current().delegate = self
-            
+
             let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
             UNUserNotificationCenter.current().requestAuthorization(
                 options: authOptions,
                 completionHandler: {_, _ in })
-            
+
             // For iOS 10 data message (sent via FCM)
-            //FIRMessaging.messaging().remoteMessageDelegate = self
-            
+//            Messaging.messaging().delegate = self
+
         } else {
             let settings: UIUserNotificationSettings =
                 UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
             application.registerUserNotificationSettings(settings)
         }
-        
-//        application.registerForRemoteNotifications()
+//
+        UIApplication.shared.registerForRemoteNotifications()
+        updateFirestorePushTokenIfNeeded()
         self.getNotificationSettings()
+
+
         setRootVC()
         return true
     }
+    
+    func updateFirestorePushTokenIfNeeded() {
+           if let token = Messaging.messaging().fcmToken {
+            let usersRef = Firestore.firestore().collection(UserNode).document(DataManager.email!)
+               usersRef.setData(["fcmToken": token], merge: true)
+           }
+    }
+    
+    
     func getNotificationSettings() {
         if #available(iOS 10.0, *) {
             UNUserNotificationCenter.current().getNotificationSettings { settings in
@@ -98,6 +113,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UNUserNotificationCenterDe
         
         //InstanceID.instanceID().token()
         print("Registration succeeded! Token: ", token)
+        updateFirestorePushTokenIfNeeded()
     }
     
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
@@ -194,7 +210,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UNUserNotificationCenterDe
         
         
     }
-    
+ 
+        
     @available(iOS 10.0, *)
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
         // if you set a member variable in didReceiveRemoteNotification, you  will know if this is from closed or background

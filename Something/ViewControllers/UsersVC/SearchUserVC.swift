@@ -60,7 +60,9 @@ extension SearchUserVC: UITableViewDelegate,UITableViewDataSource{
                 self.showAlert(message: "You are not authorized to access this user")
             }else{
                 if self.isFromMessageVC{
-                    let myid = UserDetail(name: DataManager.name!, email: DataManager.email!, photoUrl: DataManager.UserImageURL ?? "", uid: DataManager.userId!)
+                    
+                    
+                    let myid = UserDetail(name: DataManager.name!, email: DataManager.email!, photoUrl: DataManager.UserImageURL ?? "", uid: DataManager.userId!, fcmToken: DataManager.deviceToken!)
                     let otherUser = self.searchedUsers[indexPath.row]
                     let roomId = ChatVM.shared.createChatRoom(user1: otherUser, user2: myid)
                     let VC = self.storyboard?.instantiateViewController(withIdentifier: "ChatVC") as! ChatVC

@@ -24,6 +24,7 @@ class ChatVC: BaseVC {
     var userImage = String()
     var userNameForNavigation = String()
     var otherUserId = String()
+    var otherUserToken: String?
     var otherUserDetail : UserDetail!
     let refreshControl = UIRefreshControl()
     
@@ -108,8 +109,15 @@ class ChatVC: BaseVC {
 extension ChatVC {
     
     func sendMessage(){
+        print("sdsdsdfsdf")
+        print(otherUserToken!)
         ChatVM.shared.sendLastMessage(roomId: roomId, message: massageTF.text!, senderId: DataManager.userId!, receiverId: otherUserId)
+        
+        let sender = PushNotificationSender()
+        sender.sendPushNotification(to: "cVAq8suHDRU:APA91bFfzdkH1K37b7PVHnK6RZHsrzF2D9gt_9-kXSTWx51r03c3ZtuueQ-6zTMX7CAUk4qJnq0036bku5FFaz7HC0SuhW3TABRTZvjOeMjFBRXKUyOhCNzQw62cn_2BYuIXue1q8ngg", title: "Notification title", body: "Notification body")
+
         massageTF.text = ""
+        print("dddddddd")
     }
 }
 

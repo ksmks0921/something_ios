@@ -89,6 +89,7 @@ extension MessagesVC: UITableViewDataSource,UITableViewDelegate{
         }
         VC.userNameForNavigation = userDetail?.name ?? ""
         VC.otherUserId = userDetail?.uid ?? ""
+        VC.otherUserToken = userDetail?.fcmToken ?? ""
         VC.roomId = chatList[indexPath.row].roomId
         VC.userImage =  userDetail?.photoUrl ?? ""
         VC.otherUserDetail = userDetail

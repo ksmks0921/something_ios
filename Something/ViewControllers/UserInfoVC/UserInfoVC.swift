@@ -91,7 +91,7 @@ class UserInfoVC: BaseVC {
         let VC = self.storyboard?.instantiateViewController(withIdentifier: "ChatVC") as! ChatVC
         VC.userNameForNavigation = userDetail?.name ?? ""
         VC.otherUserId = userDetail?.uid ?? ""
-        let myid = UserDetail(name: DataManager.name!, email: DataManager.email!, photoUrl: DataManager.UserImageURL ?? "", uid: DataManager.userId!)
+        let myid = UserDetail(name: DataManager.name!, email: DataManager.email!, photoUrl: DataManager.UserImageURL ?? "", uid: DataManager.userId!, fcmToken: DataManager.deviceToken!)
         let room = ChatVM.shared.createChatRoom(user1: myid, user2: userDetail!)
         VC.roomId = room.0
         VC.userImage =  userDetail?.photoUrl ?? ""

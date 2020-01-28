@@ -47,6 +47,7 @@ class FireBaseConstant{
     static let kUid = "uid"
     static let korigin = "origin"
     static let ksocialUrl = "socialUrl"
+    static let kToken = "fcmToken"
     
     //Pin Detail
     static let kDate = "date"

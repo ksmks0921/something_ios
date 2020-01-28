@@ -103,14 +103,15 @@ class CreatePinVM{
                     let title = restDict[FireBaseConstant.kTitle] as? String ?? ""
                     let type = restDict[FireBaseConstant.kType] as? String ?? ""
                     let visitedCount = restDict[FireBaseConstant.kVisitedCount] as? Int ?? 0
-                    var myUserdict = UserDetail(name: "", email: "", photoUrl: "", uid: "")
+                    var myUserdict = UserDetail(name: "", email: "", photoUrl: "", uid: "", fcmToken: "")
                     if let userDict = restDict[FireBaseConstant.kUser] as? NSDictionary{
                         let email = userDict[FireBaseConstant.kEmail] as? String ?? ""
                         let name = userDict[FireBaseConstant.kName] as? String ?? ""
                         let nameForSearch = userDict[FireBaseConstant.kNameForSearch] as? String ?? ""
                         let photoUrl = userDict[FireBaseConstant.kPhotoUrl] as? String ?? ""
                         let uid = userDict[FireBaseConstant.kUid] as? String ?? ""
-                        myUserdict = UserDetail(name: name, email: email, photoUrl: photoUrl, uid: uid)
+                        let fcmToken = userDict[FireBaseConstant.kToken] as? String ?? ""
+                        myUserdict = UserDetail(name: name, email: email, photoUrl: photoUrl, uid: uid, fcmToken: fcmToken)
                     }
                     var mediaA = [PinMedia]()
                     if let mediaArr = restDict[FireBaseConstant.kMedia] as? [NSDictionary]{
@@ -282,14 +283,15 @@ class CreatePinVM{
                     let title = restDict[FireBaseConstant.kTitle] as? String ?? ""
                     let type = restDict[FireBaseConstant.kType] as? String ?? ""
                     let visitedCount = restDict[FireBaseConstant.kVisitedCount] as? Int ?? 0
-                    var myUserdict = UserDetail(name: "", email: "", photoUrl: "", uid: "")
+                    var myUserdict = UserDetail(name: "", email: "", photoUrl: "", uid: "", fcmToken: "")
                     if let userDict = restDict[FireBaseConstant.kUser] as? NSDictionary{
                         let email = userDict[FireBaseConstant.kEmail] as? String ?? ""
                         let name = userDict[FireBaseConstant.kName] as? String ?? ""
                         let nameForSearch = userDict[FireBaseConstant.kNameForSearch] as? String ?? ""
                         let photoUrl = userDict[FireBaseConstant.kPhotoUrl] as? String ?? ""
                         let uid = userDict[FireBaseConstant.kUid] as? String ?? ""
-                        myUserdict = UserDetail(name: name, email: email, photoUrl: photoUrl, uid: uid)
+                        let fcmToken = userDict[FireBaseConstant.kToken] as? String ?? ""
+                        myUserdict = UserDetail(name: name, email: email, photoUrl: photoUrl, uid: uid, fcmToken: fcmToken)
                     }
                     var mediaA = [PinMedia]()
                     if let mediaArr = restDict[FireBaseConstant.kMedia] as? [NSDictionary]{

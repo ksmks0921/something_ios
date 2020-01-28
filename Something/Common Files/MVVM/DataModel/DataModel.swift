@@ -71,6 +71,7 @@ struct UserDetail {
     var email : String
     var photoUrl : String
     var uid : String
+    var fcmToken: String
 }
 
 struct UserFeed {
@@ -106,6 +107,7 @@ extension UserVM{
         let email = user[FireBaseConstant.kEmail] as! String
         let photoUrl = user[FireBaseConstant.kPhotoUrl] as? String ?? ""
         let uid = user[FireBaseConstant.kUid] as! String
-        return UserDetail(name: name, email: email, photoUrl: photoUrl, uid: uid)
+        let fcmToken = user[FireBaseConstant.kToken] as? String ?? ""
+        return UserDetail(name: name, email: email, photoUrl: photoUrl, uid: uid, fcmToken: fcmToken)
     }
 }

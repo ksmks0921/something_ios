@@ -7,6 +7,7 @@ target 'Something' do
   platform :ios, '9.0'
   use_frameworks!
 pod 'FBSDKCoreKit', '~> 4.44'
+pod 'Firebase/Firestore'
 pod 'FBSDKLoginKit'
 pod 'GoogleSignIn'
 pod 'TwitterKit'

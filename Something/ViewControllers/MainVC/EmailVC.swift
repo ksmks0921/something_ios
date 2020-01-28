@@ -144,12 +144,14 @@ extension EmailVC{
             if error == nil{
                 if emails == nil {
                     // signup
+                    
                     let VC = self.storyboard?.instantiateViewController(withIdentifier: "SignUpVC") as! SignUpVC
                     VC.email = self.emailTF.text
 //                    self.present(VC, animated: true, completion: nil)
                     self.navigationController?.pushViewController(VC, animated: true)
                 }else{
                     // login
+                    
                     let VC = self.storyboard?.instantiateViewController(withIdentifier: "PasswordVC") as! PasswordVC
                     VC.email = self.emailTF.text
 //                    self.present(VC, animated: true, completion: nil)

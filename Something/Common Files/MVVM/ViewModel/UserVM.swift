@@ -34,6 +34,7 @@ class UserVM{
     var searchedUses = [UserDetail]()
     var userAddress = UserLocationAndWeb()
     var blockedList = [UserDetail]()
+    var email: String?
   
     //MARK: User Methods
     func login(email: String, password: String, response: @escaping responseCallBack){
@@ -84,7 +85,8 @@ class UserVM{
                         let name1 = childDict[FireBaseConstant.kName] as? String ?? ""
                         let photoUrl = childDict[FireBaseConstant.kPhotoUrl] as? String ?? ""
                         let uid = childDict[FireBaseConstant.kUid] as? String ?? ""
-                        self.searchedUses.append(UserDetail(name: name1, email: email, photoUrl: photoUrl, uid: uid))
+                        let fcmToken = childDict[FireBaseConstant.kToken] as? String ?? ""
+                        self.searchedUses.append(UserDetail(name: name1, email: email, photoUrl: photoUrl, uid: uid, fcmToken: fcmToken))
                     }
                 }
             }
@@ -214,7 +216,8 @@ class UserVM{
                     let name1 = childDict[FireBaseConstant.kName] as? String ?? ""
                     let photoUrl = childDict[FireBaseConstant.kPhotoUrl] as? String ?? ""
                     let uid = childDict[FireBaseConstant.kUid] as? String ?? ""
-                    self.blockedList.append(UserDetail(name: name1, email: email, photoUrl: photoUrl, uid: uid))
+                    let fcmToken = childDict[FireBaseConstant.kToken] as? String ?? ""
+                    self.blockedList.append(UserDetail(name: name1, email: email, photoUrl: photoUrl, uid: uid, fcmToken: fcmToken))
                 }
             }
             completion(true)
