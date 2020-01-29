@@ -69,8 +69,7 @@ class ChatVC: BaseVC {
             }
         })
     }
-    //MARK:- IBActions
-    
+
     @IBAction func backButtonAction(_ sender: Any) {
         self.navigationController?.popViewController(animated: true)
     }
@@ -80,8 +79,7 @@ class ChatVC: BaseVC {
             sendMessage()
         }
     }
-    //MARK:- Custom Methods
-    
+
     @objc func keyboardWillShow(_ notification:Notification) {
         
         if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
@@ -109,26 +107,14 @@ class ChatVC: BaseVC {
 extension ChatVC {
     
     func sendMessage(){
-        print("sdsdsdfsdf")
-        print(otherUserToken!)
+
         ChatVM.shared.sendLastMessage(roomId: roomId, message: massageTF.text!, senderId: DataManager.userId!, receiverId: otherUserId)
         
         let sender = PushNotificationSender()
         sender.sendPushNotification(to: otherUserToken!, title: "Notification title", body: "Notification body")
         
-//        self.ref.child(UserFcmIds).child(DataManager.userId!).observe(.value) { (snap) in
-//            if let valuedict = snap.value as? NSDictionary{
-//                let fcmIds = valuedict.allKeys
-//                for key in fcmIds{
-//                    if key is String{
-//                        self.sendNotification(senderId: key as! String, title: title, body: "\(title) is not so far away.")
-//                    }
-//                }
-//            }
-//        }
-        
         massageTF.text = ""
-        print("dddddddd")
+
     }
 }
 

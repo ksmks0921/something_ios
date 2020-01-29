@@ -35,9 +35,6 @@ static TYPE *g_##PLIST_KEY = nil; \
   g_##PLIST_KEY = [value copy]; \
 }
 
-#define FBSDKSETTINGS_AUTOLOG_APPEVENTS_ENABLED_USER_DEFAULTS_KEY @"com.facebook.sdk:autoLogAppEventsEnabled%@"
-#define FBSDKSETTINGS_ADVERTISERID_COLLECTION_ENABLED_USER_DEFAULTS_KEY @"com.facebook.sdk:advertiserIDCollectionEnabled%@"
-
 NSString *const FBSDKLoggingBehaviorAccessTokens = @"include_access_tokens";
 NSString *const FBSDKLoggingBehaviorPerformanceCharacteristics = @"perf_characteristics";
 NSString *const FBSDKLoggingBehaviorAppEvents = @"app_events";
@@ -50,33 +47,21 @@ NSString *const FBSDKLoggingBehaviorGraphAPIDebugInfo = @"graph_api_debug_info";
 NSString *const FBSDKLoggingBehaviorNetworkRequests = @"network_requests";
 
 static NSObject<FBSDKAccessTokenCaching> *g_tokenCache;
-static NSMutableSet *g_loggingBehaviors;
+static NSMutableSet *g_loggingBehavior;
 static NSString *g_legacyUserDefaultTokenInformationKeyName = @"FBAccessTokenInformationKey";
 static NSString *const FBSDKSettingsLimitEventAndDataUsage = @"com.facebook.sdk:FBSDKSettingsLimitEventAndDataUsage";
 static BOOL g_disableErrorRecovery;
 static NSString *g_userAgentSuffix;
 static NSString *g_defaultGraphAPIVersion;
 static FBSDKAccessTokenExpirer *g_accessTokenExpirer;
-static NSString *const FBSDKSettingsAutoLogAppEventsEnabled = @"FacebookAutoLogAppEventsEnabled";
-static NSString *const FBSDKSettingsAdvertiserIDCollectionEnabled = @"FacebookAdvertiserIDCollectionEnabled";
-static NSNumber *g_autoLogAppEventsEnabled;
-static NSNumber *g_advertiserIDCollectionEnabled;
 
 @implementation FBSDKSettings
 
 + (void)initialize
 {
   if (self == [FBSDKSettings class]) {
-    NSString *appID = [self appID];
     g_tokenCache = [[FBSDKAccessTokenCache alloc] init];
     g_accessTokenExpirer = [[FBSDKAccessTokenExpirer alloc] init];
-    // Fetch meta data from plist and overwrite the value with NSUserDefaults if possible
-    g_autoLogAppEventsEnabled = [self appEventSettingsForPlistKey:FBSDKSettingsAutoLogAppEventsEnabled defaultValue:@YES];
-    g_autoLogAppEventsEnabled = [self appEventSettingsForUserDefaultsKey:[NSString stringWithFormat:FBSDKSETTINGS_AUTOLOG_APPEVENTS_ENABLED_USER_DEFAULTS_KEY, appID] defaultValue:g_autoLogAppEventsEnabled];
-    [[NSUserDefaults standardUserDefaults] setObject:g_autoLogAppEventsEnabled forKey:[NSString stringWithFormat:FBSDKSETTINGS_AUTOLOG_APPEVENTS_ENABLED_USER_DEFAULTS_KEY, appID]];
-    g_advertiserIDCollectionEnabled = [self appEventSettingsForPlistKey:FBSDKSettingsAdvertiserIDCollectionEnabled defaultValue:@YES];
-    g_advertiserIDCollectionEnabled = [self appEventSettingsForUserDefaultsKey:[NSString stringWithFormat:FBSDKSETTINGS_ADVERTISERID_COLLECTION_ENABLED_USER_DEFAULTS_KEY, appID] defaultValue:g_advertiserIDCollectionEnabled];
-    [[NSUserDefaults standardUserDefaults] setObject:g_advertiserIDCollectionEnabled forKey:[NSString stringWithFormat:FBSDKSETTINGS_ADVERTISERID_COLLECTION_ENABLED_USER_DEFAULTS_KEY, appID]];
   }
 }
 
@@ -88,6 +73,8 @@ FBSDKSETTINGS_PLIST_CONFIGURATION_SETTING_IMPL(NSString, FacebookClientToken, cl
 FBSDKSETTINGS_PLIST_CONFIGURATION_SETTING_IMPL(NSString, FacebookDisplayName, displayName, setDisplayName, nil);
 FBSDKSETTINGS_PLIST_CONFIGURATION_SETTING_IMPL(NSString, FacebookDomainPart, facebookDomainPart, setFacebookDomainPart, nil);
 FBSDKSETTINGS_PLIST_CONFIGURATION_SETTING_IMPL(NSNumber, FacebookJpegCompressionQuality, _JPEGCompressionQualityNumber, _setJPEGCompressionQualityNumber, @0.9);
+FBSDKSETTINGS_PLIST_CONFIGURATION_SETTING_IMPL(NSNumber, FacebookAutoLogAppEventsEnabled, autoLogAppEventsEnabled,
+  setAutoLogAppEventsEnabled, @1);
 FBSDKSETTINGS_PLIST_CONFIGURATION_SETTING_IMPL(NSNumber, FacebookCodelessDebugLogEnabled, codelessDebugLogEnabled,
   setCodelessDebugLogEnabled, @0);
 
@@ -101,7 +88,7 @@ FBSDKSETTINGS_PLIST_CONFIGURATION_SETTING_IMPL(NSNumber, FacebookCodelessDebugLo
 
 + (CGFloat)JPEGCompressionQuality
 {
-  return [self _JPEGCompressionQualityNumber].floatValue;
+  return [[self _JPEGCompressionQualityNumber] floatValue];
 }
 
 + (void)setJPEGCompressionQuality:(CGFloat)JPEGCompressionQuality
@@ -125,55 +112,45 @@ FBSDKSETTINGS_PLIST_CONFIGURATION_SETTING_IMPL(NSNumber, FacebookCodelessDebugLo
   [defaults synchronize];
 }
 
-+ (NSSet<NSString *> *)loggingBehaviors
++ (NSSet *)loggingBehavior
 {
-  if (!g_loggingBehaviors) {
+  if (!g_loggingBehavior) {
     NSArray *bundleLoggingBehaviors = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"FacebookLoggingBehavior"];
     if (bundleLoggingBehaviors) {
-      g_loggingBehaviors = [[NSMutableSet alloc] initWithArray:bundleLoggingBehaviors];
+      g_loggingBehavior = [[NSMutableSet alloc] initWithArray:bundleLoggingBehaviors];
     } else {
       // Establish set of default enabled logging behaviors.  You can completely disable logging by
       // specifying an empty array for FacebookLoggingBehavior in your Info.plist.
-      g_loggingBehaviors = [[NSMutableSet alloc] initWithObjects:FBSDKLoggingBehaviorDeveloperErrors, nil];
+      g_loggingBehavior = [[NSMutableSet alloc] initWithObjects:FBSDKLoggingBehaviorDeveloperErrors, nil];
     }
   }
-  return [g_loggingBehaviors copy];
+  return [g_loggingBehavior copy];
 }
 
-+ (void)setLoggingBehaviors:(NSSet<NSString *> *)loggingBehaviors
++ (void)setLoggingBehavior:(NSSet *)loggingBehavior
 {
-  if (![g_loggingBehaviors isEqualToSet:loggingBehaviors]) {
-    g_loggingBehaviors = [loggingBehaviors mutableCopy];
+  if (![g_loggingBehavior isEqualToSet:loggingBehavior]) {
+    g_loggingBehavior = [loggingBehavior mutableCopy];
 
     [self updateGraphAPIDebugBehavior];
   }
 }
 
-+ (NSSet *)loggingBehavior
-{
-  return [self loggingBehaviors];
-}
-
-+ (void)setLoggingBehavior:(NSSet *)loggingBehavior
-{
-  [self setLoggingBehaviors:loggingBehavior];
-}
-
 + (void)enableLoggingBehavior:(NSString *)loggingBehavior
 {
-  if (!g_loggingBehaviors) {
-    [self loggingBehaviors];
+  if (!g_loggingBehavior) {
+    [self loggingBehavior];
   }
-  [g_loggingBehaviors addObject:loggingBehavior];
+  [g_loggingBehavior addObject:loggingBehavior];
   [self updateGraphAPIDebugBehavior];
 }
 
 + (void)disableLoggingBehavior:(NSString *)loggingBehavior
 {
-  if (!g_loggingBehaviors) {
-    [self loggingBehaviors];
+  if (!g_loggingBehavior) {
+    [self loggingBehavior];
   }
-  [g_loggingBehaviors removeObject:loggingBehavior];
+  [g_loggingBehavior removeObject:loggingBehavior];
   [self updateGraphAPIDebugBehavior];
 }
 
@@ -235,68 +212,22 @@ FBSDKSETTINGS_PLIST_CONFIGURATION_SETTING_IMPL(NSNumber, FacebookCodelessDebugLo
   return g_defaultGraphAPIVersion ?: FBSDK_TARGET_PLATFORM_VERSION;
 }
 
-+ (NSNumber *)appEventSettingsForPlistKey:(NSString *)plistKey
-                             defaultValue:(NSNumber *)defaultValue
-{
-  return [[[NSBundle mainBundle] objectForInfoDictionaryKey:plistKey] copy] ?: defaultValue;
-}
-
-+ (NSNumber *)appEventSettingsForUserDefaultsKey:(NSString *)userDefaultsKey
-                                    defaultValue:(NSNumber *)defaultValue
-{
-  NSData *data = [[NSUserDefaults standardUserDefaults] objectForKey:userDefaultsKey];
-  if ([data isKindOfClass:[NSNumber class]]) {
-    return (NSNumber *)data;
-  }
-  return defaultValue;
-}
-
-+ (NSNumber *)autoLogAppEventsEnabled
-{
-  return g_autoLogAppEventsEnabled;
-}
-
-+ (void)setAutoLogAppEventsEnabled:(NSNumber *)autoLogAppEventsEnabled
-{
-  if (autoLogAppEventsEnabled == nil || [g_autoLogAppEventsEnabled isEqual:autoLogAppEventsEnabled]) {
-    return;
-  }
-
-  g_autoLogAppEventsEnabled = [autoLogAppEventsEnabled copy];
-  [[NSUserDefaults standardUserDefaults] setObject:g_autoLogAppEventsEnabled forKey:[NSString stringWithFormat:FBSDKSETTINGS_AUTOLOG_APPEVENTS_ENABLED_USER_DEFAULTS_KEY, [self appID]]];
-}
-
-+ (NSNumber *)advertiserIDCollectionEnabled
-{
-  return g_advertiserIDCollectionEnabled;
-}
-
-+ (void)setAdvertiserIDCollectionEnabled:(NSNumber *)advertiserIDCollectionEnabled
-{
-  if (advertiserIDCollectionEnabled == nil || [g_advertiserIDCollectionEnabled isEqual:advertiserIDCollectionEnabled]) {
-    return;
-  }
-
-  g_advertiserIDCollectionEnabled = [advertiserIDCollectionEnabled copy];
-  [[NSUserDefaults standardUserDefaults] setObject:g_advertiserIDCollectionEnabled forKey:[NSString stringWithFormat:FBSDKSETTINGS_ADVERTISERID_COLLECTION_ENABLED_USER_DEFAULTS_KEY, [self appID]]];
-}
-
 #pragma mark - Internal - Graph API Debug
 
 + (void)updateGraphAPIDebugBehavior
 {
   // Enable Warnings everytime Info is enabled
-  if ([g_loggingBehaviors containsObject:FBSDKLoggingBehaviorGraphAPIDebugInfo]
-      && ![g_loggingBehaviors containsObject:FBSDKLoggingBehaviorGraphAPIDebugWarning]) {
-    [g_loggingBehaviors addObject:FBSDKLoggingBehaviorGraphAPIDebugWarning];
+  if ([g_loggingBehavior containsObject:FBSDKLoggingBehaviorGraphAPIDebugInfo]
+      && ![g_loggingBehavior containsObject:FBSDKLoggingBehaviorGraphAPIDebugWarning]) {
+    [g_loggingBehavior addObject:FBSDKLoggingBehaviorGraphAPIDebugWarning];
   }
 }
 
 + (NSString *)graphAPIDebugParamValue
 {
-  if ([[self loggingBehaviors] containsObject:FBSDKLoggingBehaviorGraphAPIDebugInfo]) {
+  if ([[self loggingBehavior] containsObject:FBSDKLoggingBehaviorGraphAPIDebugInfo]) {
     return @"info";
-  } else if ([[self loggingBehaviors] containsObject:FBSDKLoggingBehaviorGraphAPIDebugWarning]) {
+  } else if ([[self loggingBehavior] containsObject:FBSDKLoggingBehaviorGraphAPIDebugWarning]) {
     return @"warning";
   }
 

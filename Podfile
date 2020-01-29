@@ -6,9 +6,10 @@ target 'Something' do
   source 'https://github.com/CocoaPods/Specs.git'
   platform :ios, '9.0'
   use_frameworks!
-pod 'FBSDKCoreKit', '~> 4.44'
+
+pod 'FBSDKCoreKit', '~> 4.38.1'
+pod 'FBSDKLoginKit', '~> 4.38.1'
 pod 'Firebase/Firestore'
-pod 'FBSDKLoginKit'
 pod 'GoogleSignIn'
 pod 'TwitterKit'
 pod 'IQKeyboardManagerSwift'

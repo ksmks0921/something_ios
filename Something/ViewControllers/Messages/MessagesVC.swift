@@ -42,7 +42,7 @@ class MessagesVC: BaseVC {
     
     @IBAction func newChatButton(_ sender: Any) {
         let VC = self.storyboard?.instantiateViewController(withIdentifier: "SearchUserVC") as! SearchUserVC
-        VC.isFromMessageVC = true
+        VC.isFrom = "message"
         self.navigationController?.pushViewController(VC, animated: true)
     }
     
@@ -84,15 +84,14 @@ extension MessagesVC: UITableViewDataSource,UITableViewDelegate{
         let userDetail : UserDetail?
         if chatList[indexPath.row].user1.uid == DataManager.userId!{
             userDetail = chatList[indexPath.row].user2
-            print("user2************")
+
         }else{
             userDetail = chatList[indexPath.row].user1
-             print("user1*************")
+ 
         }
         VC.userNameForNavigation = userDetail?.name ?? ""
         VC.otherUserId = userDetail?.uid ?? ""
-        print("___here____")
-        print(userDetail?.fcmToken ?? "")
+
         VC.otherUserToken = userDetail?.fcmToken ?? "otherUserToken"
         VC.roomId = chatList[indexPath.row].roomId
         VC.userImage =  userDetail?.photoUrl ?? ""

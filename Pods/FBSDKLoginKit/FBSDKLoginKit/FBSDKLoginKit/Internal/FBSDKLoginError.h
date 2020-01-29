@@ -25,6 +25,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface NSError (FBSDKLoginError)
 
 + (NSError *)fbErrorForFailedLoginWithCode:(FBSDKLoginError)code;
++ (NSError *)fbErrorForSystemAccountStoreError:(NSError *)accountStoreError;
 + (NSError *)fbErrorForSystemPasswordChange:(NSError *)innerError;
 
 + (nullable NSError *)fbErrorFromReturnURLParameters:(NSDictionary<NSString *, id> *)parameters;

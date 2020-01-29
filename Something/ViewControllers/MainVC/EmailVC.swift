@@ -13,6 +13,9 @@ import FBSDKLoginKit
 import GoogleSignIn
 import FirebaseDatabase
 
+
+
+
 class EmailVC: BaseVC {
 
     //MARK:- IBOutlets
@@ -27,6 +30,9 @@ class EmailVC: BaseVC {
         super.viewDidLoad()
         ref = Database.database().reference()
         emailTF.setPlaceHolderColor()
+        
+        
+        
     }
     
     //MARK:- IBActions
@@ -86,11 +92,17 @@ class EmailVC: BaseVC {
             }
         })
     }
+
+    
     
     func FBLogin(){
+        print("________facebook_____________")
         let fbManager = FBSDKLoginManager()
         fbManager.logOut()
         fbManager.logIn(withReadPermissions: ["public_profile","email"], from: self) { (loginResult, error) in
+            if FBSDKAccessToken.current() != nil {
+                print("_________Awesome!!__________")
+            }
             if error != nil{
                 self.showAlert(message: error?.localizedDescription)
             }
@@ -106,7 +118,7 @@ class EmailVC: BaseVC {
                         DataManager.email = user?.email
                         DataManager.name = user?.displayName ?? "No name"
                         if DataManager.email == nil{
-                            self.showAlert(message: "We are unable to fetch your email address. Please singup.")
+                            self.showAlert(message: "We are unable to fetch your email address. Please signup.")
                             return
                         }
                         let updateUser = [FireBaseConstant.kEmail: DataManager.email!,

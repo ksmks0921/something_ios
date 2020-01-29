@@ -144,30 +144,45 @@ class HomeVC: BaseVC {
         
     }
     
+    @IBAction func searchPintBtnTapped(_ sender: Any) {
+        
+        if DataManager.isLogin! {
+                   let VC = self.storyboard?.instantiateViewController(withIdentifier: "SearchUserVC") as! SearchUserVC
+                   VC.isFrom = "home"
+                   self.navigationController?.pushViewController(VC, animated: true)
+       }
+       else {
+           showAlert()
+       }
+        
+    }
     //MARK:- IBActions
     @IBAction func notificatinButton(_ sender: Any) {
+        
         if DataManager.isLogin! {
             let VC = self.storyboard?.instantiateViewController(withIdentifier: "NotificationVC") as! NotificationVC
             self.present(VC, animated: true, completion: nil)
         }
         else {
-            let alert = UIAlertController(title: "Alert", message: "You have to create an account to do this action!", preferredStyle: UIAlertController.Style.alert)
-            
-            // add the actions (buttons)
-            
-            alert.addAction(UIAlertAction(title: "Create", style: UIAlertAction.Style.cancel, handler: {action in
-                
-                let VC = self.storyboard?.instantiateViewController(withIdentifier: "EmailVC") as! EmailVC
-                self.navigationController?.pushViewController(VC, animated: true)
-                //                self.present(VC, animated: true, completion: nil)
-                
-            }))
-            
-            alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertAction.Style.default, handler: nil))
-            // show the alert
-            self.present(alert, animated: true, completion: nil)
+            showAlert()
         }
         
+    }
+    private func showAlert(){
+        let alert = UIAlertController(title: "Alert", message: "You have to create an account to do this action!", preferredStyle: UIAlertController.Style.alert)
+
+        
+        alert.addAction(UIAlertAction(title: "Create", style: UIAlertAction.Style.cancel, handler: {action in
+            
+            let VC = self.storyboard?.instantiateViewController(withIdentifier: "EmailVC") as! EmailVC
+            self.navigationController?.pushViewController(VC, animated: true)
+    
+            
+        }))
+        
+        alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertAction.Style.default, handler: nil))
+
+        self.present(alert, animated: true, completion: nil)
     }
     @IBAction func zoomOutButton(_ sender: Any) {
         zoom = zoom - 1

@@ -79,10 +79,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UNUserNotificationCenterDe
     }
     
     func updateFirestorePushTokenIfNeeded() {
-           if let token = Messaging.messaging().fcmToken {
-            let usersRef = Firestore.firestore().collection(UserNode).document(DataManager.email!)
-               usersRef.setData(["fcmToken": token], merge: true)
-           }
+//           if let token = Messaging.messaging().fcmToken {
+//            let usersRef = Firestore.firestore().collection(UserNode).document(DataManager.email!)
+//               usersRef.setData(["fcmToken": token], merge: true)
+//           }
     }
     
     
@@ -148,7 +148,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UNUserNotificationCenterDe
     }
     
     func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
-        if url.scheme == "fb946413918842139"{
+    
+        if url.scheme == "fb332197317551003"{
+            print("_________Awesome__________")
             return FBSDKApplicationDelegate.sharedInstance().application(app, open: url, sourceApplication: options[.sourceApplication] as! String!, annotation: options[.annotation])
 
         }

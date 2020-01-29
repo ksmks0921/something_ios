@@ -19,6 +19,9 @@ class CreatePinVM{
     private var count = 0
     
     var pinsData = [PinsSnapShot]()
+    
+    var searchedpinsData = [PinsSnapShot]()
+    
     var userPins = [UserPinsDetail]()
     var visitedPins = [UserPinsDetail]()
     var wishList = [UserPinsDetail]()
@@ -192,6 +195,68 @@ class CreatePinVM{
         }
     }
     
+    func getSearchedPins(key : String,completion: @escaping (Bool) -> Void){
+        print("_______Hey! key is ________" + key)
+        ref.child(Pins).observe(.value) { (snapShot) in
+            let children = snapShot.children
+            self.searchedpinsData.removeAll()
+            while let rest = children.nextObject() as? DataSnapshot {
+                if let restDict = rest.value as? NSDictionary{
+                    let title_for_search = restDict[FireBaseConstant.kTitle] as? String ?? ""
+                    if title_for_search.contains(key){
+                        
+                        let creationTime = restDict[FireBaseConstant.kCreationTime] as? Int ?? 0
+                            let description = restDict[FireBaseConstant.kDescription] as? String ?? ""
+                            let key = restDict[FireBaseConstant.kKey] as? String ?? ""
+                            let notes = restDict[FireBaseConstant.kNotes] as? String ?? ""
+                            let videoLink = restDict[FireBaseConstant.kVideoLink] as? String ?? ""
+                            let ratedTimes = restDict[FireBaseConstant.kRatedTimes] as? Int ?? 0
+                            let rating = restDict[FireBaseConstant.kRating] as? Int ?? 0
+                            let title = restDict[FireBaseConstant.kTitle] as? String ?? ""
+                            let type = restDict[FireBaseConstant.kType] as? String ?? ""
+                            let visitedCount = restDict[FireBaseConstant.kVisitedCount] as? Int ?? 0
+                            var myUserdict = UserDetail(name: "", email: "", photoUrl: "", uid: "", fcmToken: "")
+                            if let userDict = restDict[FireBaseConstant.kUser] as? NSDictionary{
+                                let email = userDict[FireBaseConstant.kEmail] as? String ?? ""
+                                let name = userDict[FireBaseConstant.kName] as? String ?? ""
+                                let nameForSearch = userDict[FireBaseConstant.kNameForSearch] as? String ?? ""
+                                let photoUrl = userDict[FireBaseConstant.kPhotoUrl] as? String ?? ""
+                                let uid = userDict[FireBaseConstant.kUid] as? String ?? ""
+                                let fcmToken = userDict[FireBaseConstant.kToken] as? String ?? ""
+                                myUserdict = UserDetail(name: name, email: email, photoUrl: photoUrl, uid: uid, fcmToken: fcmToken)
+                            }
+                            var mediaA = [PinMedia]()
+                            if let mediaArr = restDict[FireBaseConstant.kMedia] as? [NSDictionary]{
+                                for data in mediaArr{
+                                    let name = data[FireBaseConstant.kName] as? String ?? ""
+                                    let thumbnailName = data[FireBaseConstant.kThumbnailName] as? String ?? ""
+                                    let type = data[FireBaseConstant.kType] as? String ?? ""
+                                    let uri = data[FireBaseConstant.kUri] as? String ?? ""
+                                    let mediaData = PinMedia(name: name, thumbnailName: thumbnailName, type: type, uri: uri)
+                                    mediaA.append(mediaData)
+                                }
+                            }
+                            var coordinate = Coordinates(lat: 0.0, lon: 0.0)
+                            if let  coordinatesDict = restDict[FireBaseConstant.kCoordinates] as? NSDictionary{
+                                let lat = coordinatesDict[FireBaseConstant.kLat] as? Double ?? 0.0
+                                let long = coordinatesDict[FireBaseConstant.kLong] as? Double ?? 0.0
+                                coordinate = Coordinates(lat: lat, lon: long)
+                            }
+                            let locationLatLong = CLLocation(latitude: coordinate.lat, longitude: coordinate.lon)
+                            let distance = locationLatLong.distance(from: CLLocation(latitude: globleCurrentLocation.latitude, longitude: globleCurrentLocation.longitude))
+                            let yard = Int(distance / 1.09361)
+                            self.searchedpinsData.append(PinsSnapShot(coordinates: coordinate, description: description, key: key, media: mediaA, notes: notes, videoLink: videoLink, ratedTimes: ratedTimes, rating: rating, title: title, type: type, user: myUserdict, visitedCount: visitedCount, ditance: yard, creationTime: creationTime))
+                        }
+                    
+                    
+                    }
+                    
+            }
+           
+            completion(true)
+        }
+        
+    }
     func getVisitedPins(userid : String,completion: @escaping (Bool) -> Void){
         ref.child(VisitedPin).child(userid).observeSingleEvent(of: .value) { (snapShot) in
             self.visitedPins.removeAll()

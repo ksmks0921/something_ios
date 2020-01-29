@@ -21,7 +21,6 @@
 #import <objc/runtime.h>
 
 #import "FBSDKAppEventsUtility.h"
-#import "FBSDKGateKeeperManager.h"
 #import "FBSDKGraphRequest+Internal.h"
 #import "FBSDKGraphRequest.h"
 #import "FBSDKImageDownloader.h"
@@ -55,6 +54,7 @@
 #define FBSDK_SERVER_CONFIGURATION_SMART_LOGIN_MENU_ICON_URL_FIELD @"smart_login_menu_icon_url"
 #define FBSDK_SERVER_CONFIGURATION_UPDATE_MESSAGE_FIELD @"sdk_update_message"
 #define FBSDK_SERVER_CONFIGURATION_EVENT_BINDINGS_FIELD  @"auto_event_mapping_ios"
+#define FBSDK_SERVER_CONFIGURATION_CODELESS_SETUP_ENABLED_FIELD @"auto_event_setup_enabled"
 
 @implementation FBSDKServerConfigurationManager
 
@@ -168,9 +168,6 @@ typedef NS_OPTIONS(NSUInteger, FBSDKServerConfigurationManagerAppEventsFeatures)
   if (loadBlock != NULL) {
     loadBlock();
   }
-
-  // Fetch app gatekeepers
-  [FBSDKGateKeeperManager loadGateKeepers];
 }
 
 #pragma mark - Internal Class Methods
@@ -207,6 +204,7 @@ typedef NS_OPTIONS(NSUInteger, FBSDKServerConfigurationManagerAppEventsFeatures)
   NSURL *smartLoginMenuIconURL = [FBSDKTypeUtility URLValue:resultDictionary[FBSDK_SERVER_CONFIGURATION_SMART_LOGIN_MENU_ICON_URL_FIELD]];
   NSString *updateMessage = [FBSDKTypeUtility stringValue:resultDictionary[FBSDK_SERVER_CONFIGURATION_UPDATE_MESSAGE_FIELD]];
   NSArray *eventBindings = [FBSDKTypeUtility arrayValue:resultDictionary[FBSDK_SERVER_CONFIGURATION_EVENT_BINDINGS_FIELD]];
+  BOOL codelessSetupEnabled = [FBSDKTypeUtility boolValue:resultDictionary[FBSDK_SERVER_CONFIGURATION_CODELESS_SETUP_ENABLED_FIELD]];
   FBSDKServerConfiguration *serverConfiguration = [[FBSDKServerConfiguration alloc] initWithAppID:appID
                                                                                           appName:appName
                                                                               loginTooltipEnabled:loginTooltipEnabled
@@ -231,6 +229,7 @@ typedef NS_OPTIONS(NSUInteger, FBSDKServerConfigurationManagerAppEventsFeatures)
                                                                             smartLoginMenuIconURL:smartLoginMenuIconURL
                                                                                     updateMessage:updateMessage
                                                                                     eventBindings:eventBindings
+                                                                             codelessSetupEnabled:codelessSetupEnabled
                                                    ];
 #if TARGET_OS_TV
   // don't download icons more than once a day.
@@ -275,6 +274,7 @@ typedef NS_OPTIONS(NSUInteger, FBSDKServerConfigurationManagerAppEventsFeatures)
                       FBSDK_SERVER_CONFIGURATION_LOGGIN_TOKEN_FIELD
 #if !TARGET_OS_TV
                       ,FBSDK_SERVER_CONFIGURATION_EVENT_BINDINGS_FIELD
+                      ,FBSDK_SERVER_CONFIGURATION_CODELESS_SETUP_ENABLED_FIELD
 #endif
 #ifdef DEBUG
                       ,FBSDK_SERVER_CONFIGURATION_UPDATE_MESSAGE_FIELD
@@ -285,7 +285,13 @@ typedef NS_OPTIONS(NSUInteger, FBSDKServerConfigurationManagerAppEventsFeatures)
                       FBSDK_SERVER_CONFIGURATION_SMART_LOGIN_MENU_ICON_URL_FIELD
 #endif
                       ];
-  NSDictionary<NSString *, NSString *> *parameters = @{ @"fields": [fields componentsJoinedByString:@","]};
+  NSDictionary *parameters = @{ @"fields": [fields componentsJoinedByString:@","] };
+  NSString *advertiserID = [FBSDKAppEventsUtility advertiserID];
+
+  if (advertiserID) {
+    parameters = @{ @"fields": [fields componentsJoinedByString:@","],
+                    @"advertiser_id": advertiserID };
+  }
 
   FBSDKGraphRequest *request = [[FBSDKGraphRequest alloc] initWithGraphPath:appID
                                                                  parameters:parameters
@@ -342,6 +348,7 @@ typedef NS_OPTIONS(NSUInteger, FBSDKServerConfigurationManagerAppEventsFeatures)
                                                             smartLoginMenuIconURL:nil
                                                                     updateMessage:nil
                                                                     eventBindings:nil
+                                                             codelessSetupEnabled:NO
                                    ];
   }
   return _defaultServerConfiguration;
@@ -374,7 +381,7 @@ typedef NS_OPTIONS(NSUInteger, FBSDKServerConfigurationManagerAppEventsFeatures)
 
 #ifdef DEBUG
       NSString *updateMessage = _serverConfiguration.updateMessage;
-      if (updateMessage && updateMessage.length > 0 && !_printedUpdateMessage) {
+      if (updateMessage && [updateMessage length] > 0 && !_printedUpdateMessage) {
         _printedUpdateMessage = YES;
         NSLog(@"%@", updateMessage);
       }
@@ -411,7 +418,7 @@ typedef NS_OPTIONS(NSUInteger, FBSDKServerConfigurationManagerAppEventsFeatures)
     NSDictionary *dialogConfigurationDictionary = [FBSDKTypeUtility dictionaryValue:dialogConfiguration];
     if (dialogConfigurationDictionary) {
       NSString *name = [FBSDKTypeUtility stringValue:dialogConfigurationDictionary[@"name"]];
-      if (name.length) {
+      if ([name length]) {
         NSURL *URL = [FBSDKTypeUtility URLValue:dialogConfigurationDictionary[@"url"]];
         NSArray *appVersions = [FBSDKTypeUtility arrayValue:dialogConfigurationDictionary[@"versions"]];
         dialogConfigurations[name] = [[FBSDKDialogConfiguration alloc] initWithName:name

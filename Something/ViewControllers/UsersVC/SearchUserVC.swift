@@ -17,12 +17,14 @@ class SearchUserVC: BaseVC {
     
     //MARK:- Variables
     var searchedUsers = [UserDetail]()
-    var isFromMessageVC = true
+    var searchedPins = [PinsSnapShot]()
+    var isFrom : String?
     
     //MARK:- VC Methods
     override func viewDidLoad() {
         super.viewDidLoad()
         searchTF.delegate = self
+        print("isFrom is " + isFrom!)
     }
     
     //MARK:- IBActions
@@ -38,28 +40,51 @@ class SearchUserVC: BaseVC {
 
 //MARK: -TbaleView Methods
 extension SearchUserVC: UITableViewDelegate,UITableViewDataSource{
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return searchedUsers.count
+        if self.isFrom == "home" {
+             return searchedPins.count
+        }
+        else {
+             return searchedUsers.count
+        }
+       
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "FollowCell") as! FollowCell
-        cell.selectionStyle = .none
-        cell.userNameLabel.text = searchedUsers[indexPath.row].name
-        let imageString = searchedUsers[indexPath.row].photoUrl
-        if let Url = URL(string: imageString){
-            cell.userImageView.sd_setImage(with: Url, placeholderImage: #imageLiteral(resourceName: "user"), options:[], completed: nil)
+        if self.isFrom == "home" {
+            
+            let cell = tableView.dequeueReusableCell(withIdentifier: "CreatedCell") as! CreatedCell
+            cell.selectionStyle = .none
+            cell.titleLabel.text = searchedPins[indexPath.row].title
+            cell.pinTypeLabel.text = searchedPins[indexPath.row].type
+            cell.ratingStar.value = CGFloat(searchedPins[indexPath.row].rating)
+            cell.ratingStar.isEnabled = false
+//            cell.checkInCount.text = "\(CreatePinVM.shared.userPins[indexPath.row].pin.visitedCount)" + " " + "check-ins"
+            
+            return cell
+        }
+        else  {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "FollowCell") as! FollowCell
+            cell.selectionStyle = .none
+            cell.userNameLabel.text = searchedUsers[indexPath.row].name
+            let imageString = searchedUsers[indexPath.row].photoUrl
+            if let Url = URL(string: imageString){
+                cell.userImageView.sd_setImage(with: Url, placeholderImage: #imageLiteral(resourceName: "user"), options:[], completed: nil)
+            }
+            
+            return cell
         }
         
-        return cell
+        
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         UserVM.shared.checkIsBlockedByMe(otherUser: searchedUsers[indexPath.row]) { (isBlocked) in
             if isBlocked{
                 self.showAlert(message: "You are not authorized to access this user")
-            }else{
-                if self.isFromMessageVC{
+            } else{
+                if self.isFrom == "message"{
                     
                     
                     let myid = UserDetail(name: DataManager.name!, email: DataManager.email!, photoUrl: DataManager.UserImageURL ?? "", uid: DataManager.userId!, fcmToken: DataManager.deviceToken!)
@@ -73,12 +98,10 @@ extension SearchUserVC: UITableViewDelegate,UITableViewDataSource{
                     let userDetail : UserDetail?
                     if tupleData.1.uid == DataManager.userId!{
                         userDetail = tupleData.2
-                        print("from searchUserVC________2")
-                        print(userDetail?.fcmToken)
+  
                     }else{
                         userDetail = tupleData.1
-                        print("from searchUserVC________1")
-                        print(userDetail?.fcmToken)
+ 
                     }
                     VC.roomId = tupleData.0
                     VC.userNameForNavigation = userDetail?.name ?? ""
@@ -88,7 +111,11 @@ extension SearchUserVC: UITableViewDelegate,UITableViewDataSource{
                     VC.userImage = userDetail?.photoUrl ?? ""
                     VC.otherUserDetail = userDetail
                     self.navigationController?.pushViewController(VC, animated: true)
-                }else{
+                }
+                else if self.isFrom == "home" {
+                    print("_____________ok_______________")
+                }
+                else {
                     let userDetail = self.searchedUsers[indexPath.row]
                     let VC = self.storyboard?.instantiateViewController(withIdentifier: "UserInfoVC") as! UserInfoVC
                     VC.userDetail = userDetail
@@ -108,8 +135,17 @@ extension SearchUserVC: UITableViewDelegate,UITableViewDataSource{
 extension SearchUserVC{
     
     func getUsers(){
+        print("________searching users____________")
         UserVM.shared.searchUsers(name: searchTF.text!.uppercased(), completion: {value in
             self.searchedUsers = UserVM.shared.searchedUses
+            self.usersTableView.reloadData()
+        })
+    }
+    
+    func getPinsForSearch(){
+        print("________searching pins____________")
+        CreatePinVM.shared.getSearchedPins(key: searchTF.text!, completion: {value in
+            self.searchedPins = CreatePinVM.shared.searchedpinsData
             self.usersTableView.reloadData()
         })
     }
@@ -118,14 +154,28 @@ extension SearchUserVC{
 
 extension SearchUserVC: UITextFieldDelegate{
     func textFieldDidEndEditing(_ textField: UITextField) {
-        getUsers()
+        if self.isFrom == "home" {
+            getPinsForSearch()
+           
+        }
+        else {
+            getUsers()
+        }
+//        getUsers()
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if textField.isEmpty{
             self.showAlert(message: "Please enter name for search.")
         }else{
-            getUsers()
+//            getUsers()
+            if self.isFrom == "home" {
+                getPinsForSearch()
+            }
+            else {
+                getUsers()
+            }
+            
         }
         return true
     }

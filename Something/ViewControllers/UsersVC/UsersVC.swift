@@ -53,7 +53,7 @@ class UsersVC: BaseVC {
     
     @IBAction func sreachbutton(_ sender: Any) {
         let VC = self.storyboard?.instantiateViewController(withIdentifier: "SearchUserVC") as! SearchUserVC
-        VC.isFromMessageVC = false
+        VC.isFrom = "users"
         self.navigationController?.pushViewController(VC, animated: true)
     }
     //MARK:- Custom Methods

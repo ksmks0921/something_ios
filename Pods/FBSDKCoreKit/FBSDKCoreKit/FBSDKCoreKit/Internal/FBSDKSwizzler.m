@@ -133,20 +133,10 @@ static void (*fb_swizzledMethods[MAX_ARGS - MIN_ARGS + 1])() = {fb_swizzledMetho
 
 @implementation FBSDKSwizzler
 
-+ (void)initialize
-{
-  swizzles = [NSMapTable mapTableWithKeyOptions:(NSPointerFunctionsOpaqueMemory | NSPointerFunctionsOpaquePersonality)
-                                    valueOptions:(NSPointerFunctionsStrongMemory | NSPointerFunctionsObjectPointerPersonality)];
-  [FBSDKSwizzler resolveConflict];
-}
-
-+ (void)resolveConflict
-{
-  Class swizzler = objc_lookUpClass("MPSwizzler");
-  if (swizzler) {
-    Method method = class_getClassMethod(swizzler, @selector(swizzleSelector:onClass:withBlock:named:));
-    Method newMethod = class_getClassMethod(self, @selector(swizzleSelector:onClass:withBlock:named:));
-    method_setImplementation(method, method_getImplementation(newMethod));
++ (void)setup {
+  if (!swizzles) {
+    swizzles = [NSMapTable mapTableWithKeyOptions:(NSPointerFunctionsOpaqueMemory | NSPointerFunctionsOpaquePersonality)
+                                     valueOptions:(NSPointerFunctionsStrongMemory | NSPointerFunctionsObjectPointerPersonality)];
   }
 }
 
@@ -191,25 +181,24 @@ static void (*fb_swizzledMethods[MAX_ARGS - MIN_ARGS + 1])() = {fb_swizzledMetho
 
 + (void)swizzleSelector:(SEL)aSelector onClass:(Class)aClass withBlock:(swizzleBlock)aBlock named:(NSString *)aName
 {
+    [FBSDKSwizzler setup];
     Method aMethod = class_getInstanceMethod(aClass, aSelector);
     if (aMethod) {
         uint numArgs = method_getNumberOfArguments(aMethod);
         if (numArgs >= MIN_ARGS && numArgs <= MAX_ARGS) {
 
-            BOOL isLocal = [FBSDKSwizzler isLocallyDefinedMethod:aMethod onClass:aClass];
+            BOOL isLocal = [self isLocallyDefinedMethod:aMethod onClass:aClass];
             IMP swizzledMethod = (IMP)fb_swizzledMethods[numArgs - 2];
             // Check whether the first parameter is integer
             if (4 == numArgs) {
-              char *type = method_copyArgumentType(aMethod, 2);
-              NSString *firstType = [NSString stringWithCString:type encoding:NSUTF8StringEncoding];
+              NSString *firstType = [NSString stringWithUTF8String:method_copyArgumentType(aMethod, 2)];
               NSString *integerTypes = @"islq";
-              if ([integerTypes containsString:firstType.lowercaseString]) {
+              if ([integerTypes containsString:[firstType lowercaseString]]) {
                 swizzledMethod = (IMP)fb_swizzleMethod_4_io;
               }
-              free(type);
             }
 
-            FBSDKSwizzle *swizzle = [FBSDKSwizzler swizzleForMethod:aMethod];
+            FBSDKSwizzle *swizzle = [self swizzleForMethod:aMethod];
 
             if (isLocal) {
                 if (!swizzle) {
@@ -220,7 +209,7 @@ static void (*fb_swizzledMethods[MAX_ARGS - MIN_ARGS + 1])() = {fb_swizzledMetho
 
                     // Create and add the swizzle
                     swizzle = [[FBSDKSwizzle alloc] initWithBlock:aBlock named:aName forClass:aClass selector:aSelector originalMethod:originalMethod withNumArgs:numArgs];
-                    [FBSDKSwizzler setSwizzle:swizzle forMethod:aMethod];
+                    [self setSwizzle:swizzle forMethod:aMethod];
 
                 } else {
                     [swizzle.blocks setObject:aBlock forKey:aName];
@@ -239,7 +228,7 @@ static void (*fb_swizzledMethods[MAX_ARGS - MIN_ARGS + 1])() = {fb_swizzledMetho
                 }
 
                 FBSDKSwizzle *newSwizzle = [[FBSDKSwizzle alloc] initWithBlock:aBlock named:aName forClass:aClass selector:aSelector originalMethod:originalMethod withNumArgs:numArgs];
-                [FBSDKSwizzler setSwizzle:newSwizzle forMethod:newMethod];
+                [self setSwizzle:newSwizzle forMethod:newMethod];
             }
         }
     }
@@ -248,10 +237,10 @@ static void (*fb_swizzledMethods[MAX_ARGS - MIN_ARGS + 1])() = {fb_swizzledMetho
 + (void)unswizzleSelector:(SEL)aSelector onClass:(Class)aClass
 {
     Method aMethod = class_getInstanceMethod(aClass, aSelector);
-    FBSDKSwizzle *swizzle = [FBSDKSwizzler swizzleForMethod:aMethod];
+    FBSDKSwizzle *swizzle = [self swizzleForMethod:aMethod];
     if (swizzle) {
         method_setImplementation(aMethod, swizzle.originalMethod);
-        [FBSDKSwizzler removeSwizzleForMethod:aMethod];
+        [self removeSwizzleForMethod:aMethod];
     }
 }
 
@@ -262,14 +251,14 @@ static void (*fb_swizzledMethods[MAX_ARGS - MIN_ARGS + 1])() = {fb_swizzledMetho
 + (void)unswizzleSelector:(SEL)aSelector onClass:(Class)aClass named:(NSString *)aName
 {
     Method aMethod = class_getInstanceMethod(aClass, aSelector);
-    FBSDKSwizzle *swizzle = [FBSDKSwizzler swizzleForMethod:aMethod];
+    FBSDKSwizzle *swizzle = [self swizzleForMethod:aMethod];
     if (swizzle) {
         if (aName) {
             [swizzle.blocks removeObjectForKey:aName];
         }
         if (!aName || swizzle.blocks.count == 0) {
             method_setImplementation(aMethod, swizzle.originalMethod);
-            [FBSDKSwizzler removeSwizzleForMethod:aMethod];
+            [self removeSwizzleForMethod:aMethod];
         }
     }
 }
@@ -302,7 +291,7 @@ static void (*fb_swizzledMethods[MAX_ARGS - MIN_ARGS + 1])() = {fb_swizzledMetho
         self.selector = aSelector;
         self.numArgs = numArgs;
         self.originalMethod = aMethod;
-        [_blocks setObject:aBlock forKey:aName];
+        [self.blocks setObject:aBlock forKey:aName];
     }
     return self;
 }
@@ -311,9 +300,9 @@ static void (*fb_swizzledMethods[MAX_ARGS - MIN_ARGS + 1])() = {fb_swizzledMetho
 {
     NSString *descriptors = @"";
     NSString *key;
-    NSEnumerator *keys = [_blocks keyEnumerator];
+    NSEnumerator *keys = [self.blocks keyEnumerator];
     while ((key = [keys nextObject])) {
-        descriptors = [descriptors stringByAppendingFormat:@"\t%@ : %@\n", key, [_blocks objectForKey:key]];
+        descriptors = [descriptors stringByAppendingFormat:@"\t%@ : %@\n", key, [self.blocks objectForKey:key]];
     }
     return [NSString stringWithFormat:@"Swizzle on %@::%@ [\n%@]", NSStringFromClass(self.class), NSStringFromSelector(self.selector), descriptors];
 }
