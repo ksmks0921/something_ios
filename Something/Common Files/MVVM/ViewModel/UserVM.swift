@@ -62,7 +62,9 @@ class UserVM{
                                   FireBaseConstant.kName: DataManager.name!,
                                   FireBaseConstant.kNameForSearch: DataManager.name!.uppercased(),
                                   FireBaseConstant.kPhotoUrl:"",
-                                  FireBaseConstant.kUid: DataManager.userId!]
+                                  FireBaseConstant.kUid: DataManager.userId!,
+                                  FireBaseConstant.kToken: DataManager.deviceToken!,
+                ]
                 self.ref.child(UserNode).child(DataManager.userId!).setValue(updateUser)                
                 self.ref.child(UserFcmIds).child(DataManager.userId!).child(DataManager.deviceToken!).setValue(true)
                 response(true, "Registered Successfully.", nil)
@@ -81,12 +83,35 @@ class UserVM{
                     let childDict = childSnapshot.value as! NSDictionary
                     let nameForSearch = childDict[FireBaseConstant.kNameForSearch] as? String ?? ""
                     if nameForSearch.contains(name){
+                        
                         let email = childDict[FireBaseConstant.kEmail] as? String ?? ""
                         let name1 = childDict[FireBaseConstant.kName] as? String ?? ""
                         let photoUrl = childDict[FireBaseConstant.kPhotoUrl] as? String ?? ""
                         let uid = childDict[FireBaseConstant.kUid] as? String ?? ""
                         let fcmToken = childDict[FireBaseConstant.kToken] as? String ?? ""
+//                        var fcmToken = String()
+//
+//                        self.ref.child(UserFcmIds).child(uid).observe(.value) { (snap) in
+//
+//                                if let valuedict = snap.value as? NSDictionary{
+//                                    let fcmIds = valuedict.allKeys
+//                                    for key in fcmIds{
+//                                        if key is String{
+//
+//                                            fcmToken = key as! String
+//                                            print("________opoos")
+//                                            print(fcmToken)
+//
+//
+//                                        }
+//                                    }
+//                                }
+//                        }
                         self.searchedUses.append(UserDetail(name: name1, email: email, photoUrl: photoUrl, uid: uid, fcmToken: fcmToken))
+                        
+                        
+                        
+                        
                     }
                 }
             }

@@ -46,21 +46,22 @@ class ChatVM{
         }
         let roomId = firstUid.uid + secondUid.uid
         
+     
         let updateUser1 = [FireBaseConstant.kEmail: firstUid.email,
-                          FireBaseConstant.kName: firstUid.name,
-                          FireBaseConstant.kNameForSearch: firstUid.name.uppercased(),
-                          FireBaseConstant.kPhotoUrl:firstUid.photoUrl,
-                          FireBaseConstant.kUid: firstUid.uid,
-                          FireBaseConstant.kToken: firstUid.fcmToken,]
-        let updateUser2 = [FireBaseConstant.kEmail: secondUid.email,
-                           FireBaseConstant.kName: secondUid.name,
-                           FireBaseConstant.kNameForSearch: secondUid.name.uppercased(),
-                           FireBaseConstant.kPhotoUrl:secondUid.photoUrl,
-                           FireBaseConstant.kUid: secondUid.uid,
-                           FireBaseConstant.kToken: secondUid.fcmToken]
+         FireBaseConstant.kName: firstUid.name,
+         FireBaseConstant.kNameForSearch: firstUid.name.uppercased(),
+         FireBaseConstant.kPhotoUrl:firstUid.photoUrl,
+         FireBaseConstant.kUid: firstUid.uid]
+        self.ref.child(Chats).child(roomId).child(FireBaseConstant.kUser1).setValue(updateUser1)
         
-        ref.child(Chats).child(roomId).child(FireBaseConstant.kUser1).setValue(updateUser1)
-        ref.child(Chats).child(roomId).child(FireBaseConstant.kUser2).setValue(updateUser2)
+        let updateUser2 = [FireBaseConstant.kEmail: secondUid.email,
+        FireBaseConstant.kName: secondUid.name,
+        FireBaseConstant.kNameForSearch: secondUid.name.uppercased(),
+        FireBaseConstant.kPhotoUrl:secondUid.photoUrl,
+        FireBaseConstant.kUid: secondUid.uid]
+        self.ref.child(Chats).child(roomId).child(FireBaseConstant.kUser2).setValue(updateUser2)       
+       
+        
         return (roomId,user1,user2)
         
     }
@@ -99,49 +100,66 @@ class ChatVM{
                                 let name1 = user1Dict[FireBaseConstant.kName] as? String ?? ""
                                 let photoUrl = user1Dict[FireBaseConstant.kPhotoUrl] as? String ?? ""
                                 let uid = user1Dict[FireBaseConstant.kUid] as? String ?? ""
-                                var fcmToken = String()
+                                var fcmToken_user1 = String()
                          
                                 
-                                self.ref.child(UserFcmIds).observeSingleEvent(of: .value, with: { (snapshot) in
-                                  // Get user value
-                                    let value  = snapshot.value as? NSDictionary
-                                    fcmToken = value?[uid] as? String ?? ""
-                                    print("____________here____________")
-                                    print(uid)
-                                  }) { (error) in
-                                    print(error.localizedDescription)
+                                self.ref.child(UserFcmIds).child(uid).observe(.value) { (snap) in
+                                    if let valuedict = snap.value as? NSDictionary{
+                                        let fcmIds = valuedict.allKeys
+                                        for key in fcmIds{
+                                            if key is String{
+                                                fcmToken_user1 = key as! String
+                                                print("here________user1_________")
+                                                print(fcmToken_user1)
+                                                user1 = UserDetail(name: name1, email: email, photoUrl: photoUrl, uid: uid, fcmToken: fcmToken_user1)
+                                                var user2 : UserDetail?
+                                                   if let user2Dict = childValues[FireBaseConstant.kUser2] as? NSDictionary{
+                                                       let email = user2Dict[FireBaseConstant.kEmail] as? String ?? ""
+                                                       let name1 = user2Dict[FireBaseConstant.kName] as? String ?? ""
+                                                       let photoUrl = user2Dict[FireBaseConstant.kPhotoUrl] as? String ?? ""
+                                                       let uid = user2Dict[FireBaseConstant.kUid] as? String ?? ""
+                                                       var fcmToken_user2 = String()
+                                                       
+                                                
+                                                     
+                                                       self.ref.child(UserFcmIds).child(uid).observe(.value) { (snap) in
+                                                           
+                                                               if let valuedict = snap.value as? NSDictionary{
+                                                                   let fcmIds = valuedict.allKeys
+                                                                   for key in fcmIds{
+                                                                       if key is String{
+
+                                                                           fcmToken_user2 = key as! String
+                                                                           print("here_________user2________")
+                                                                           print(fcmToken_user2)
+                                                                           user2 = UserDetail(name: name1, email: email, photoUrl: photoUrl, uid: uid, fcmToken: fcmToken_user2)
+                                                                           if let lastMsgDict = childValues[FireBaseConstant.klastMsg] as? NSDictionary{
+                                                                               let date = lastMsgDict[FireBaseConstant.kDate] as? Int ?? 0
+                                                                               let message = lastMsgDict[FireBaseConstant.kMessage] as? String ?? ""
+                                                                               let senderId = lastMsgDict[FireBaseConstant.kUserId] as! String
+                                                                               lastMessage = LastMsg(date: date, message: message, senderId: senderId)
+                                                                               self.chatList.append(ChatList(lastMsg: lastMessage, user1: user1!, user2: user2!,roomId: roomId))
+                                                                           }
+                                                                       }
+                                                                   }
+                                                               }
+                                                       }
+                                            }
+                                        }
+                                    }
                                 }
+
                                 
-                                user1 = UserDetail(name: name1, email: email, photoUrl: photoUrl, uid: uid, fcmToken: fcmToken)
                                 
                             }
-                            var user2 : UserDetail?
-                            if let user2Dict = childValues[FireBaseConstant.kUser2] as? NSDictionary{
-                                let email = user2Dict[FireBaseConstant.kEmail] as? String ?? ""
-                                let name1 = user2Dict[FireBaseConstant.kName] as? String ?? ""
-                                let photoUrl = user2Dict[FireBaseConstant.kPhotoUrl] as? String ?? ""
-                                let uid = user2Dict[FireBaseConstant.kUid] as? String ?? ""
-                                var fcmToken = String()
-                                self.ref.child(UserFcmIds).observeSingleEvent(of: .value, with: { (snapshot) in
-                                                                  // Get user value
-                                    let value  = snapshot.value as? NSDictionary
-                                    fcmToken = value?[uid] as? String ?? ""
-                                    print("____________here____________")
-                                    print(uid)
-                                   
-                                                                  // ...
-                                                                  }) { (error) in
-                                                                    print(error.localizedDescription)
-                                                                }
-                                user2 = UserDetail(name: name1, email: email, photoUrl: photoUrl, uid: uid, fcmToken: fcmToken)
+                            
+                              
+                              
+                              
+                            
+                                
                             }
-                            if let lastMsgDict = childValues[FireBaseConstant.klastMsg] as? NSDictionary{
-                                let date = lastMsgDict[FireBaseConstant.kDate] as? Int ?? 0
-                                let message = lastMsgDict[FireBaseConstant.kMessage] as? String ?? ""
-                                let senderId = lastMsgDict[FireBaseConstant.kUserId] as! String
-                                lastMessage = LastMsg(date: date, message: message, senderId: senderId)
-                                self.chatList.append(ChatList(lastMsg: lastMessage, user1: user1!, user2: user2!,roomId: roomId))
-                            }
+                            
                             
                         }
                     }

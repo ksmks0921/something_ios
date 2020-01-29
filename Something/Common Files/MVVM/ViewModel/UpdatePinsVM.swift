@@ -279,16 +279,16 @@ class UpdatePinVM {
                             self.ref.child(UserNotifications).child(DataManager.userId!).childByAutoId().setValue(updateNotification)
                             self.ref.child(UserMissedPins).child(DataManager.userId!).updateChildValues([pinId : true])
                             self.fireLocalNotificiation(title: title, body: "\(title) is not so far away.")
-//                            self.ref.child(UserFcmIds).child(DataManager.userId!).observe(.value) { (snap) in
-//                                if let valuedict = snap.value as? NSDictionary{
-//                                    let fcmIds = valuedict.allKeys
-//                                    for key in fcmIds{
-//                                        if key is String{
-//                                            self.sendNotification(senderId: key as! String, title: title, body: "\(title) is not so far away.")
-//                                        }
-//                                    }
-//                                }
-//                            }
+                            self.ref.child(UserFcmIds).child(DataManager.userId!).observe(.value) { (snap) in
+                                if let valuedict = snap.value as? NSDictionary{
+                                    let fcmIds = valuedict.allKeys
+                                    for key in fcmIds{
+                                        if key is String{
+                                            self.sendNotification(senderId: key as! String, title: title, body: "\(title) is not so far away.")
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }
                 }

@@ -84,12 +84,16 @@ extension MessagesVC: UITableViewDataSource,UITableViewDelegate{
         let userDetail : UserDetail?
         if chatList[indexPath.row].user1.uid == DataManager.userId!{
             userDetail = chatList[indexPath.row].user2
+            print("user2************")
         }else{
             userDetail = chatList[indexPath.row].user1
+             print("user1*************")
         }
         VC.userNameForNavigation = userDetail?.name ?? ""
         VC.otherUserId = userDetail?.uid ?? ""
-        VC.otherUserToken = userDetail?.fcmToken ?? ""
+        print("___here____")
+        print(userDetail?.fcmToken ?? "")
+        VC.otherUserToken = userDetail?.fcmToken ?? "otherUserToken"
         VC.roomId = chatList[indexPath.row].roomId
         VC.userImage =  userDetail?.photoUrl ?? ""
         VC.otherUserDetail = userDetail

@@ -114,8 +114,19 @@ extension ChatVC {
         ChatVM.shared.sendLastMessage(roomId: roomId, message: massageTF.text!, senderId: DataManager.userId!, receiverId: otherUserId)
         
         let sender = PushNotificationSender()
-        sender.sendPushNotification(to: "cVAq8suHDRU:APA91bFfzdkH1K37b7PVHnK6RZHsrzF2D9gt_9-kXSTWx51r03c3ZtuueQ-6zTMX7CAUk4qJnq0036bku5FFaz7HC0SuhW3TABRTZvjOeMjFBRXKUyOhCNzQw62cn_2BYuIXue1q8ngg", title: "Notification title", body: "Notification body")
-
+        sender.sendPushNotification(to: otherUserToken!, title: "Notification title", body: "Notification body")
+        
+//        self.ref.child(UserFcmIds).child(DataManager.userId!).observe(.value) { (snap) in
+//            if let valuedict = snap.value as? NSDictionary{
+//                let fcmIds = valuedict.allKeys
+//                for key in fcmIds{
+//                    if key is String{
+//                        self.sendNotification(senderId: key as! String, title: title, body: "\(title) is not so far away.")
+//                    }
+//                }
+//            }
+//        }
+        
         massageTF.text = ""
         print("dddddddd")
     }

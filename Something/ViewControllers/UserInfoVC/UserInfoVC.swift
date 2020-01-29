@@ -91,6 +91,7 @@ class UserInfoVC: BaseVC {
         let VC = self.storyboard?.instantiateViewController(withIdentifier: "ChatVC") as! ChatVC
         VC.userNameForNavigation = userDetail?.name ?? ""
         VC.otherUserId = userDetail?.uid ?? ""
+        VC.otherUserToken = userDetail?.fcmToken ?? "otherUserToken"
         let myid = UserDetail(name: DataManager.name!, email: DataManager.email!, photoUrl: DataManager.UserImageURL ?? "", uid: DataManager.userId!, fcmToken: DataManager.deviceToken!)
         let room = ChatVM.shared.createChatRoom(user1: myid, user2: userDetail!)
         VC.roomId = room.0
@@ -103,9 +104,16 @@ class UserInfoVC: BaseVC {
         if followButton.imageView?.image == #imageLiteral(resourceName: "user-with-minus-sign"){
             FollowVM.shared.unSuscribeUser(userId: userDetail!.uid)
             followButton.setImage(#imageLiteral(resourceName: "user-male-black-shape-with-plus-sign"), for: .normal)
+            let sender = PushNotificationSender()
+            let somebody = userDetail!.name
+            sender.sendPushNotification(to: userDetail!.fcmToken, title: "Unfollowing!", body: "\(somebody) is unfollowed you!")
+           
         }else{
             FollowVM.shared.suscribeUser(userId: userDetail!.uid)
             followButton.setImage(#imageLiteral(resourceName: "user-with-minus-sign"), for: .normal)
+            let sender = PushNotificationSender()
+            let somebody = userDetail!.name
+            sender.sendPushNotification(to: userDetail!.fcmToken, title: "Following!", body: "\(somebody) is followed you!")
         }
         
         

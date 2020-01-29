@@ -64,18 +64,27 @@ extension SearchUserVC: UITableViewDelegate,UITableViewDataSource{
                     
                     let myid = UserDetail(name: DataManager.name!, email: DataManager.email!, photoUrl: DataManager.UserImageURL ?? "", uid: DataManager.userId!, fcmToken: DataManager.deviceToken!)
                     let otherUser = self.searchedUsers[indexPath.row]
+                    
+                    
+                    
                     let roomId = ChatVM.shared.createChatRoom(user1: otherUser, user2: myid)
                     let VC = self.storyboard?.instantiateViewController(withIdentifier: "ChatVC") as! ChatVC
                     let tupleData = roomId
                     let userDetail : UserDetail?
                     if tupleData.1.uid == DataManager.userId!{
                         userDetail = tupleData.2
+                        print("from searchUserVC________2")
+                        print(userDetail?.fcmToken)
                     }else{
                         userDetail = tupleData.1
+                        print("from searchUserVC________1")
+                        print(userDetail?.fcmToken)
                     }
                     VC.roomId = tupleData.0
                     VC.userNameForNavigation = userDetail?.name ?? ""
                     VC.otherUserId = userDetail?.uid ?? ""
+                    VC.otherUserToken = userDetail?.fcmToken ?? "otherUserToken"
+                    
                     VC.userImage = userDetail?.photoUrl ?? ""
                     VC.otherUserDetail = userDetail
                     self.navigationController?.pushViewController(VC, animated: true)
