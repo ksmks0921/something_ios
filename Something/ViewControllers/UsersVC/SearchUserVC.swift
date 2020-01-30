@@ -14,6 +14,7 @@ class SearchUserVC: BaseVC {
     
     @IBOutlet weak var searchTF: UITextField!
     @IBOutlet weak var usersTableView: UITableView!
+    @IBOutlet weak var custom_title: UILabel!
     
     //MARK:- Variables
     var searchedUsers = [UserDetail]()
@@ -24,6 +25,14 @@ class SearchUserVC: BaseVC {
     override func viewDidLoad() {
         super.viewDidLoad()
         searchTF.delegate = self
+        
+        if isFrom == "home" {
+            let nib = UINib.init(nibName: "CreatedCell", bundle: nil)
+            self.usersTableView.register(nib, forCellReuseIdentifier: "CreatedCell")
+            custom_title.text = "Pins"
+  
+        }
+       
         print("isFrom is " + isFrom!)
     }
     
@@ -80,53 +89,63 @@ extension SearchUserVC: UITableViewDelegate,UITableViewDataSource{
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        UserVM.shared.checkIsBlockedByMe(otherUser: searchedUsers[indexPath.row]) { (isBlocked) in
-            if isBlocked{
-                self.showAlert(message: "You are not authorized to access this user")
-            } else{
-                if self.isFrom == "message"{
-                    
-                    
-                    let myid = UserDetail(name: DataManager.name!, email: DataManager.email!, photoUrl: DataManager.UserImageURL ?? "", uid: DataManager.userId!, fcmToken: DataManager.deviceToken!)
-                    let otherUser = self.searchedUsers[indexPath.row]
-                    
-                    
-                    
-                    let roomId = ChatVM.shared.createChatRoom(user1: otherUser, user2: myid)
-                    let VC = self.storyboard?.instantiateViewController(withIdentifier: "ChatVC") as! ChatVC
-                    let tupleData = roomId
-                    let userDetail : UserDetail?
-                    if tupleData.1.uid == DataManager.userId!{
-                        userDetail = tupleData.2
-  
-                    }else{
-                        userDetail = tupleData.1
- 
-                    }
-                    VC.roomId = tupleData.0
-                    VC.userNameForNavigation = userDetail?.name ?? ""
-                    VC.otherUserId = userDetail?.uid ?? ""
-                    VC.otherUserToken = userDetail?.fcmToken ?? "otherUserToken"
-                    
-                    VC.userImage = userDetail?.photoUrl ?? ""
-                    VC.otherUserDetail = userDetail
-                    self.navigationController?.pushViewController(VC, animated: true)
-                }
-                else if self.isFrom == "home" {
-                    print("_____________ok_______________")
-                }
-                else {
-                    let userDetail = self.searchedUsers[indexPath.row]
-                    let VC = self.storyboard?.instantiateViewController(withIdentifier: "UserInfoVC") as! UserInfoVC
-                    VC.userDetail = userDetail
-                    self.navigationController?.pushViewController(VC, animated: true)
-                    
-                }
-            }
+        if self.isFrom == "home" {
+            let VC = self.storyboard?.instantiateViewController(withIdentifier: "HomeVC") as! HomeVC
+            VC.searchedArray = searchedPins
+            VC.isFromSearchPinVC = true
+            VC.searched_pin_index = indexPath.row
+            self.navigationController?.pushViewController(VC, animated: true)
+        }
+        else {
+            
+            UserVM.shared.checkIsBlockedByMe(otherUser: searchedUsers[indexPath.row]) { (isBlocked) in
+                       if isBlocked{
+                           self.showAlert(message: "You are not authorized to access this user")
+                       } else{
+                           if self.isFrom == "message"{
+                               
+                               
+                               let myid = UserDetail(name: DataManager.name!, email: DataManager.email!, photoUrl: DataManager.UserImageURL ?? "", uid: DataManager.userId!, fcmToken: DataManager.deviceToken!)
+                               let otherUser = self.searchedUsers[indexPath.row]
+                               
+                               
+                               
+                               let roomId = ChatVM.shared.createChatRoom(user1: otherUser, user2: myid)
+                               let VC = self.storyboard?.instantiateViewController(withIdentifier: "ChatVC") as! ChatVC
+                               let tupleData = roomId
+                               let userDetail : UserDetail?
+                               if tupleData.1.uid == DataManager.userId!{
+                                   userDetail = tupleData.2
+             
+                               }else{
+                                   userDetail = tupleData.1
+            
+                               }
+                               VC.roomId = tupleData.0
+                               VC.userNameForNavigation = userDetail?.name ?? ""
+                               VC.otherUserId = userDetail?.uid ?? ""
+                               VC.otherUserToken = userDetail?.fcmToken ?? "otherUserToken"
+                               
+                               VC.userImage = userDetail?.photoUrl ?? ""
+                               VC.otherUserDetail = userDetail
+                               self.navigationController?.pushViewController(VC, animated: true)
+                           }
+                           
+                           else {
+                               let userDetail = self.searchedUsers[indexPath.row]
+                               let VC = self.storyboard?.instantiateViewController(withIdentifier: "UserInfoVC") as! UserInfoVC
+                               VC.userDetail = userDetail
+                               
+                               self.navigationController?.pushViewController(VC, animated: true)
+                               
+                           }
+                       }
+                   }
+                   
+                   
+               }
         }
         
-        
-    }
     
     
 }
@@ -161,14 +180,13 @@ extension SearchUserVC: UITextFieldDelegate{
         else {
             getUsers()
         }
-//        getUsers()
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if textField.isEmpty{
             self.showAlert(message: "Please enter name for search.")
         }else{
-//            getUsers()
+
             if self.isFrom == "home" {
                 getPinsForSearch()
             }

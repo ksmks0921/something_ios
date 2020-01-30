@@ -30,22 +30,24 @@ class HomeVC: BaseVC {
     var isMissedPin = false
     var ref : DatabaseReference!
     var filteredArray = [PinsSnapShot]()
+    var searchedArray = [PinsSnapShot]()
+    var isFromSearchPinVC = false
     var zoom = 15.0
     var count_pin : Int!
+    var searched_pin_index : Int!
     var authStateDidChangeListenerHandle: AuthStateDidChangeListenerHandle?
-    
+ 
     
     
     //MARK:- VC Methods
     override func viewDidLoad() {
         
         super.viewDidLoad()
-        print("++++++++++++++FCM token: \(DataManager.deviceToken  ?? "")")
+
         if DataManager.isLogin! {
             self.ref = Database.database().reference()
             self.updatePins()
-            
-//            print(DataManager.deviceToken ?? "ccc")
+
         }
         else {
             Auth.auth().signInAnonymously() { (result, error) in
@@ -62,26 +64,7 @@ class HomeVC: BaseVC {
             }
         }
         
-//        guard let authentication = user.authentication else { return }
-//        let credential = GoogleAuthProvider.credential(withIDToken: authentication.idToken,
-//                                                       accessToken: authentication.accessToken)
-//        user.link(with: credential) { (user, error) in
-//            if let error = error {
-//                // ...
-//                print(error.localizedDescription)
-//                return
-//            }
-//            // User is signed in with google
-//            if let user = user {
-//                // The user's ID, unique to the Firebase project.
-//                // Do NOT use this value to authenticate with your backend server,
-//                // if you have one. Use getTokenWithCompletion:completion: instead.
-//                let uid = user.uid
-//                let email = user.email
-//                let photoURL = user.photoURL
-//                // ...
-//            }
-//        }
+
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.updateDetail(_ :)), name: NSNotification.Name.init("FirstUpdate"), object: nil)
         
@@ -105,29 +88,59 @@ class HomeVC: BaseVC {
     func updatePins(){
         
     
-        mapView.camera = GMSCameraPosition.camera(withTarget: globleCurrentLocation, zoom: 15)
-        CreatePinVM.shared.getPins(completion: { success in
+        
+        
+        if self.isFromSearchPinVC == true {
+
             
-            self.filteredArray = CreatePinVM.shared.pinsData
+            self.filteredArray.removeAll()
+            self.filteredArray = self.searchedArray
+            let searchedPincoordinate = self.filteredArray[searched_pin_index].coordinates
+            let search_pin_camera = GMSCameraPosition.camera(withLatitude: searchedPincoordinate.lat, longitude: searchedPincoordinate.lon, zoom: self.mapView.camera.zoom)
+            mapView.animate(to: search_pin_camera)
             self.count_pin = self.filteredArray.count
-            print("The count of pins nearby is " + String(self.count_pin))
-            
+            print("The count of searched pins is " + String(self.count_pin))
             if self.filteredArray.count > 0{
-                self.setMArkers(selectedPin: self.filteredArray[0])
+                self.setMArkers(selectedPin: self.filteredArray[searched_pin_index])
             }
-//            self.showHideButton.isHidden = false
             self.colectionView.reloadData()
             
-            if DataManager.isLogin! {
-                if self.filteredArray.count > self.count_pin {
-                    let image = UIImage(named:"notification_red.png")
-                    
-                    self.notificationBtn.setImage(image, for: .normal)
-                }
-                
-            }
+//            if DataManager.isLogin! {
+//               if self.filteredArray.count > self.count_pin {
+//                   let image = UIImage(named:"notification_red.png")
+//
+//                   self.notificationBtn.setImage(image, for: .normal)
+//               }
+//
+//            }
+        }
+        else {
+            mapView.camera = GMSCameraPosition.camera(withTarget: globleCurrentLocation, zoom: 15)
+            CreatePinVM.shared.getPins(completion: { success in
+                            
+                  
+                        self.filteredArray.removeAll()
+                        self.filteredArray = CreatePinVM.shared.pinsData
 
-        })
+                        self.count_pin = self.filteredArray.count
+                        print("The count of pins nearby is " + String(self.count_pin))
+                        if self.filteredArray.count > 0{
+                            self.setMArkers(selectedPin: self.filteredArray[0])
+                        }
+                        self.colectionView.reloadData()
+                        if DataManager.isLogin! {
+                            if self.filteredArray.count > self.count_pin {
+                                let image = UIImage(named:"notification_red.png")
+                                
+                                self.notificationBtn.setImage(image, for: .normal)
+                            }
+                            
+                        }
+
+                    })
+        }
+        
+        
     }
     
     
@@ -239,21 +252,7 @@ class HomeVC: BaseVC {
         
         }
         else {
-            let alert = UIAlertController(title: "Alert", message: "You have to create an account to do this action!", preferredStyle: UIAlertController.Style.alert)
-            
-            // add the actions (buttons)
-            
-            alert.addAction(UIAlertAction(title: "Create", style: UIAlertAction.Style.cancel, handler: {action in
-                
-                let VC = self.storyboard?.instantiateViewController(withIdentifier: "EmailVC") as! EmailVC
-                self.navigationController?.pushViewController(VC, animated: true)
-//                self.present(VC, animated: true, completion: nil)
-                
-            }))
-            
-            alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertAction.Style.default, handler: nil))
-            // show the alert
-            self.present(alert, animated: true, completion: nil)
+            showAlert()
         }
         
     }

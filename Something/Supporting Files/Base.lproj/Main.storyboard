@@ -2521,6 +2521,7 @@
                         <viewLayoutGuide key="safeArea" id="dd3-9U-zjA"/>
                     </view>
                     <connections>
+                        <outlet property="custom_title" destination="9sp-g8-WDC" id="vxt-IO-Mgv"/>
                         <outlet property="searchTF" destination="69C-8v-vkq" id="t18-fM-0PC"/>
                         <outlet property="usersTableView" destination="Hte-zg-EH6" id="VFM-gx-Ex4"/>
                     </connections>
