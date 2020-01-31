@@ -202,8 +202,11 @@ class CreatePinVM{
             self.searchedpinsData.removeAll()
             while let rest = children.nextObject() as? DataSnapshot {
                 if let restDict = rest.value as? NSDictionary{
+                    
                     let title_for_search = restDict[FireBaseConstant.kTitle] as? String ?? ""
-                    if title_for_search.contains(key){
+                    let description_for_search = restDict[FireBaseConstant.kDescription] as? String ?? ""
+                   
+                    if title_for_search.contains(key) || description_for_search.contains(key) {
                         
                         let creationTime = restDict[FireBaseConstant.kCreationTime] as? Int ?? 0
                             let description = restDict[FireBaseConstant.kDescription] as? String ?? ""

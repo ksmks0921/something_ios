@@ -53,8 +53,8 @@ class PinInfoMainVC: BaseVC {
     var isVisitedPin = false
 //    let icons1 = ["information","location_right_icon-1","chat","users-2"]
 //    let icons = ["PinLocationInfo","PinCheckedInInfo","PinsComment","PinFeeds"]
-    let icons1 = ["information","chat"]
-    let icons = ["PinLocationInfo","PinsComment"]
+    let icons1 = ["information","chat", "investor"]
+    let icons = ["PinLocationInfo","PinsComment", "Sponser"]
     var currentLocation = CLLocationCoordinate2D(latitude: 0.0, longitude: 0.0)
     
     
@@ -82,7 +82,7 @@ class PinInfoMainVC: BaseVC {
         pagingViewController.selectedTextColor = UIColor(red: 0.14, green: 0.77, blue: 0.85, alpha: 1)
         pagingViewController.indicatorColor = UIColor(red: 0.14, green: 0.77, blue: 0.85, alpha: 1)
         pagingViewController.dataSource = self
-         pagingViewController.select(pagingItem: IconItem(icon: icons1[0], index: 0))
+        pagingViewController.select(pagingItem: IconItem(icon: icons1[0], index: 0))
         
         // Add the paging view controller as a child view controller
         // and contrain it to all edges.
@@ -152,13 +152,11 @@ extension PinInfoMainVC: PagingViewControllerDataSource {
             VC.currentLocation = currentLocation
             return VC
         }
-//        if viewControler == "PinCheckedInInfo"{
-//            let VC = self.storyboard?.instantiateViewController(withIdentifier: "PinCheckedInInfo") as! PinCheckedInInfo
-//            VC.pinDetail = pinDetail
-//            VC.isMissedPin = self.isMissedPin
-//            VC.isVisitedPin = self.isVisitedPin
-//            return VC
-//        }
+        else if viewControler == "Sponser"{
+            let VC = self.storyboard?.instantiateViewController(withIdentifier: "uploadSponserVC") as! uploadSponserVC
+         
+            return VC
+        }
         else {
             let VC = self.storyboard?.instantiateViewController(withIdentifier: "PinsComment") as! PinsComment
             VC.isMissedPin = self.isMissedPin

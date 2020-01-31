@@ -111,7 +111,7 @@ extension ChatVC {
         ChatVM.shared.sendLastMessage(roomId: roomId, message: massageTF.text!, senderId: DataManager.userId!, receiverId: otherUserId)
         
         let sender = PushNotificationSender()
-        sender.sendPushNotification(to: otherUserToken!, title: "Notification title", body: "Notification body")
+        sender.sendPushNotification(to: otherUserToken!, title: "Message", body: "There is a message from \(self.userName)")
         
         massageTF.text = ""
 

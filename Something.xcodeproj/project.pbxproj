@@ -90,6 +90,8 @@
 		37D9D38C20546B2F00CE61F6 /* MyChatCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37D9D38B20546B2F00CE61F6 /* MyChatCell.swift */; };
 		6774293723DFA600007A87A6 /* PushNotificationSender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6774293623DFA600007A87A6 /* PushNotificationSender.swift */; };
 		6774293923DFA994007A87A6 /* PushNotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6774293823DFA994007A87A6 /* PushNotificationManager.swift */; };
+		679312C023E46421007FB2B1 /* uploadSponserVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 679312BF23E46421007FB2B1 /* uploadSponserVC.swift */; };
+		679312C323E4AD04007FB2B1 /* AlertService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 679312C223E4AD04007FB2B1 /* AlertService.swift */; };
 		67A99C9423E26DD200B009F2 /* CreatedCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 67A99C9323E26DD200B009F2 /* CreatedCell.xib */; };
 		E8A5BAB7FFF353538F609B2D /* Pods_SomethingTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF50B21F724ACDCE78C03A88 /* Pods_SomethingTests.framework */; };
 /* End PBXBuildFile section */
@@ -216,6 +218,8 @@
 		675DD17823B684350009F6CC /* Something-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Something-Bridging-Header.h"; sourceTree = "<group>"; };
 		6774293623DFA600007A87A6 /* PushNotificationSender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationSender.swift; sourceTree = "<group>"; };
 		6774293823DFA994007A87A6 /* PushNotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationManager.swift; sourceTree = "<group>"; };
+		679312BF23E46421007FB2B1 /* uploadSponserVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = uploadSponserVC.swift; path = LocationInfo/uploadSponserVC.swift; sourceTree = "<group>"; };
+		679312C223E4AD04007FB2B1 /* AlertService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertService.swift; sourceTree = "<group>"; };
 		67A99C9323E26DD200B009F2 /* CreatedCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CreatedCell.xib; sourceTree = "<group>"; };
 		6B7C44873A77E40F583DC97D /* Pods-SomethingTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SomethingTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-SomethingTests/Pods-SomethingTests.release.xcconfig"; sourceTree = "<group>"; };
 		91F97FF992691E7538E4DE51 /* Pods-Something.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Something.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Something/Pods-Something.debug.xcconfig"; sourceTree = "<group>"; };
@@ -437,6 +441,7 @@
 		37A08A1920376DD2000453A8 /* Common Files */ = {
 			isa = PBXGroup;
 			children = (
+				679312C123E4ACEF007FB2B1 /* Service */,
 				37C4A81C20447152001BBD0C /* MVVM */,
 				373B0C6420429061000C3A1A /* Custom Class */,
 				37A08A26203775BA000453A8 /* DataManager */,
@@ -558,6 +563,7 @@
 				3745661E205AF04A003A455C /* IconViewController.swift */,
 				3745661D205AF04A003A455C /* UIColor+interpolation.swift */,
 				3745661A205AEFDF003A455C /* IconPagingCell.swift */,
+				679312BF23E46421007FB2B1 /* uploadSponserVC.swift */,
 			);
 			path = PinInfoVC;
 			sourceTree = "<group>";
@@ -629,6 +635,14 @@
 				37D9D38720546AC900CE61F6 /* ChatVC.swift */,
 			);
 			path = ChatVC;
+			sourceTree = "<group>";
+		};
+		679312C123E4ACEF007FB2B1 /* Service */ = {
+			isa = PBXGroup;
+			children = (
+				679312C223E4AD04007FB2B1 /* AlertService.swift */,
+			);
+			path = Service;
 			sourceTree = "<group>";
 		};
 		EDF0376AF156C072611A79B5 /* Pods */ = {
@@ -909,6 +923,7 @@
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/Bolts/Bolts.framework",
 				"${BUILT_PRODUCTS_DIR}/BoringSSL-GRPC/openssl_grpc.framework",
+				"${BUILT_PRODUCTS_DIR}/Braintree/Braintree.framework",
 				"${BUILT_PRODUCTS_DIR}/FAPanels/FAPanels.framework",
 				"${BUILT_PRODUCTS_DIR}/FBSDKCoreKit/FBSDKCoreKit.framework",
 				"${BUILT_PRODUCTS_DIR}/FBSDKLoginKit/FBSDKLoginKit.framework",
@@ -932,6 +947,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Bolts.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/openssl_grpc.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Braintree.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FAPanels.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKCoreKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKLoginKit.framework",
@@ -1006,6 +1022,7 @@
 				3745661B205AEFDF003A455C /* IconPagingCell.swift in Sources */,
 				37BA685F2049793D0000F657 /* MessagesVC.swift in Sources */,
 				37D9D38820546AC900CE61F6 /* ChatVC.swift in Sources */,
+				679312C323E4AD04007FB2B1 /* AlertService.swift in Sources */,
 				37D9D38C20546B2F00CE61F6 /* MyChatCell.swift in Sources */,
 				3745662A205AF23B003A455C /* PinFeeds.swift in Sources */,
 				37BA685C2049687B0000F657 /* HomePageCell.swift in Sources */,
@@ -1034,6 +1051,7 @@
 				37A08A1F20376E12000453A8 /* IBDesignable.swift in Sources */,
 				37BA6866204994780000F657 /* FollowingVC.swift in Sources */,
 				37A08A1E20376E11000453A8 /* UITextField.swift in Sources */,
+				679312C023E46421007FB2B1 /* uploadSponserVC.swift in Sources */,
 				37456624205AF1F7003A455C /* PinLocationInfo.swift in Sources */,
 				37C27BAC2037E4DF00702DA2 /* SideMenuVC.swift in Sources */,
 				37C27BB12037F1CA00702DA2 /* NotificationCell.swift in Sources */,
@@ -1213,7 +1231,7 @@
 				INFOPLIST_FILE = "$(SRCROOT)/Something/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 1.9;
+				MARKETING_VERSION = 1.9.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.initiatjive.something;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -1237,7 +1255,7 @@
 				INFOPLIST_FILE = "$(SRCROOT)/Something/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 1.9;
+				MARKETING_VERSION = 1.9.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.initiatjive.something;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";

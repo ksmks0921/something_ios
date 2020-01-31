@@ -7,6 +7,7 @@ target 'Something' do
   platform :ios, '9.0'
   use_frameworks!
 
+pod 'Braintree'
 pod 'FBSDKCoreKit', '~> 4.38.1'
 pod 'FBSDKLoginKit', '~> 4.38.1'
 pod 'Firebase/Firestore'

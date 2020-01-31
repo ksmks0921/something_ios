@@ -20,6 +20,7 @@ import GoogleSignIn
 import FirebaseMessaging
 import UserNotifications
 import FirebaseFirestore
+import Braintree
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate,UNUserNotificationCenterDelegate {
@@ -35,6 +36,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UNUserNotificationCenterDe
     
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+        
+        
+        BTAppSwitch.setReturnURLScheme("com.initiatjive.something.payments")
+        
+        
         IQKeyboardManager.shared.enable = true
         Fabric.with([Crashlytics.self])
         
@@ -154,12 +160,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UNUserNotificationCenterDe
             return FBSDKApplicationDelegate.sharedInstance().application(app, open: url, sourceApplication: options[.sourceApplication] as! String!, annotation: options[.annotation])
 
         }
+        if url.scheme?.localizedCaseInsensitiveCompare("com.initiatjive.something.payments") == .orderedSame {
+            return BTAppSwitch.handleOpen(url, options: options)
+        }
         if url.scheme == ""{
             return GIDSignIn.sharedInstance().handle(url,sourceApplication:options[UIApplicationOpenURLOptionsKey.sourceApplication] as? String, annotation: [:])
         }
         else{
             return TWTRTwitter.sharedInstance().application(app, open: url, options: options)
         }
+        
         
     }
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any]) {
