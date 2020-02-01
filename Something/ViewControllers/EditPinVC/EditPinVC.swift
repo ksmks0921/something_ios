@@ -172,21 +172,21 @@ class EditPinVC: BaseVC {
         mapView.camera = GMSCameraPosition.camera(withTarget: coordinate, zoom: 15)
         pinTitle.text = pinDetail.title
         let pinType = pinDetail.type
-        if pinType == FireBaseConstant.MarkerType.ATTRACTION.rawValue{
-            attactionButton.image = #imageLiteral(resourceName: "s_orangemarker")
-        }
-        if pinType == FireBaseConstant.MarkerType.EVENT.rawValue{
-             eventButton.image = #imageLiteral(resourceName: "s_bluemarker")
-        }
-        if pinType == FireBaseConstant.MarkerType.EXPERIENCE.rawValue{
-            experianceButton.image = #imageLiteral(resourceName: "s_purplemarker")
-        }
-        if pinType == FireBaseConstant.MarkerType.HISTORICAL.rawValue{
-            HisticalButton.image = #imageLiteral(resourceName: "s_placeholder (3)")
-        }
-        if pinType == FireBaseConstant.MarkerType.VIEWPOINT.rawValue{
-            viewPointButton.image = #imageLiteral(resourceName: "s_greenmaker")
-        }
+//        if pinType == FireBaseConstant.MarkerType.ATTRACTION.rawValue{
+//            attactionButton.image = #imageLiteral(resourceName: "s_orangemarker")
+//        }
+//        if pinType == FireBaseConstant.MarkerType.EVENT.rawValue{
+//             eventButton.image = #imageLiteral(resourceName: "s_bluemarker")
+//        }
+//        if pinType == FireBaseConstant.MarkerType.EXPERIENCE.rawValue{
+//            experianceButton.image = #imageLiteral(resourceName: "s_purplemarker")
+//        }
+//        if pinType == FireBaseConstant.MarkerType.HISTORICAL.rawValue{
+//            HisticalButton.image = #imageLiteral(resourceName: "s_placeholder (3)")
+//        }
+//        if pinType == FireBaseConstant.MarkerType.VIEWPOINT.rawValue{
+//            viewPointButton.image = #imageLiteral(resourceName: "s_greenmaker")
+//        }
         
         if pinType == FireBaseConstant.MarkerType.ATV_TRAIL.rawValue{
             ATVBtn.image = #imageLiteral(resourceName: "s_greenmaker")

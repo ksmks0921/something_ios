@@ -70,7 +70,7 @@ class CreatePinVM{
                         FireBaseConstant.kUri : data.absoluteString]
             media.append(dict as NSDictionary)
         }
-        
+  
         let pinData = [FireBaseConstant.kCreationTime : [".sv": "timestamp"],
                        FireBaseConstant.kDescription : description,
                        FireBaseConstant.kKey: refLink.key,
@@ -83,7 +83,9 @@ class CreatePinVM{
                        FireBaseConstant.kVisitedCount :0,
                        FireBaseConstant.kMedia : media,
                        FireBaseConstant.kUser: MyUserDetail,
-                       FireBaseConstant.kCoordinates: geoCord] as [String : Any]
+                       FireBaseConstant.kCoordinates: geoCord,
+                  ] as [String : Any]
+                       
         ref.child(Pins).child(refLink.key!).setValue(pinData)
         
     }
@@ -136,7 +138,21 @@ class CreatePinVM{
                     let locationLatLong = CLLocation(latitude: coordinate.lat, longitude: coordinate.lon)
                     let distance = locationLatLong.distance(from: CLLocation(latitude: globleCurrentLocation.latitude, longitude: globleCurrentLocation.longitude))
                     let yard = Int(distance / 1.09361)
-                    self.pinsData.append(PinsSnapShot(coordinates: coordinate, description: description, key: key, media: mediaA, notes: notes, videoLink: videoLink, ratedTimes: ratedTimes, rating: rating, title: title, type: type, user: myUserdict, visitedCount: visitedCount, ditance: yard, creationTime: creationTime))
+                    
+                    var media_sponser = [PinMedia]()
+                    
+                    if let mediaArr_sponser = restDict[FireBaseConstant.kSponser] as? [NSDictionary]{
+                        for data_sponser in mediaArr_sponser{
+                            let name = data_sponser[FireBaseConstant.kName] as? String ?? ""
+                            let thumbnailName = data_sponser[FireBaseConstant.kThumbnailName] as? String ?? ""
+                            let type = data_sponser[FireBaseConstant.kType] as? String ?? ""
+                            let uri = data_sponser[FireBaseConstant.kUri] as? String ?? ""
+                            let mediaData_sponser = PinMedia(name: name, thumbnailName: thumbnailName, type: type, uri: uri)
+                            media_sponser.append(mediaData_sponser)
+                        }
+                    }
+              
+                    self.pinsData.append(PinsSnapShot(coordinates: coordinate, description: description, key: key, media: mediaA, notes: notes, videoLink: videoLink, ratedTimes: ratedTimes, rating: rating, title: title, type: type, user: myUserdict, visitedCount: visitedCount, ditance: yard, creationTime: creationTime, sponserIcon: media_sponser ))
                 }
             }
             let filertedPin = self.pinsData.filter({ (pinData) -> Bool in
@@ -248,7 +264,19 @@ class CreatePinVM{
                             let locationLatLong = CLLocation(latitude: coordinate.lat, longitude: coordinate.lon)
                             let distance = locationLatLong.distance(from: CLLocation(latitude: globleCurrentLocation.latitude, longitude: globleCurrentLocation.longitude))
                             let yard = Int(distance / 1.09361)
-                            self.searchedpinsData.append(PinsSnapShot(coordinates: coordinate, description: description, key: key, media: mediaA, notes: notes, videoLink: videoLink, ratedTimes: ratedTimes, rating: rating, title: title, type: type, user: myUserdict, visitedCount: visitedCount, ditance: yard, creationTime: creationTime))
+                            var media_sponser = [PinMedia]()
+                            
+                            if let mediaArr_sponser = restDict[FireBaseConstant.kSponser] as? [NSDictionary]{
+                                for data_sponser in mediaArr_sponser{
+                                    let name = data_sponser[FireBaseConstant.kName] as? String ?? ""
+                                    let thumbnailName = data_sponser[FireBaseConstant.kThumbnailName] as? String ?? ""
+                                    let type = data_sponser[FireBaseConstant.kType] as? String ?? ""
+                                    let uri = data_sponser[FireBaseConstant.kUri] as? String ?? ""
+                                    let mediaData_sponser = PinMedia(name: name, thumbnailName: thumbnailName, type: type, uri: uri)
+                                    media_sponser.append(mediaData_sponser)
+                                }
+                            }
+                        self.searchedpinsData.append(PinsSnapShot(coordinates: coordinate, description: description, key: key, media: mediaA, notes: notes, videoLink: videoLink, ratedTimes: ratedTimes, rating: rating, title: title, type: type, user: myUserdict, visitedCount: visitedCount, ditance: yard, creationTime: creationTime, sponserIcon: media_sponser))
                         }
                     
                     
@@ -381,17 +409,29 @@ class CreatePinVM{
                     let locationLatLong = CLLocation(latitude: coordinate.lat, longitude: coordinate.lon)
                     let distance = locationLatLong.distance(from: CLLocation(latitude: globleCurrentLocation.latitude, longitude: globleCurrentLocation.longitude))
                     let yard = Int(distance / 1.09361)
+                    var media_sponser = [PinMedia]()
+                     
+                     if let mediaArr_sponser = restDict[FireBaseConstant.kSponser] as? [NSDictionary]{
+                         for data_sponser in mediaArr_sponser{
+                             let name = data_sponser[FireBaseConstant.kName] as? String ?? ""
+                             let thumbnailName = data_sponser[FireBaseConstant.kThumbnailName] as? String ?? ""
+                             let type = data_sponser[FireBaseConstant.kType] as? String ?? ""
+                             let uri = data_sponser[FireBaseConstant.kUri] as? String ?? ""
+                             let mediaData_sponser = PinMedia(name: name, thumbnailName: thumbnailName, type: type, uri: uri)
+                             media_sponser.append(mediaData_sponser)
+                         }
+                     }
                     if TypeOfWS == "visited"{
-                        self.visitedPins.append(UserPinsDetail(pin: PinsSnapShot(coordinates: coordinate, description: description, key: key, media: mediaA, notes: notes, videoLink: videoLink, ratedTimes: ratedTimes, rating: rating, title: title, type: type, user: myUserdict, visitedCount: visitedCount, ditance: yard, creationTime: creationTime)))
+                        self.visitedPins.append(UserPinsDetail(pin: PinsSnapShot(coordinates: coordinate, description: description, key: key, media: mediaA, notes: notes, videoLink: videoLink, ratedTimes: ratedTimes, rating: rating, title: title, type: type, user: myUserdict, visitedCount: visitedCount, ditance: yard, creationTime: creationTime, sponserIcon: media_sponser)))
                     }
                     if TypeOfWS == "created"{
-                        self.userPins.append(UserPinsDetail(pin: PinsSnapShot(coordinates: coordinate, description: description, key: key, media: mediaA, notes: notes, videoLink: videoLink, ratedTimes: ratedTimes, rating: rating, title: title, type: type, user: myUserdict, visitedCount: visitedCount, ditance: yard, creationTime: creationTime)))
+                        self.userPins.append(UserPinsDetail(pin: PinsSnapShot(coordinates: coordinate, description: description, key: key, media: mediaA, notes: notes, videoLink: videoLink, ratedTimes: ratedTimes, rating: rating, title: title, type: type, user: myUserdict, visitedCount: visitedCount, ditance: yard, creationTime: creationTime, sponserIcon: media_sponser)))
                     }
                     if TypeOfWS == "wishList"{
-                        self.wishList.append(UserPinsDetail(pin: PinsSnapShot(coordinates: coordinate, description: description, key: key, media: mediaA, notes: notes,videoLink: videoLink, ratedTimes: ratedTimes, rating: rating, title: title, type: type, user: myUserdict, visitedCount: visitedCount, ditance: yard, creationTime: creationTime)))
+                        self.wishList.append(UserPinsDetail(pin: PinsSnapShot(coordinates: coordinate, description: description, key: key, media: mediaA, notes: notes,videoLink: videoLink, ratedTimes: ratedTimes, rating: rating, title: title, type: type, user: myUserdict, visitedCount: visitedCount, ditance: yard, creationTime: creationTime, sponserIcon: media_sponser)))
                     }
                     if TypeOfWS == "missed"{
-                        self.missedPins.append(UserPinsDetail(pin: PinsSnapShot(coordinates: coordinate, description: description, key: key, media: mediaA, notes: notes,videoLink: videoLink, ratedTimes: ratedTimes, rating: rating, title: title, type: type, user: myUserdict, visitedCount: visitedCount, ditance: yard, creationTime: creationTime)))
+                        self.missedPins.append(UserPinsDetail(pin: PinsSnapShot(coordinates: coordinate, description: description, key: key, media: mediaA, notes: notes,videoLink: videoLink, ratedTimes: ratedTimes, rating: rating, title: title, type: type, user: myUserdict, visitedCount: visitedCount, ditance: yard, creationTime: creationTime, sponserIcon: media_sponser)))
                     }
                     
                 }

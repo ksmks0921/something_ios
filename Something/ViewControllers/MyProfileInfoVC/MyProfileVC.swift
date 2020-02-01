@@ -36,6 +36,7 @@ class MyProfileVC: BaseVC {
     //MARK:- IBActions
     
     @IBAction func editImageButton(_ sender: Any) {
+        
         let alert:UIAlertController=UIAlertController(title: "Choose Image", message: nil, preferredStyle: UIAlertControllerStyle.actionSheet)
         let cameraAction = UIAlertAction(title: "Camera", style: .default){ UIAlertAction in
             if(UIImagePickerController.isSourceTypeAvailable(.camera)){

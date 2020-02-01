@@ -26,6 +26,8 @@ struct PinsSnapShot {
     var visitedCount : Int
     var ditance : Int
     var creationTime : Int
+    var sponserIcon: [PinMedia]!
+  
 }
 
 struct Coordinates {

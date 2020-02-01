@@ -194,6 +194,47 @@ class UpdatePinVM {
         ref1.removeValue()
     }
     
+    func addSponser(pinID: String, url : URL){
+        
+        ref.child(Pins).child(pinID).observeSingleEvent(of: .value) { (snapShot) in
+        if let restDict = snapShot.value as? NSDictionary{
+            
+                
+                var sponser = [NSDictionary]()
+            
+                if let mediaArr_sponser = restDict[FireBaseConstant.kSponser] as? [NSDictionary]{
+                    
+                    for data_sponser in mediaArr_sponser{
+                        
+                        let name = data_sponser[FireBaseConstant.kName] as? String ?? ""
+                        let thumbnailName = data_sponser[FireBaseConstant.kThumbnailName] as? String ?? ""
+                        let type = data_sponser[FireBaseConstant.kType] as? String ?? ""
+                        let uri = data_sponser[FireBaseConstant.kUri] as? String ?? ""
+                        
+                        let dict = [FireBaseConstant.kName : name,
+                                    FireBaseConstant.kThumbnailName : thumbnailName,
+                                    FireBaseConstant.kType: type,
+                                    FireBaseConstant.kUri : uri]
+                        sponser.append(dict as NSDictionary)
+                    }
+                    
+                }
+                let dict_new = [FireBaseConstant.kName : url.lastPathComponent,
+                                FireBaseConstant.kThumbnailName : url.lastPathComponent,
+                                FireBaseConstant.kType: "IMAGE",
+                                FireBaseConstant.kUri : url.absoluteString]
+            
+                sponser.append(dict_new as NSDictionary)
+                self.ref.child(Pins).child(pinID).updateChildValues([FireBaseConstant.kSponser : sponser])
+            
+            }
+        }
+
+            
+        
+        
+    }
+    
     func deletePin(pin : PinsSnapShot){
         let userActivityDict = [FireBaseConstant.kDate: [".sv": "timestamp"],
                                 FireBaseConstant.kPin : [FireBaseConstant.kKey: pin.key,

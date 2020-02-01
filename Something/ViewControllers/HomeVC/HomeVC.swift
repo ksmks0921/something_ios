@@ -335,9 +335,11 @@ extension HomeVC: UICollectionViewDataSource, UICollectionViewDelegate, UICollec
         let pinDetail = filteredArray[indexPath.item]
         var uri = ""
         if let mediaItem  = pinDetail.media{
+            
             for data in mediaItem{
                 uri = data.uri
             }
+            
         }
         if let imageUrl = URL(string: uri){
             cell.locationImage.sd_setImage(with: imageUrl, completed: nil)

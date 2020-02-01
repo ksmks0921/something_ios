@@ -49,7 +49,7 @@ let UserChats = "user-chats"
 let UserFcmIds = "user-fcm-ids"
 let ReportedUers = "user-reported"
 let PostReported = "post-reported"
-
+let Sponser = "pin-sponser"
 
 //****************************   MARK: Common Constants    ***********************
 let BASE_API_URL = "http://kampfireapp.com/socialaudio/"

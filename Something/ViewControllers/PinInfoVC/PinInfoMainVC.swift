@@ -51,8 +51,7 @@ class PinInfoMainVC: BaseVC {
     var pinDetail : PinsSnapShot!
     var isMissedPin = false
     var isVisitedPin = false
-//    let icons1 = ["information","location_right_icon-1","chat","users-2"]
-//    let icons = ["PinLocationInfo","PinCheckedInInfo","PinsComment","PinFeeds"]
+
     let icons1 = ["information","chat", "investor"]
     let icons = ["PinLocationInfo","PinsComment", "Sponser"]
     var currentLocation = CLLocationCoordinate2D(latitude: 0.0, longitude: 0.0)
@@ -61,6 +60,8 @@ class PinInfoMainVC: BaseVC {
     //MARK:- VC Methods
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        
         var uri = ""
         if let mediaItem  = pinDetail.media{
             for data in mediaItem{
@@ -70,6 +71,9 @@ class PinInfoMainVC: BaseVC {
         if let imageUrl = URL(string: uri){
             pinImage.sd_setImage(with: imageUrl, completed: nil)
         }
+        
+    
+        
         toplabel.text = pinDetail.title
 //        toplabel.textColor =
         
@@ -90,6 +94,10 @@ class PinInfoMainVC: BaseVC {
         workingView.addSubview(pagingViewController.view)
         workingView.constrainToEdges(pagingViewController.view)
         pagingViewController.didMove(toParentViewController: self)
+        
+        
+       
+        
         
     }
     
@@ -154,7 +162,7 @@ extension PinInfoMainVC: PagingViewControllerDataSource {
         }
         else if viewControler == "Sponser"{
             let VC = self.storyboard?.instantiateViewController(withIdentifier: "uploadSponserVC") as! uploadSponserVC
-         
+            VC.pin_id = pinDetail.key
             return VC
         }
         else {

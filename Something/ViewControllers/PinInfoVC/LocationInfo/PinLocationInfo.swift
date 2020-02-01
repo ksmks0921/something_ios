@@ -33,6 +33,7 @@ class PinLocationInfo: BaseVC {
 //    @IBOutlet weak var videoLinkContentView: UILabel!
     @IBOutlet weak var videoLinkContentView: UIView!
     
+    @IBOutlet weak var sponserImage: UIImageView!
     //MARK:- Variables
     var pinDetail : PinsSnapShot!
     var currentLocation = CLLocationCoordinate2D(latitude: 0.0, longitude: 0.0)
@@ -45,9 +46,50 @@ class PinLocationInfo: BaseVC {
         setUI()
         
         pinRating.value = CGFloat(pinDetail.rating)
-        pinRating.isEnabled = true
+        pinRating.isEnabled = false
+      
+        setSponserIcon()
     }
     
+    
+    private func setSponserIcon(){
+        
+        
+        
+        
+        if pinDetail.sponserIcon.count == 0{
+            
+            let image = UIImage(named: "logo_2")
+            sponserImage.image = image
+        
+            
+        }
+            
+        else {
+            
+            var uri_sponser = ""
+              if let sponserItem = pinDetail.sponserIcon {
+               
+                  for data in sponserItem{
+                      uri_sponser = data.uri
+                  }
+                  
+              }
+
+              if let sponserUrl = URL(string: uri_sponser){
+                  
+            
+                   sponserImage.sd_setImage(with: sponserUrl, completed: nil)
+                  
+                  
+              }
+            
+            
+        }
+        
+        
+        
+    }
     //MARK:- IBActions
     @IBAction func shareButton(_ sender: Any) {
         let firstActivityItem = "something://"
@@ -177,22 +219,25 @@ class PinLocationInfo: BaseVC {
          pinTypeAndCheckInCount.text = pinDetail.type.capitalized
         
         if pinDetail.description == ""{
-            self.descriptionContentView.isHidden = true
+//            self.descriptionContentView.isHidden = true
+            pinDescription.text = "no"
         }else{
-            self.descriptionContentView.isHidden = false
+//            self.descriptionContentView.isHidden = false
             pinDescription.text = pinDetail.description
         }
         if pinDetail.notes == ""{
-            self.noteContentView.isHidden = true
+//            self.noteContentView.isHidden = true
+            noteForPin.text = "no"
         }else{
-             self.noteContentView.isHidden = false
+//             self.noteContentView.isHidden = false
             noteForPin.text = pinDetail.notes
         }
-        print("videoLink is " + pinDetail.videoLink)
+    
         if pinDetail.videoLink == ""{
-            self.videoLinkContentView.isHidden = true
+//            self.videoLinkContentView.isHidden = true
+            videoLink.text = "no"
         }else{
-            self.videoLinkContentView.isHidden = false
+//            self.videoLinkContentView.isHidden = false
             videoLink.text = pinDetail.videoLink
         }
         

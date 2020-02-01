@@ -47,6 +47,7 @@ class AddPinVC: BaseVC {
         mapView.settings.setAllGesturesEnabled(false)
         mapView.mapType = .satellite
         getlatLong(location: currentLocation)
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
