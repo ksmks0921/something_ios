@@ -147,6 +147,7 @@ class UpdatePinVM {
                 }else{
                     completion(false)
                 }
+                
             }
         }
        

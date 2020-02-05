@@ -111,7 +111,7 @@ extension ChatVC {
         ChatVM.shared.sendLastMessage(roomId: roomId, message: massageTF.text!, senderId: DataManager.userId!, receiverId: otherUserId)
         
         let sender = PushNotificationSender()
-        sender.sendPushNotification(to: otherUserToken!, title: "Message", body: "There is a message from \(self.userName)")
+        sender.sendPushNotification(to: otherUserToken!, title: "Message", body: "There is a message")
         
         massageTF.text = ""
 
@@ -119,7 +119,8 @@ extension ChatVC {
 }
 
 //MARK;- TableView Methods
-extension ChatVC: UITableViewDataSource,UITableViewDelegate{
+extension ChatVC: UITableViewDataSource,UITableViewDelegate {
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return ChatVM.shared.chatMessages.count
     }
@@ -142,4 +143,5 @@ extension ChatVC: UITableViewDataSource,UITableViewDelegate{
             return otherCell
         }        
     }
+    
 }
