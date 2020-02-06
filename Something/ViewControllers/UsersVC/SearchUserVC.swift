@@ -30,6 +30,7 @@ class SearchUserVC: BaseVC {
             let nib = UINib.init(nibName: "CreatedCell", bundle: nil)
             self.usersTableView.register(nib, forCellReuseIdentifier: "CreatedCell")
             custom_title.text = "Pins"
+            searchTF.placeholder = "Search Pins"
   
         }
        
