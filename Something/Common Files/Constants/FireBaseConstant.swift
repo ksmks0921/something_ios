@@ -79,7 +79,7 @@ class FireBaseConstant{
     
     static let kBlockBy = "blockby"
     static let kBlockedTo = "blockto"
-    static let kSponser = "sponser_icon"
+    static let kSponser = "sponsor"
 
 }
 

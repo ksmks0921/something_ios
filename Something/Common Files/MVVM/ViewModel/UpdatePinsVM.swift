@@ -201,7 +201,7 @@ class UpdatePinVM {
         if let restDict = snapShot.value as? NSDictionary{
             
                 
-                var sponser = [NSDictionary]()
+                var sponser = [String]()
             
                 if let mediaArr_sponser = restDict[FireBaseConstant.kSponser] as? [NSDictionary]{
                     
@@ -216,7 +216,7 @@ class UpdatePinVM {
                                     FireBaseConstant.kThumbnailName : thumbnailName,
                                     FireBaseConstant.kType: type,
                                     FireBaseConstant.kUri : uri]
-                        sponser.append(dict as NSDictionary)
+                        sponser.append(uri)
                     }
                     
                 }
@@ -225,7 +225,7 @@ class UpdatePinVM {
                                 FireBaseConstant.kType: "IMAGE",
                                 FireBaseConstant.kUri : url.absoluteString]
             
-                sponser.append(dict_new as NSDictionary)
+            sponser.append(url.absoluteString)
                 self.ref.child(Pins).child(pinID).updateChildValues([FireBaseConstant.kSponser : sponser])
             
             }
