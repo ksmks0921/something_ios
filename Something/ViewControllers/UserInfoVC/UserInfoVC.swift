@@ -106,14 +106,14 @@ class UserInfoVC: BaseVC {
             followButton.setImage(#imageLiteral(resourceName: "user-male-black-shape-with-plus-sign"), for: .normal)
             let sender = PushNotificationSender()
             let somebody = userDetail!.name
-            sender.sendPushNotification(to: userDetail!.fcmToken, title: "Unfollowing!", body: "\(somebody) is unfollowed you!")
+            sender.sendPushNotification(to: userDetail!.fcmToken, title: "Unfollowing!", body: "\(somebody) unfollowed you!")
            
         }else{
             FollowVM.shared.suscribeUser(userId: userDetail!.uid)
             followButton.setImage(#imageLiteral(resourceName: "user-with-minus-sign"), for: .normal)
             let sender = PushNotificationSender()
             let somebody = userDetail!.name
-            sender.sendPushNotification(to: userDetail!.fcmToken, title: "Following!", body: "\(somebody) is followed you!")
+            sender.sendPushNotification(to: userDetail!.fcmToken, title: "Following!", body: "\(somebody) followed you!")
         }
         
         

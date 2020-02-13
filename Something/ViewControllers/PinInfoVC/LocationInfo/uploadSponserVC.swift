@@ -46,53 +46,53 @@ class uploadSponserVC: UIViewController {
           self.present(alert, animated: true, completion: nil)
       }
     @IBAction func clickedBtnPay(_ sender: Any) {
-        
-        let payPalDriver = BTPayPalDriver(apiClient: braintreeClient)
-               payPalDriver.viewControllerPresentingDelegate = self as! BTViewControllerPresentingDelegate
-               payPalDriver.appSwitchDelegate = self as! BTAppSwitchDelegate
-
-               let request = BTPayPalRequest(amount: "2.32")
-                      request.currencyCode = "USD" // Optional; see BTPayPalRequest.h for more options
-
-                      payPalDriver.requestOneTimePayment(request) { (tokenizedPayPalAccount, error) in
-                          if let tokenizedPayPalAccount = tokenizedPayPalAccount {
-                              print("Got a nonce: \(tokenizedPayPalAccount.nonce)")
-
-                              // Access additional information
-                              let email = tokenizedPayPalAccount.email
-                              print("________payment email______________")
-                              debugPrint(email)
-                              let firstName = tokenizedPayPalAccount.firstName
-                              let lastName = tokenizedPayPalAccount.lastName
-                              let phone = tokenizedPayPalAccount.phone
-
-                              // See BTPostalAddress.h for details
-                              let billingAddress = tokenizedPayPalAccount.billingAddress
-                              let shippingAddress = tokenizedPayPalAccount.shippingAddress
-                              if self.icon_image != nil {
-                                self.uploadImageIcon()
-                              }
-                              else {
-                                  
-                              }
-
-                          } else if let error = error {
-                                print("________Hey! There is an error in Payment method!!___________")
-                                print(error)
-
-                          } else {
-                              // Buyer canceled payment approval
-                          }
-                      }
-        
-        
-        
-    }
+         self.uploadImageIcon()
+//        let payPalDriver = BTPayPalDriver(apiClient: braintreeClient)
+//               payPalDriver.viewControllerPresentingDelegate = self as! BTViewControllerPresentingDelegate
+//               payPalDriver.appSwitchDelegate = self as! BTAppSwitchDelegate
+//
+//               let request = BTPayPalRequest(amount: "2.32")
+//                      request.currencyCode = "USD" // Optional; see BTPayPalRequest.h for more options
+//
+//                      payPalDriver.requestOneTimePayment(request) { (tokenizedPayPalAccount, error) in
+//                          if let tokenizedPayPalAccount = tokenizedPayPalAccount {
+//                              print("Got a nonce: \(tokenizedPayPalAccount.nonce)")
+//
+//                              // Access additional information
+//                              let email = tokenizedPayPalAccount.email
+//                              print("________payment email______________")
+//                              debugPrint(email)
+//                              let firstName = tokenizedPayPalAccount.firstName
+//                              let lastName = tokenizedPayPalAccount.lastName
+//                              let phone = tokenizedPayPalAccount.phone
+//
+//                              // See BTPostalAddress.h for details
+//                              let billingAddress = tokenizedPayPalAccount.billingAddress
+//                              let shippingAddress = tokenizedPayPalAccount.shippingAddress
+//                              if self.icon_image != nil {
+//                                self.uploadImageIcon()
+//                              }
+//                              else {
+//
+//                              }
+//
+//                          } else if let error = error {
+//                                print("________Hey! There is an error in Payment method!!___________")
+//                                print(error)
+//
+//                          } else {
+//                              // Buyer canceled payment approval
+//                          }
+//                      }
+//
+//
+//
+//    }
     
     
   
     
-
+    }
 
 }
 extension uploadSponserVC {
@@ -109,8 +109,8 @@ extension uploadSponserVC {
                 } else {
                     storageRef.downloadURL { (url, error) in
                         guard let downloadURL = url else {return}
-
-                        UpdatePinVM.shared.addSponser(pinID: self.pin_id!, url: downloadURL)
+                        print("______here_______" + DataManager.userId!)
+                        UpdatePinVM.shared.addSponser(userID: DataManager.userId!, pinID: self.pin_id!, url: downloadURL)
             
                     }
  

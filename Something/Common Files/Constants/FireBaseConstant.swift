@@ -44,11 +44,12 @@ class FireBaseConstant{
     static let kNameForSearch = "nameForSearch"
     static let kPhotoUrl = "photoUrl"
     static let kName = "name"
-    static let kUid = "uid"
+ 
     static let korigin = "origin"
     static let ksocialUrl = "socialUrl"
     static let kToken = "fcmToken"
-    
+    static let kUid = "uid"
+  
     //Pin Detail
     static let kDate = "date"
     static let kType = "type"

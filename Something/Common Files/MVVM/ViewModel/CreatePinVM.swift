@@ -139,7 +139,7 @@ class CreatePinVM{
                     let distance = locationLatLong.distance(from: CLLocation(latitude: globleCurrentLocation.latitude, longitude: globleCurrentLocation.longitude))
                     let yard = Int(distance / 1.09361)
                     
-                    var media_sponser = [PinMedia]()
+                    var media_sponser = [Sponsor]()
                     
                     if let mediaArr_sponser = restDict[FireBaseConstant.kSponser] as? [NSDictionary]{
                         for data_sponser in mediaArr_sponser{
@@ -147,7 +147,7 @@ class CreatePinVM{
                             let thumbnailName = data_sponser[FireBaseConstant.kThumbnailName] as? String ?? ""
                             let type = data_sponser[FireBaseConstant.kType] as? String ?? ""
                             let uri = data_sponser[FireBaseConstant.kUri] as? String ?? ""
-                            let mediaData_sponser = PinMedia(name: name, thumbnailName: thumbnailName, type: type, uri: uri)
+                            let mediaData_sponser = Sponsor(uid: DataManager.userId, uri: uri)
                             media_sponser.append(mediaData_sponser)
                         }
                     }
@@ -264,7 +264,7 @@ class CreatePinVM{
                             let locationLatLong = CLLocation(latitude: coordinate.lat, longitude: coordinate.lon)
                             let distance = locationLatLong.distance(from: CLLocation(latitude: globleCurrentLocation.latitude, longitude: globleCurrentLocation.longitude))
                             let yard = Int(distance / 1.09361)
-                            var media_sponser = [PinMedia]()
+                            var media_sponser = [Sponsor]()
                             
                             if let mediaArr_sponser = restDict[FireBaseConstant.kSponser] as? [NSDictionary]{
                                 for data_sponser in mediaArr_sponser{
@@ -272,7 +272,7 @@ class CreatePinVM{
                                     let thumbnailName = data_sponser[FireBaseConstant.kThumbnailName] as? String ?? ""
                                     let type = data_sponser[FireBaseConstant.kType] as? String ?? ""
                                     let uri = data_sponser[FireBaseConstant.kUri] as? String ?? ""
-                                    let mediaData_sponser = PinMedia(name: name, thumbnailName: thumbnailName, type: type, uri: uri)
+                                    let mediaData_sponser = Sponsor(uid: DataManager.userId!, uri: uri)
                                     media_sponser.append(mediaData_sponser)
                                 }
                             }
@@ -409,7 +409,7 @@ class CreatePinVM{
                     let locationLatLong = CLLocation(latitude: coordinate.lat, longitude: coordinate.lon)
                     let distance = locationLatLong.distance(from: CLLocation(latitude: globleCurrentLocation.latitude, longitude: globleCurrentLocation.longitude))
                     let yard = Int(distance / 1.09361)
-                    var media_sponser = [PinMedia]()
+                    var media_sponser = [Sponsor]()
                      
                      if let mediaArr_sponser = restDict[FireBaseConstant.kSponser] as? [NSDictionary]{
                          for data_sponser in mediaArr_sponser{
@@ -417,7 +417,7 @@ class CreatePinVM{
                              let thumbnailName = data_sponser[FireBaseConstant.kThumbnailName] as? String ?? ""
                              let type = data_sponser[FireBaseConstant.kType] as? String ?? ""
                              let uri = data_sponser[FireBaseConstant.kUri] as? String ?? ""
-                             let mediaData_sponser = PinMedia(name: name, thumbnailName: thumbnailName, type: type, uri: uri)
+                            let mediaData_sponser = Sponsor(uid: DataManager.userId, uri: uri)
                              media_sponser.append(mediaData_sponser)
                          }
                      }

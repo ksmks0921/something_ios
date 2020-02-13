@@ -24,8 +24,8 @@ class SideMenuVC: BaseVC {
 
     let itemsArr = ["Your Profile", "Your Places", "Users", "Messages","Block List", "Logout"]
     let itemsArr_in = ["Log In"]
-    let ImagesArr = [#imageLiteral(resourceName: "person_black.png"),#imageLiteral(resourceName: "sideMarker"),#imageLiteral(resourceName: "SideUser"),#imageLiteral(resourceName: "sideMessage"),#imageLiteral(resourceName: "sideMessage"),#imageLiteral(resourceName: "sideLogouit")]
-    let ImagesArr_in = [#imageLiteral(resourceName: "sideLogouit")]
+    let ImagesArr = [#imageLiteral(resourceName: "person_black.png"),#imageLiteral(resourceName: "sideMarker"),#imageLiteral(resourceName: "SideUser"),#imageLiteral(resourceName: "sideMessage"),#imageLiteral(resourceName: "block"),#imageLiteral(resourceName: "sideLogouit")]
+    let ImagesArr_in = [#imageLiteral(resourceName: "login")]
     
     //MARK:- VC Methods
     override func viewDidLoad() {

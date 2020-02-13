@@ -195,38 +195,35 @@ class UpdatePinVM {
         ref1.removeValue()
     }
     
-    func addSponser(pinID: String, url : URL){
+    func addSponser(userID: String, pinID: String, url : URL){
         
         ref.child(Pins).child(pinID).observeSingleEvent(of: .value) { (snapShot) in
         if let restDict = snapShot.value as? NSDictionary{
             
                 
-                var sponser = [String]()
+                var sponsor =  [NSDictionary]()
             
                 if let mediaArr_sponser = restDict[FireBaseConstant.kSponser] as? [NSDictionary]{
                     
                     for data_sponser in mediaArr_sponser{
                         
-                        let name = data_sponser[FireBaseConstant.kName] as? String ?? ""
-                        let thumbnailName = data_sponser[FireBaseConstant.kThumbnailName] as? String ?? ""
-                        let type = data_sponser[FireBaseConstant.kType] as? String ?? ""
+                        let uid = data_sponser[FireBaseConstant.kUid] as? String ?? ""
+                     
                         let uri = data_sponser[FireBaseConstant.kUri] as? String ?? ""
+                        let dict = [FireBaseConstant.kUid : uid,
                         
-                        let dict = [FireBaseConstant.kName : name,
-                                    FireBaseConstant.kThumbnailName : thumbnailName,
-                                    FireBaseConstant.kType: type,
-                                    FireBaseConstant.kUri : uri]
-                        sponser.append(uri)
+                        FireBaseConstant.kUri : uri]
+                        sponsor.append(dict as NSDictionary)
                     }
                     
                 }
-                let dict_new = [FireBaseConstant.kName : url.lastPathComponent,
-                                FireBaseConstant.kThumbnailName : url.lastPathComponent,
-                                FireBaseConstant.kType: "IMAGE",
-                                FireBaseConstant.kUri : url.absoluteString]
+                let dict = [FireBaseConstant.kUid : userID,
+                            
+                            FireBaseConstant.kUri : url.absoluteString]
+                sponsor.append(dict as NSDictionary)
             
-            sponser.append(url.absoluteString)
-                self.ref.child(Pins).child(pinID).updateChildValues([FireBaseConstant.kSponser : sponser])
+              
+                self.ref.child(Pins).child(pinID).updateChildValues([FireBaseConstant.kSponser : sponsor])
             
             }
         }

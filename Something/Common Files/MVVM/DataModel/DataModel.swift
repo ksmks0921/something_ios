@@ -26,7 +26,7 @@ struct PinsSnapShot {
     var visitedCount : Int
     var ditance : Int
     var creationTime : Int
-    var sponserIcon: [PinMedia]!
+    var sponserIcon: [Sponsor]!
   
 }
 
@@ -101,6 +101,11 @@ struct AppNotification {
     var type : Int!
     var pin : Pin!
     var user : UserDetail?
+}
+struct Sponsor {
+    var uid: String!
+    
+    var uri: String!
 }
 extension UserVM{
     
