@@ -363,11 +363,10 @@ extension HomeVC: UICollectionViewDataSource, UICollectionViewDelegate, UICollec
         if DataManager.isLogin!{
             if pinDetail.user.uid == DataManager.userId!{
                 cell.editView.isHidden = false
-//                cell.wishListView.isHidden = true
-//                cell.checkInView.isHidden = true
+
             }else{
                 cell.editView.isHidden = true
-//                cell.wishListView.isHidden = false
+
                 UpdatePinVM.shared.isMissedPin(pinId: pinDetail.key) { (success) in
                     self.isMissedPin = success
                     if success{
@@ -401,21 +400,15 @@ extension HomeVC: UICollectionViewDataSource, UICollectionViewDelegate, UICollec
             }
         }
         
-        
-//        cell.markerButton.tag = (indexPath.section * 1000) + indexPath.item
-//        cell.markerButton.addTarget(self, action: #selector(self.checkInButtonAction(_:)), for: .touchUpInside)
+
         
         cell.infoButton.addTarget(self, action: #selector(self.infoButtonAction(_:)), for: .touchUpInside)
         cell.infoButton.tag = (indexPath.section * 1000) + indexPath.item
-        
-//        cell.favouriteButton.addTarget(self, action: #selector(self.favButtonAtion(_:)), for: .touchUpInside)
-//        cell.favouriteButton.tag = (indexPath.section * 1000) + indexPath.item
+
         
         cell.navigationButton.addTarget(self, action: #selector(self.navigationButtonAtion(_:)), for: .touchUpInside)
         cell.navigationButton.tag = (indexPath.section * 1000) + indexPath.item
-        
-//        cell.shareButton.tag =  (indexPath.section * 1000) + indexPath.item
-//        cell.shareButton.addTarget(self, action: #selector(self.shareButtonAction(_:)), for: .touchUpInside)
+
         
         cell.editButton.tag = (indexPath.section * 1000) + indexPath.item
         cell.editButton.addTarget(self, action: #selector(self.editButtonAction(_:)), for: .touchUpInside)
