@@ -353,13 +353,13 @@ extension HomeVC: UICollectionViewDataSource, UICollectionViewDelegate, UICollec
 //        cell .checkInCountLabel.text = "\(pinDetail.visitedCount) check-ins"
         cell.markerType.text = pinDetail.type.capitalized
         
-        CreatePinVM.shared.searchForFav(pinId: pinDetail.key) { (success) in
-            if success{
-//                cell.wishListImageView.image = #imageLiteral(resourceName: "wishlist")
-            }else{
-//                cell.wishListImageView.image = #imageLiteral(resourceName: "wishlist (1)")
-            }
-        }
+//        CreatePinVM.shared.searchForFav(pinId: pinDetail.key) { (success) in
+//            if success{
+////                cell.wishListImageView.image = #imageLiteral(resourceName: "wishlist")
+//            }else{
+////                cell.wishListImageView.image = #imageLiteral(resourceName: "wishlist (1)")
+//            }
+//        }
         if DataManager.isLogin!{
             if pinDetail.user.uid == DataManager.userId!{
                 cell.editView.isHidden = false
